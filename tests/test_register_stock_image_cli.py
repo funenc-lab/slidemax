@@ -6,7 +6,7 @@ import unittest
 from pathlib import Path
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
-COMMAND = PROJECT_ROOT / "skills" / "ppt_master_workflow" / "commands" / "register_stock_image.py"
+COMMAND = PROJECT_ROOT / "skills" / "slidemax_workflow" / "commands" / "register_stock_image.py"
 
 
 class RegisterStockImageCliTestCase(unittest.TestCase):

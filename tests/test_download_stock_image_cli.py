@@ -6,11 +6,11 @@ from pathlib import Path
 from unittest import mock
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
-SKILL_ROOT = PROJECT_ROOT / "skills" / "ppt_master_workflow"
+SKILL_ROOT = PROJECT_ROOT / "skills" / "slidemax_workflow"
 if str(SKILL_ROOT) not in sys.path:
     sys.path.insert(0, str(SKILL_ROOT))
 
-from pptmaster.stock_sources import execute_download_command, run_download_cli
+from slidemax.stock_sources import execute_download_command, run_download_cli
 
 IMAGE_BYTES = b"\x89PNG\r\n\x1a\n\x00\x00\x00\rIHDR\x00\x00\x00\x01\x00\x00\x00\x01\x08\x02\x00\x00\x00\x90wS\xde\x00\x00\x00\x0cIDATx\x9cc``\x00\x00\x00\x02\x00\x01\xe2!\xbc3\x00\x00\x00\x00IEND\xaeB`\x82"
 

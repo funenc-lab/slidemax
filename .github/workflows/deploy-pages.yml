@@ -1,5 +1,5 @@
 # GitHub Pages 部署工作流
-# 自动将 PPT Master 示例项目部署到 GitHub Pages
+# 自动将 SlideMax 示例项目部署到 GitHub Pages
 
 name: Deploy to GitHub Pages
 

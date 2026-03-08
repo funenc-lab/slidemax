@@ -6,11 +6,11 @@ from pathlib import Path
 from unittest import mock
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
-SKILL_ROOT = PROJECT_ROOT / "skills" / "ppt_master_workflow"
+SKILL_ROOT = PROJECT_ROOT / "skills" / "slidemax_workflow"
 if str(SKILL_ROOT) not in sys.path:
     sys.path.insert(0, str(SKILL_ROOT))
 
-from pptmaster.export_setup import build_parser, build_install_command, run_cli
+from slidemax.export_setup import build_parser, build_install_command, run_cli
 
 
 class ExportSetupTestCase(unittest.TestCase):
@@ -41,7 +41,7 @@ class ExportSetupTestCase(unittest.TestCase):
         self.assertIn("svglib", output)
 
     def test_run_cli_executes_pip_install(self):
-        with mock.patch("pptmaster.export_setup.subprocess.run") as run_mock:
+        with mock.patch("slidemax.export_setup.subprocess.run") as run_mock:
             run_mock.return_value = mock.Mock(returncode=0)
             exit_code = run_cli(["--renderer", "none"])
 

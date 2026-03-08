@@ -148,7 +148,7 @@ yarn.lock
 # Environment variables
 .env
 .env.local
-.env.pptmaster*
+.env.slidemax*
 .env.*.local
 
 # Database files
@@ -166,7 +166,7 @@ TODO.md
 PERSONAL_NOTES.md
 
 # Projects directory - Runtime workspace outputs are not version controlled
-# Canonical reusable assets belong under skills/ppt_master_workflow/examples or tests/fixtures
+# Canonical reusable assets belong under skills/slidemax_workflow/examples or tests/fixtures
 workspace/**
 !workspace/
 !workspace/README.md

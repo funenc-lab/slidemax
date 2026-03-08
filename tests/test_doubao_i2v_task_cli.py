@@ -6,12 +6,12 @@ from unittest import mock
 from pathlib import Path
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
-SKILL_ROOT = PROJECT_ROOT / "skills" / "ppt_master_workflow"
+SKILL_ROOT = PROJECT_ROOT / "skills" / "slidemax_workflow"
 if str(SKILL_ROOT) not in sys.path:
     sys.path.insert(0, str(SKILL_ROOT))
 
-from pptmaster.video_generation import VideoGenerationResult, execute_parsed_command
-from pptmaster.video_generation_cli import run_cli
+from slidemax.video_generation import VideoGenerationResult, execute_parsed_command
+from slidemax.video_generation_cli import run_cli
 
 VIDEO_BYTES = b"\x00\x00\x00 ftypisom\x00\x00\x02\x00isomiso2mp41"
 

@@ -5,11 +5,11 @@ import unittest
 from pathlib import Path
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
-SKILL_ROOT = PROJECT_ROOT / "skills" / "ppt_master_workflow"
+SKILL_ROOT = PROJECT_ROOT / "skills" / "slidemax_workflow"
 if str(SKILL_ROOT) not in sys.path:
     sys.path.insert(0, str(SKILL_ROOT))
 
-from pptmaster.svg_position_cli import analyze_svg_file, build_chart_area, execute_parsed_command
+from slidemax.svg_position_cli import analyze_svg_file, build_chart_area, execute_parsed_command
 
 
 class _FakeParser:

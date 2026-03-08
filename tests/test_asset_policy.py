@@ -6,14 +6,14 @@ import unittest
 from pathlib import Path
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
-SKILL_ROOT = PROJECT_ROOT / "skills" / "ppt_master_workflow"
+SKILL_ROOT = PROJECT_ROOT / "skills" / "slidemax_workflow"
 AUDIT_COMMAND = SKILL_ROOT / "commands" / "audit_image_asset.py"
 if str(SKILL_ROOT) not in sys.path:
     sys.path.insert(0, str(SKILL_ROOT))
 
-from pptmaster.asset_policy import audit_image_asset, recommend_action
-from pptmaster.image_source_metadata import build_generated_image_metadata, build_stock_image_metadata, write_source_metadata
-from pptmaster.watermark_detection import detect_watermark_risk
+from slidemax.asset_policy import audit_image_asset, recommend_action
+from slidemax.image_source_metadata import build_generated_image_metadata, build_stock_image_metadata, write_source_metadata
+from slidemax.watermark_detection import detect_watermark_risk
 
 
 class AssetPolicyTestCase(unittest.TestCase):

@@ -6,11 +6,11 @@ from pathlib import Path
 from typing import Optional
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
-SKILL_ROOT = PROJECT_ROOT / "skills" / "ppt_master_workflow"
+SKILL_ROOT = PROJECT_ROOT / "skills" / "slidemax_workflow"
 if str(SKILL_ROOT) not in sys.path:
     sys.path.insert(0, str(SKILL_ROOT))
 
-from pptmaster.watermark_removal import (
+from slidemax.watermark_removal import (
     DEFAULT_OUTPUT_SUFFIX,
     GeminiWatermarkRemover,
     execute_parsed_command,
@@ -68,7 +68,7 @@ class WatermarkRemovalTestCase(unittest.TestCase):
 
         self.assertEqual(exit_code, 0)
         self.assertEqual(remover.calls, [(input_path, None, True)])
-        self.assertIn("PPT Master - Gemini watermark remover", outputs[0])
+        self.assertIn("SlideMax - Gemini watermark remover", outputs[0])
         self.assertEqual(outputs[-1], f"[DONE] Saved: {output_path}")
 
     def test_execute_parsed_command_returns_error_when_processing_fails(self):

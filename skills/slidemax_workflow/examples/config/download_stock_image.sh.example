@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+python3 skills/slidemax_workflow/commands/download_stock_image.py workspace/demo \
+  --provider pexels \
+  --source-url "https://www.pexels.com/photo/example-id/" \
+  --download-url "https://images.pexels.com/photos/example.jpeg" \
+  --filename hero_cover.jpeg \
+  --creator-name "Photographer Name" \
+  --keywords "hero, office, presentation"

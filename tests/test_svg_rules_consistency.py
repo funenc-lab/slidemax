@@ -4,14 +4,14 @@ import unittest
 from pathlib import Path
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
-SKILL_ROOT = PROJECT_ROOT / "skills" / "ppt_master_workflow"
+SKILL_ROOT = PROJECT_ROOT / "skills" / "slidemax_workflow"
 if str(SKILL_ROOT) not in sys.path:
     sys.path.insert(0, str(SKILL_ROOT))
 
-from pptmaster.config import SVG_CONSTRAINTS
-from pptmaster.error_helper import ErrorHelper
-from pptmaster.svg_quality import SVGQualityChecker
-from pptmaster.svg_rules import (
+from slidemax.config import SVG_CONSTRAINTS
+from slidemax.error_helper import ErrorHelper
+from slidemax.svg_quality import SVGQualityChecker
+from slidemax.svg_rules import (
     RECOMMENDED_SYSTEM_FONTS,
     build_error_solutions,
     build_svg_constraints,

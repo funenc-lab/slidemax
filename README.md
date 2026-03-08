@@ -1,23 +1,23 @@
-# PPT Master - AI-Powered Multi-Format SVG Content Generation System
+# SlideMax - AI-Powered Multi-Format SVG Content Generation System
 
-[![Version](https://img.shields.io/badge/version-v1.2.0-blue.svg)](https://github.com/funenc-lab/ppt-master/releases)
+[![Version](https://img.shields.io/badge/version-v1.2.0-blue.svg)](https://github.com/funenc-lab/slidemax/releases)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![GitHub stars](https://img.shields.io/github/stars/funenc-lab/ppt-master.svg)](https://github.com/funenc-lab/ppt-master/stargazers)
+[![GitHub stars](https://img.shields.io/github/stars/funenc-lab/slidemax.svg)](https://github.com/funenc-lab/slidemax/stargazers)
 
 English | [中文](./README_CN.md)
 
 An AI-powered intelligent visual content generation system that transforms source documents into high-quality SVG content through multi-role collaboration, **supporting presentations, social media, marketing posters, and various other formats**.
 
-> 🎴 **Online Examples**: [GitHub Pages Online Preview](https://hugohe3.github.io/ppt-master/) - View actual generated results
+> 🎴 **Online Examples**: [GitHub Pages Online Preview](https://funenc-lab.github.io/slidemax/) - View actual generated results
 
 > 🎬 **Quick Demo**: [YouTube](https://www.youtube.com/watch?v=jM2fHmvMwx0) | [Bilibili](https://www.bilibili.com/video/BV1iUmQBtEGH/) - Watch video demonstrations
 
 ## 🧭 Repository Lineage
 
-- **Current maintained repository**: [`funenc-lab/ppt-master`](https://github.com/funenc-lab/ppt-master)
+- **Current maintained repository**: [`funenc-lab/slidemax`](https://github.com/funenc-lab/slidemax)
 - **Fork source / public upstream repository**: [`hugohe3/ppt-master`](https://github.com/hugohe3/ppt-master)
-- **Local Git `origin` for this workspace**: `git@github.com:funenc-lab/ppt-master.git`
-- **Note**: The online preview, public demo videos, and some historical references in this README still point to public upstream resources. If you want to clone the repository, file issues, or open PRs for this workspace, use the current fork first.
+- **Local Git `origin` for this workspace**: `git@github.com:funenc-lab/slidemax.git`
+- **Note**: The product is now branded as SlideMax and the maintained repository slug is now `slidemax`; some historical links and the public upstream fork still use `ppt-master`.
 
 ---
 
@@ -56,8 +56,8 @@ If you need to use the `web_to_md.cjs` tool (for converting web pages from WeCha
 ### 2. Clone Repository and Install Dependencies
 
 ```bash
-git clone https://github.com/funenc-lab/ppt-master.git
-cd ppt-master
+git clone https://github.com/funenc-lab/slidemax.git
+cd slidemax
 pip install -r requirements.txt
 ```
 
@@ -91,7 +91,7 @@ AI (Strategist role): Sure, before we begin I need to complete eight confirmatio
 
 > 💡 **AI Lost Context?** You can prompt the AI to refer to the `AGENTS.md` file, and it will automatically follow the role definitions in the repository
 
-> 💡 **AI Image Generation Tip**: For AI-generated images, we recommend generating them in [Gemini](https://gemini.google.com/) and selecting **Download full size** for higher resolution than Antigravity's direct generation. Gemini images have a star watermark in the bottom right corner, which can be removed using [gemini-watermark-remover](https://github.com/journey-ad/gemini-watermark-remover) or this project's `skills/ppt_master_workflow/commands/gemini_watermark_remover.py`.
+> 💡 **AI Image Generation Tip**: For AI-generated images, we recommend generating them in [Gemini](https://gemini.google.com/) and selecting **Download full size** for higher resolution than Antigravity's direct generation. Gemini images have a star watermark in the bottom right corner, which can be removed using [gemini-watermark-remover](https://github.com/journey-ad/gemini-watermark-remover) or this project's `skills/slidemax_workflow/commands/gemini_watermark_remover.py`.
 
 ---
 
@@ -99,36 +99,36 @@ AI (Strategist role): Sure, before we begin I need to complete eight confirmatio
 
 | Document | Description |
 |----------|-------------|
-| 🗂️ [Documentation Index](./skills/ppt_master_workflow/docs/README.md) | Canonical entry, navigation, and maintenance notes |
-| 📖 [Workflow Tutorial](./skills/ppt_master_workflow/docs/workflow_tutorial.md) | Detailed workflow and case demonstrations |
-| 🎨 [Design Guidelines](./skills/ppt_master_workflow/docs/design_guidelines.md) | Colors, typography, layout specifications |
-| 📐 [Canvas Formats](./skills/ppt_master_workflow/docs/canvas_formats.md) | PPT, Xiaohongshu, WeChat Moments, and 10+ formats |
-| 🖼️ [Image Embedding Guide](./skills/ppt_master_workflow/docs/svg_image_embedding.md) | SVG image embedding best practices |
-| 📊 [Chart Template Library](./skills/ppt_master_workflow/templates/charts/) | 33 standardized chart templates · [Online Preview](./skills/ppt_master_workflow/templates/charts/preview.html) |
-| ⚡ [Quick Reference](./skills/ppt_master_workflow/docs/quick_reference.md) | Common commands and parameters cheat sheet |
-| 🔧 [Role Definitions](./skills/ppt_master_workflow/roles/README.md) | Index of 7 AI roles and handoff guidance |
-| 🛠️ [Toolset](./skills/ppt_master_workflow/commands/README.md) | Usage instructions for all tools |
-| 💼 [Examples Index](./skills/ppt_master_workflow/examples/README.md) | 15 projects, 229 SVG pages of examples |
+| 🗂️ [Documentation Index](./skills/slidemax_workflow/docs/README.md) | Canonical entry, navigation, and maintenance notes |
+| 📖 [Workflow Tutorial](./skills/slidemax_workflow/docs/workflow_tutorial.md) | Detailed workflow and case demonstrations |
+| 🎨 [Design Guidelines](./skills/slidemax_workflow/docs/design_guidelines.md) | Colors, typography, layout specifications |
+| 📐 [Canvas Formats](./skills/slidemax_workflow/docs/canvas_formats.md) | PPT, Xiaohongshu, WeChat Moments, and 10+ formats |
+| 🖼️ [Image Embedding Guide](./skills/slidemax_workflow/docs/svg_image_embedding.md) | SVG image embedding best practices |
+| 📊 [Chart Template Library](./skills/slidemax_workflow/templates/charts/) | 33 standardized chart templates · [Online Preview](./skills/slidemax_workflow/templates/charts/preview.html) |
+| ⚡ [Quick Reference](./skills/slidemax_workflow/docs/quick_reference.md) | Common commands and parameters cheat sheet |
+| 🔧 [Role Definitions](./skills/slidemax_workflow/roles/README.md) | Index of 7 AI roles and handoff guidance |
+| 🛠️ [Toolset](./skills/slidemax_workflow/commands/README.md) | Usage instructions for all tools |
+| 💼 [Examples Index](./skills/slidemax_workflow/examples/README.md) | 15 projects, 229 SVG pages of examples |
 
 ---
 
 ## 🎴 Featured Examples
 
-> 📁 **Example Library**: [`skills/ppt_master_workflow/examples/`](./skills/ppt_master_workflow/examples/) · **15 projects** · **229 SVG pages**
+> 📁 **Example Library**: [`skills/slidemax_workflow/examples/`](./skills/slidemax_workflow/examples/) · **15 projects** · **229 SVG pages**
 
 | Category                | Project                                                                                              | Pages | Features                                              |
 | ----------------------- | ---------------------------------------------------------------------------------------------------- | :---: | ----------------------------------------------------- |
-| 🏢 **Consulting Style** | [Attachment in Psychotherapy](./skills/ppt_master_workflow/examples/ppt169_顶级咨询风_心理治疗中的依恋/)                        |  32   | Top consulting style, largest scale example           |
-|                         | [Building Effective AI Agents](./skills/ppt_master_workflow/examples/ppt169_顶级咨询风_构建有效AI代理_Anthropic/)               |  15   | Anthropic engineering blog, AI Agent architecture     |
-|                         | [Chongqing Regional Report](./skills/ppt_master_workflow/examples/ppt169_顶级咨询风_重庆市区域报告_ppt169_20251213/)            |  20   | Regional fiscal analysis, Enterprise Alert data 🆕    |
-|                         | [Ganzi Prefecture Economic Analysis](./skills/ppt_master_workflow/examples/ppt169_顶级咨询风_甘孜州经济财政分析/)               |  17   | Government fiscal analysis, Tibetan cultural elements |
-| 🎨 **General Flexible** | [Debug Six-Step Method](./skills/ppt_master_workflow/examples/ppt169_通用灵活+代码_debug六步法/)                                |  10   | Dark tech style                                       |
-|                         | [Chongqing University Thesis Format](./skills/ppt_master_workflow/examples/ppt169_通用灵活+学术_重庆大学论文格式标准/)          |  11   | Academic standards guide                              |
-| ✨ **Creative Style**   | [I Ching Qian Hexagram Study](./skills/ppt_master_workflow/examples/ppt169_易理风_地山谦卦深度研究/)                            |  20   | I Ching aesthetics, Yin-Yang design                   |
-|                         | [Diamond Sutra Chapter 1 Study](./skills/ppt_master_workflow/examples/ppt169_禅意风_金刚经第一品研究/)                          |  15   | Zen academic, ink wash whitespace                     |
-|                         | [Git Introduction Guide](./skills/ppt_master_workflow/examples/ppt169_像素风_git_introduction/)                                 |  10   | Pixel retro game style                                |
+| 🏢 **Consulting Style** | [Attachment in Psychotherapy](./skills/slidemax_workflow/examples/ppt169_顶级咨询风_心理治疗中的依恋/)                        |  32   | Top consulting style, largest scale example           |
+|                         | [Building Effective AI Agents](./skills/slidemax_workflow/examples/ppt169_顶级咨询风_构建有效AI代理_Anthropic/)               |  15   | Anthropic engineering blog, AI Agent architecture     |
+|                         | [Chongqing Regional Report](./skills/slidemax_workflow/examples/ppt169_顶级咨询风_重庆市区域报告_ppt169_20251213/)            |  20   | Regional fiscal analysis, Enterprise Alert data 🆕    |
+|                         | [Ganzi Prefecture Economic Analysis](./skills/slidemax_workflow/examples/ppt169_顶级咨询风_甘孜州经济财政分析/)               |  17   | Government fiscal analysis, Tibetan cultural elements |
+| 🎨 **General Flexible** | [Debug Six-Step Method](./skills/slidemax_workflow/examples/ppt169_通用灵活+代码_debug六步法/)                                |  10   | Dark tech style                                       |
+|                         | [Chongqing University Thesis Format](./skills/slidemax_workflow/examples/ppt169_通用灵活+学术_重庆大学论文格式标准/)          |  11   | Academic standards guide                              |
+| ✨ **Creative Style**   | [I Ching Qian Hexagram Study](./skills/slidemax_workflow/examples/ppt169_易理风_地山谦卦深度研究/)                            |  20   | I Ching aesthetics, Yin-Yang design                   |
+|                         | [Diamond Sutra Chapter 1 Study](./skills/slidemax_workflow/examples/ppt169_禅意风_金刚经第一品研究/)                          |  15   | Zen academic, ink wash whitespace                     |
+|                         | [Git Introduction Guide](./skills/slidemax_workflow/examples/ppt169_像素风_git_introduction/)                                 |  10   | Pixel retro game style                                |
 
-📖 [View Complete Examples Documentation](./skills/ppt_master_workflow/examples/README.md)
+📖 [View Complete Examples Documentation](./skills/slidemax_workflow/examples/README.md)
 
 ---
 
@@ -162,7 +162,7 @@ Output: SVG + PPTX (auto-embeds notes)
 If optimized: re-run post-processing and export
 ```
 
-> 📖 For detailed workflow, see [Workflow Tutorial](./skills/ppt_master_workflow/docs/workflow_tutorial.md) and [Role Definitions](./skills/ppt_master_workflow/roles/README.md)
+> 📖 For detailed workflow, see [Workflow Tutorial](./skills/slidemax_workflow/docs/workflow_tutorial.md) and [Role Definitions](./skills/slidemax_workflow/roles/README.md)
 
 > 💡 **PPT Editing Tip**: The exported PPTX pages are in SVG format. To edit the content, select the page content in PowerPoint, right-click and choose **"Group" -> "Ungroup"** (or **"Convert to Shape"**). This feature requires **Office 2016** or later.
 
@@ -172,30 +172,30 @@ If optimized: re-run post-processing and export
 
 ```bash
 # Initialize project
-python3 skills/ppt_master_workflow/commands/project_manager.py init <project_name> --format ppt169
+python3 skills/slidemax_workflow/commands/project_manager.py init <project_name> --format ppt169
 
 # PDF to Markdown
-python3 skills/ppt_master_workflow/commands/pdf_to_md.py <PDF_file>
+python3 skills/slidemax_workflow/commands/pdf_to_md.py <PDF_file>
 
 # Post-process SVG
-python3 skills/ppt_master_workflow/commands/finalize_svg.py <project_path>
+python3 skills/slidemax_workflow/commands/finalize_svg.py <project_path>
 
 # Export PPTX
-python3 skills/ppt_master_workflow/commands/svg_to_pptx.py <project_path> -s final
+python3 skills/slidemax_workflow/commands/svg_to_pptx.py <project_path> -s final
 ```
 
-> 📖 For complete tool documentation, see [Tools Usage Guide](./skills/ppt_master_workflow/commands/README.md)
+> 📖 For complete tool documentation, see [Tools Usage Guide](./skills/slidemax_workflow/commands/README.md)
 
 ---
 
 ## 📁 Project Structure
 
 ```
-ppt-master/
+slidemax/
 ├── skills/
-│   └── ppt_master_workflow/
+│   └── slidemax_workflow/
 │       ├── commands/    # Canonical CLI entry points
-│       ├── pptmaster/   # Shared Python core
+│       ├── slidemax/   # Shared Python core
 │       ├── docs/        # Workflow documentation
 │       ├── roles/       # Role protocols
 │       ├── templates/   # Layouts, charts, icons, style assets
@@ -209,8 +209,8 @@ ppt-master/
 ```
 
 - The repository root stays minimal and keeps only entry files plus `workspace/`.
-- All implementation, commands, docs, templates, and examples live under `skills/ppt_master_workflow/` as the single source of truth.
-- In day-to-day usage, call commands directly from `skills/ppt_master_workflow/commands/`.
+- All implementation, commands, docs, templates, and examples live under `skills/slidemax_workflow/` as the single source of truth.
+- In day-to-day usage, call commands directly from `skills/slidemax_workflow/commands/`.
 
 ---
 
@@ -241,7 +241,7 @@ No. Only use it when you need to optimize the visual effects of key pages.
 
 </details>
 
-> 📖 For more questions, see [Workflow Tutorial](./skills/ppt_master_workflow/docs/workflow_tutorial.md#faq)
+> 📖 For more questions, see [Workflow Tutorial](./skills/slidemax_workflow/docs/workflow_tutorial.md#faq)
 
 ---
 
@@ -271,8 +271,8 @@ This project is licensed under the [MIT License](LICENSE).
 
 ## 📮 Contact
 
-- **Current Repository**: [funenc-lab/ppt-master](https://github.com/funenc-lab/ppt-master)
-- **Issue**: [GitHub Issues](https://github.com/funenc-lab/ppt-master/issues)
+- **Current Repository**: [funenc-lab/slidemax](https://github.com/funenc-lab/slidemax)
+- **Issue**: [GitHub Issues](https://github.com/funenc-lab/slidemax/issues)
 - **Fork Source**: [hugohe3/ppt-master](https://github.com/hugohe3/ppt-master)
 - **Upstream Author**: [@hugohe3](https://github.com/hugohe3)
 
@@ -282,11 +282,11 @@ This project is licensed under the [MIT License](LICENSE).
 
 If this project helps you, please give it a ⭐ Star!
 
-<a href="https://star-history.com/#funenc-lab/ppt-master&Date">
+<a href="https://star-history.com/#funenc-lab/slidemax&Date">
  <picture>
-   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=funenc-lab/ppt-master&type=Date&theme=dark" />
-   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=funenc-lab/ppt-master&type=Date" />
-   <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=funenc-lab/ppt-master&type=Date" />
+   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=funenc-lab/slidemax&type=Date&theme=dark" />
+   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=funenc-lab/slidemax&type=Date" />
+   <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=funenc-lab/slidemax&type=Date" />
  </picture>
 </a>
 
@@ -294,4 +294,4 @@ If this project helps you, please give it a ⭐ Star!
 
 Made with ❤️ by Hugo He
 
-[⬆ Back to Top](#ppt-master---ai-powered-multi-format-svg-content-generation-system)
+[⬆ Back to Top](#slidemax---ai-powered-multi-format-svg-content-generation-system)

@@ -8,11 +8,11 @@ from pathlib import Path
 from unittest import mock
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
-SKILL_ROOT = PROJECT_ROOT / "skills" / "ppt_master_workflow"
+SKILL_ROOT = PROJECT_ROOT / "skills" / "slidemax_workflow"
 if str(SKILL_ROOT) not in sys.path:
     sys.path.insert(0, str(SKILL_ROOT))
 
-from pptmaster.image_generation import (
+from slidemax.image_generation import (
     DEFAULT_MODELS,
     ImageGenerationError,
     ImageGenerationRequest,
@@ -23,7 +23,7 @@ from pptmaster.image_generation import (
     provider_sdk_dependency_status,
     resolve_provider_config,
 )
-from pptmaster.image_source_metadata import build_sidecar_path, read_source_metadata
+from slidemax.image_source_metadata import build_sidecar_path, read_source_metadata
 
 PNG_BYTES = base64.b64decode(
     "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAADElEQVR4nGNgYAAAAAIAAeIhvDMAAAAASUVORK5CYII="
@@ -44,7 +44,7 @@ class ImageGenerationTestCase(unittest.TestCase):
         with mock.patch.dict(
             os.environ,
             {
-                "PPTMASTER_IMAGE_PROVIDER": "doubao",
+                "SLIDEMAX_IMAGE_PROVIDER": "doubao",
                 "DOUBAO_API_KEY": "secret",
                 "DOUBAO_BASE_URL": "https://doubao.example/api/v3",
             },
@@ -131,7 +131,7 @@ class ImageGenerationTestCase(unittest.TestCase):
 
         message = str(error_context.exception)
         self.assertIn("ARK_API_KEY", message)
-        self.assertIn("pptmaster_image.env.example", message)
+        self.assertIn("slidemax_image.env.example", message)
         self.assertIn("image_generation_setup.md", message)
 
     def test_provider_sdk_dependency_status_reports_missing_sdk(self):

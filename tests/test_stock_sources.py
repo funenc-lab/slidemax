@@ -6,11 +6,11 @@ import unittest
 from pathlib import Path
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
-SKILL_ROOT = PROJECT_ROOT / "skills" / "ppt_master_workflow"
+SKILL_ROOT = PROJECT_ROOT / "skills" / "slidemax_workflow"
 if str(SKILL_ROOT) not in sys.path:
     sys.path.insert(0, str(SKILL_ROOT))
 
-from pptmaster.stock_sources import (
+from slidemax.stock_sources import (
     PROVIDER_REGISTRY,
     build_record,
     list_providers,
@@ -93,15 +93,15 @@ class StockSourcesTestCase(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             project_dir = Path(tmp) / "demo_project"
             project_dir.mkdir()
-            original = os.environ.get("PPTMASTER_STOCK_ROOT_DIR")
-            os.environ["PPTMASTER_STOCK_ROOT_DIR"] = "custom_stock"
+            original = os.environ.get("SLIDEMAX_STOCK_ROOT_DIR")
+            os.environ["SLIDEMAX_STOCK_ROOT_DIR"] = "custom_stock"
             try:
                 self.assertEqual(stock_dir(project_dir), project_dir / "custom_stock")
             finally:
                 if original is None:
-                    os.environ.pop("PPTMASTER_STOCK_ROOT_DIR", None)
+                    os.environ.pop("SLIDEMAX_STOCK_ROOT_DIR", None)
                 else:
-                    os.environ["PPTMASTER_STOCK_ROOT_DIR"] = original
+                    os.environ["SLIDEMAX_STOCK_ROOT_DIR"] = original
 
     def test_load_manifest_returns_default_when_missing(self):
         with tempfile.TemporaryDirectory() as tmp:

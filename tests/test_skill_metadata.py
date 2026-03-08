@@ -7,7 +7,7 @@ PROJECT_ROOT = Path(__file__).resolve().parents[1]
 
 SKILL_CASES = [
     {
-        "meta_path": PROJECT_ROOT / "skills" / "ppt_master_workflow" / "_meta.json",
+        "meta_path": PROJECT_ROOT / "skills" / "slidemax_workflow" / "_meta.json",
         "expected_kind": "workflow-skill",
         "expected_canonical": True,
         "required_guides": [

@@ -4,13 +4,13 @@ import unittest
 from pathlib import Path
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
-SKILL_ROOT = PROJECT_ROOT / "skills" / "ppt_master_workflow"
+SKILL_ROOT = PROJECT_ROOT / "skills" / "slidemax_workflow"
 if str(SKILL_ROOT) not in sys.path:
     sys.path.insert(0, str(SKILL_ROOT))
 
-from pptmaster.config import CANVAS_FORMATS
-from pptmaster.exporters.pptx_assets import get_slide_dimensions
-from pptmaster.pptx_export import (
+from slidemax.config import CANVAS_FORMATS
+from slidemax.exporters.pptx_assets import get_slide_dimensions
+from slidemax.pptx_export import (
     DEFAULT_TRANSITION_CHOICES,
     build_cli_parser,
     build_native_svg_dependencies,

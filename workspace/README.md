@@ -5,7 +5,7 @@
 ## 创建新项目
 
 ```bash
-python3 skills/ppt_master_workflow/commands/project_manager.py init my_project --format ppt169
+python3 skills/slidemax_workflow/commands/project_manager.py init my_project --format ppt169
 ```
 
 ## 目录结构
@@ -25,4 +25,4 @@ project_name_format_YYYYMMDD/
 ## 注意事项
 
 - 此目录下的内容已被 `.gitignore` 排除
-- 完成的项目可以移动到 `skills/ppt_master_workflow/examples/` 目录分享
+- 完成的项目可以移动到 `skills/slidemax_workflow/examples/` 目录分享

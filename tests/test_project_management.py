@@ -9,11 +9,11 @@ from pathlib import Path
 from unittest import mock
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
-SKILL_ROOT = PROJECT_ROOT / "skills" / "ppt_master_workflow"
+SKILL_ROOT = PROJECT_ROOT / "skills" / "slidemax_workflow"
 if str(SKILL_ROOT) not in sys.path:
     sys.path.insert(0, str(SKILL_ROOT))
 
-from pptmaster.project_management import build_parser, build_preflight_checks, run_cli
+from slidemax.project_management import build_parser, build_preflight_checks, run_cli
 
 
 class ProjectManagementTestCase(unittest.TestCase):
@@ -77,7 +77,7 @@ class ProjectManagementTestCase(unittest.TestCase):
 
     def test_build_preflight_checks_includes_provider_sdk_check(self):
         with mock.patch(
-            "pptmaster.project_management.provider_sdk_dependency_status",
+            "slidemax.project_management.provider_sdk_dependency_status",
             return_value=(False, "Provider SDK is missing for doubao"),
         ), mock.patch.dict(
             os.environ,
@@ -123,7 +123,7 @@ class ProjectManagementTestCase(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             stdout = io.StringIO()
             with mock.patch(
-                "pptmaster.project_management.run_preflight_smoke_test",
+                "slidemax.project_management.run_preflight_smoke_test",
                 return_value=Path(tmp) / "smoke_test.png",
             ) as smoke_test_mock:
                 with mock.patch.dict(

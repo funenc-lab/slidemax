@@ -6,12 +6,12 @@ import unittest
 from pathlib import Path
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
-SKILL_ROOT = PROJECT_ROOT / "skills" / "ppt_master_workflow"
+SKILL_ROOT = PROJECT_ROOT / "skills" / "slidemax_workflow"
 REGISTER_COMMAND = SKILL_ROOT / "commands" / "register_image_source.py"
 if str(SKILL_ROOT) not in sys.path:
     sys.path.insert(0, str(SKILL_ROOT))
 
-from pptmaster.image_source_metadata import (
+from slidemax.image_source_metadata import (
     SOURCE_METADATA_SUFFIX,
     build_generated_image_metadata,
     build_sidecar_path,
