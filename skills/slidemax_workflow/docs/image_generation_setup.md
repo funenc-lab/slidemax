@@ -7,6 +7,7 @@ This guide explains how to configure credentials, environment variables, and com
 - Environment template: `../examples/config/slidemax_image.env.example`
 - Command template: `../examples/config/image_generate_commands.sh.example`
 - Provider reference: `./image_generation_providers.md`
+- AI setup prompts: `./ai_setup_prompts.md`
 - Stock image setup: `./image_stock_sources.md`
 - Stock env template: `../examples/config/slidemax_stock.env.example`
 - Stock command template: `../examples/config/register_stock_image.sh.example`
@@ -42,6 +43,8 @@ pip install Pillow
 ```
 
 `image_generate.py` and `nano_banana_gen.py` now print provider-specific dependency and configuration hints automatically when setup is incomplete.
+
+If you want an AI assistant to guide the setup step-by-step, use the ready-made prompts in `./ai_setup_prompts.md`.
 
 ## Recommended Validation Commands
 

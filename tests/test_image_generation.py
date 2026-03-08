@@ -133,6 +133,8 @@ class ImageGenerationTestCase(unittest.TestCase):
         self.assertIn("ARK_API_KEY", message)
         self.assertIn("slidemax_image.env.example", message)
         self.assertIn("image_generation_setup.md", message)
+        self.assertIn("If you want AI help", message)
+        self.assertIn("I am setting up SlideMax image generation", message)
 
     def test_provider_sdk_dependency_status_reports_missing_sdk(self):
         original_find_spec = sys.modules[provider_sdk_dependency_status.__module__].importlib.util.find_spec
@@ -152,6 +154,8 @@ class ImageGenerationTestCase(unittest.TestCase):
         self.assertIn("volcenginesdkarkruntime", message)
         self.assertIn("volcengine-python-sdk[ark]", message)
         self.assertIn("image_generation_setup.md", message)
+        self.assertIn("If you want AI help", message)
+        self.assertIn("I am setting up SlideMax image generation", message)
 
     def test_generate_image_rejects_doubao_seedream5_small_canvas(self):
         config = resolve_provider_config(

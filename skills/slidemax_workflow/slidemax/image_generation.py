@@ -45,6 +45,7 @@ DEFAULT_TIMEOUT_SECONDS = 180
 IMAGE_REQUIREMENTS_PATH = "requirements.txt"
 IMAGE_SETUP_DOC_PATH = "skills/slidemax_workflow/docs/image_generation_setup.md"
 IMAGE_PROVIDER_DOC_PATH = "skills/slidemax_workflow/docs/image_generation_providers.md"
+AI_SETUP_PROMPTS_DOC_PATH = "skills/slidemax_workflow/docs/ai_setup_prompts.md"
 IMAGE_ENV_TEMPLATE_PATH = "skills/slidemax_workflow/examples/config/slidemax_image.env.example"
 
 PROVIDER_RUNTIME_METADATA = {
@@ -171,7 +172,27 @@ def provider_sdk_dependency_status(provider: str) -> tuple[bool, str]:
         return True, f"Provider SDK is available for {normalized_provider}: {module_name}"
     return False, (
         f"Provider SDK is missing for {normalized_provider}: {module_name}. "
-        f"Install it with: {install_command}. See {IMAGE_SETUP_DOC_PATH}"
+        f"Install it with: {install_command}. See {IMAGE_SETUP_DOC_PATH}.\n"
+        f"{_provider_ai_setup_prompt(normalized_provider)}"
+    )
+
+
+def _provider_ai_setup_prompt(provider: str) -> str:
+    normalized_provider = normalize_provider(provider)
+    doctor_command = (
+        "python3 skills/slidemax_workflow/commands/project_manager.py "
+        f"doctor --provider {normalized_provider}"
+    )
+    return "\n".join(
+        [
+            "If you want AI help, paste this prompt into your assistant:",
+            '```text',
+            f"I am setting up SlideMax image generation for provider '{normalized_provider}'.",
+            f"Please help me install the required SDK, copy and fill {IMAGE_ENV_TEMPLATE_PATH}, and verify the setup with `{doctor_command}`.",
+            f"Use {IMAGE_SETUP_DOC_PATH}, {IMAGE_PROVIDER_DOC_PATH}, and {AI_SETUP_PROMPTS_DOC_PATH} as the canonical references.",
+            "Tell me exactly which environment variables I need to set and which optional variables I can leave empty.",
+            '```',
+        ]
     )
 
 
@@ -184,8 +205,14 @@ def _provider_setup_hint(provider: str, *, include_sdk_install: bool = False) ->
         lines.append(f"- Or install the shared dependency bundle: pip install -r {IMAGE_REQUIREMENTS_PATH}")
     lines.append(f"- Copy the env template: cp {IMAGE_ENV_TEMPLATE_PATH} .env.slidemax-image")
     lines.append("- Load it in the current shell: source .env.slidemax-image")
+    lines.append(
+        "- Validate the active provider: "
+        f"python3 skills/slidemax_workflow/commands/project_manager.py doctor --provider {normalized_provider}"
+    )
     lines.append(f"- Review setup details: {IMAGE_SETUP_DOC_PATH}")
     lines.append(f"- Review provider details: {IMAGE_PROVIDER_DOC_PATH}")
+    lines.append(f"- Review AI-ready prompts: {AI_SETUP_PROMPTS_DOC_PATH}")
+    lines.append(_provider_ai_setup_prompt(normalized_provider))
     return "\n".join(lines)
 
 

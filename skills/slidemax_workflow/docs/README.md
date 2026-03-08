@@ -32,6 +32,7 @@ This directory stores supporting documentation for `skills/slidemax_workflow/`, 
 - [image_stock_sources.md](./image_stock_sources.md) - Commercial stock source and manifest rules
 - [image_generation_providers.md](./image_generation_providers.md) - Image provider registry and environment variables
 - [image_generation_setup.md](./image_generation_setup.md) - Image generation setup and command examples
+- [ai_setup_prompts.md](./ai_setup_prompts.md) - AI-ready prompts for env setup and verification
 - [ark_video_generation.md](./ark_video_generation.md) - ARK image-to-video setup and examples
 
 ### Architecture and Maintenance
