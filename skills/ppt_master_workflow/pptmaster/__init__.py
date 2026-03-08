@@ -8,7 +8,9 @@ imports from ``pptmaster.*``.
 __all__ = [
     "batch_validation",
     "config",
+    "command_bridge",
     "error_helper",
+    "export_setup",
     "examples_index",
     "finalize",
     "flatten_text_cli",

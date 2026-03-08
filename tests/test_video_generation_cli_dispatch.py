@@ -14,6 +14,7 @@ from pptmaster.video_generation import (
     VideoGenerationResult,
     VideoTaskStatus,
     execute_parsed_command,
+    run_cli,
 )
 
 
@@ -121,6 +122,33 @@ class VideoGenerationCliDispatchTestCase(unittest.TestCase):
             "Video URL: https://cdn.example/demo.mp4",
             "Video saved to: result.mp4",
         ])
+
+    def test_run_cli_accepts_executor_override(self):
+        captured = {}
+
+        def fake_executor(args):
+            captured["command"] = args.command
+            captured["prompt"] = args.prompt
+            captured["image_url"] = args.image_url
+            return 7
+
+        exit_code = run_cli(
+            [
+                "run",
+                "Fast drone flight",
+                "--image-url",
+                "https://example.com/demo.png",
+            ],
+            executor=fake_executor,
+        )
+
+        self.assertEqual(exit_code, 7)
+        self.assertEqual(captured, {
+            "command": "run",
+            "prompt": "Fast drone flight",
+            "image_url": "https://example.com/demo.png",
+        })
+
 
     def test_create_command_with_wait_downloads_video_when_output_is_set(self):
         outputs = []

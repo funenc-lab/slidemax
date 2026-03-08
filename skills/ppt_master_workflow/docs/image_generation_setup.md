@@ -20,6 +20,46 @@ This guide explains how to configure credentials, environment variables, and com
 4. Install the SDK package for the provider you plan to use.
 5. Run `image_generate.py` using the matching provider.
 
+## Dependency-Aware Installation
+
+Install only the packages required by the workflow you plan to use:
+
+```bash
+# Shared bundle
+pip install -r requirements.txt
+
+# Gemini image generation
+pip install google-genai
+
+# OpenAI-compatible image generation
+pip install openai
+
+# Doubao / ARK image generation
+pip install "volcengine-python-sdk[ark]"
+
+# Optional local diagnostics
+pip install Pillow
+```
+
+`image_generate.py` and `nano_banana_gen.py` now print provider-specific dependency and configuration hints automatically when setup is incomplete.
+
+## Recommended Validation Commands
+
+Use the doctor command before the first live request or after switching providers:
+
+```bash
+python3 skills/ppt_master_workflow/commands/project_manager.py doctor --provider gemini
+python3 skills/ppt_master_workflow/commands/project_manager.py doctor --provider openai-compatible
+python3 skills/ppt_master_workflow/commands/project_manager.py doctor --provider doubao --model doubao-seedream-5
+```
+
+The doctor output now checks:
+
+- shared Python packages such as `requests`
+- optional local diagnostics such as `Pillow`
+- provider SDK availability for the selected provider
+- provider credential and base URL configuration
+
 ## Example: Create a local config file
 
 ```bash
@@ -56,9 +96,14 @@ PPT Master currently supports three stable image acquisition paths inside the wo
 Install the official SDK for the provider you want to use:
 
 ```bash
-pip install google-genai Pillow
-pip install openai Pillow
-pip install "volcengine-python-sdk[ark]" Pillow
+# Shared bundle
+pip install -r requirements.txt
+
+# Or install only what you need
+pip install google-genai
+pip install openai
+pip install "volcengine-python-sdk[ark]"
+pip install Pillow
 ```
 
 ## Shared Variables
@@ -92,8 +137,8 @@ Use shared variables when your environment switches providers frequently and you
 
 ### Doubao
 
-- `DOUBAO_API_KEY`
-- `DOUBAO_BASE_URL`
+- `ARK_API_KEY` or `DOUBAO_API_KEY`
+- `ARK_BASE_URL` or `DOUBAO_BASE_URL`
 - `DOUBAO_IMAGE_ENDPOINT`
 - `DOUBAO_IMAGE_MODEL`
 
@@ -114,11 +159,15 @@ Use `doubao_i2v_task.py` when you need Seedance-based image-to-video generation.
 
 ```bash
 export PPTMASTER_IMAGE_PROVIDER=doubao
-export DOUBAO_API_KEY="your-key"
-export DOUBAO_BASE_URL="https://ark.cn-beijing.volces.com/api/v3"
+export ARK_API_KEY="your-key"
+export ARK_BASE_URL="https://ark.cn-beijing.volces.com/api/v3"
 export DOUBAO_IMAGE_MODEL="doubao-seedream-4.5"
 export PPTMASTER_IMAGE_OUTPUT_DIR="workspace/demo/images"
 ```
+
+The workflow also accepts `DOUBAO_API_KEY` and `DOUBAO_BASE_URL` as aliases for the same provider configuration.
+
+The workflow also accepts the alias `doubao-seedream-5` and automatically normalizes it to the concrete model id `doubao-seedream-5-0-260128`.
 
 For `doubao-seedream-5-0-260128`, the workflow now enforces a local minimum canvas size of `3686400` pixels before the SDK request is sent.
 For example, `16:9` with `1K` is rejected locally, while `16:9` with `4K` is valid.
@@ -155,11 +204,11 @@ python3 skills/ppt_master_workflow/commands/download_stock_image.py workspace/de
   --filename stock_cover.jpg
 ```
 
-You can also inspect supported providers without credentials:
+You can inspect provider metadata and the smoke-test CLI shape without credentials:
 
 ```bash
 python3 skills/ppt_master_workflow/commands/image_generate.py --list-providers
-python3 skills/ppt_master_workflow/commands/smoke_test_image_provider.py --provider doubao --output workspace/demo/images
+python3 skills/ppt_master_workflow/commands/smoke_test_image_provider.py --help
 ```
 
 ## Safety Notes

@@ -22,6 +22,7 @@ from pptmaster.project_utils import (  # noqa: E402
     validate_svg_viewbox,
 )
 
+from pptmaster.command_bridge import run_entrypoint  # noqa: E402
 __all__ = [
     'CANVAS_FORMATS',
     'CANVAS_FORMAT_ALIASES',
@@ -38,4 +39,4 @@ __all__ = [
 
 
 if __name__ == '__main__':
-    main()
+    run_entrypoint(main)

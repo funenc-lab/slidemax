@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "name": "ppt-master-workflow",
+  "display_name": "PPT Master Workflow",
+  "description": "Use when generating PPT, XHS, story, or related canvas outputs with this repository, or when maintaining workflow-facing assets under skills/ppt_master_workflow that depend on the repository-specific stage order, role handoffs, command surface, and project structure rules.",
+  "version": "1.2.0",
+  "created_at": "2026-03-07",
+  "updated_at": "2026-03-08",
+  "language": "en",
+  "kind": "workflow-skill",
+  "canonical": true,
+  "entrypoints": {
+    "skill": "SKILL.md",
+    "guides": [
+      "AGENTS.md",
+      "workflows/generate-ppt.md",
+      "commands/README.md"
+    ]
+  },
+  "related_skills": [
+    "ocr-image-to-markdown",
+    "writing-skills",
+    "software-engineering",
+    "verification-before-completion"
+  ],
+  "tags": [
+    "ppt",
+    "workflow",
+    "slides",
+    "xhs",
+    "svg",
+    "export",
+    "role-handoffs"
+  ]
+}

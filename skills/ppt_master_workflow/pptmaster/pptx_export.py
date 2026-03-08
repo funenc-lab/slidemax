@@ -32,6 +32,7 @@ from .exporters.pptx_runtime import (
     NativeSvgExportRequest,
     export_presentation,
 )
+from .notes_splitter import check_svg_note_mapping, parse_total_md, split_notes
 from .project_utils import get_project_info
 
 try:
@@ -220,7 +221,11 @@ def resolve_context(
 
     notes: Dict[str, str] = {}
     if request.enable_notes:
-        notes = find_notes_files_func(request.project_path, svg_files)
+        notes = hydrate_notes_for_export(
+            request.project_path,
+            svg_files,
+            find_notes_files_func=find_notes_files_func,
+        )
 
     return PptxExportContext(
         project_path=request.project_path,
@@ -237,6 +242,38 @@ def resolve_context(
         transition_duration=request.transition_duration,
         auto_advance=request.auto_advance,
     )
+
+
+def hydrate_notes_for_export(
+    project_path: Path,
+    svg_files: List[Path],
+    *,
+    find_notes_files_func: Callable[[Path, Optional[List[Path]]], Dict[str, str]] = find_notes_files,
+    parse_total_md_func: Callable[[Path, Optional[List[str]], bool], Dict[str, str]] = parse_total_md,
+    split_notes_func: Callable[[Dict[str, str], Path, bool], bool] = split_notes,
+) -> Dict[str, str]:
+    """Return export-ready notes, auto-splitting notes/total.md when needed."""
+
+    existing_notes = find_notes_files_func(project_path, svg_files)
+    if existing_notes:
+        return existing_notes
+
+    total_md_path = project_path / 'notes' / 'total.md'
+    if not total_md_path.exists():
+        return {}
+
+    svg_stems = [svg_path.stem for svg_path in svg_files]
+    parsed_notes = parse_total_md_func(total_md_path, svg_stems, False)
+    if not parsed_notes:
+        return {}
+
+    all_match, _missing_notes = check_svg_note_mapping(svg_files, parsed_notes)
+    if not all_match:
+        return parsed_notes
+
+    split_notes_func(parsed_notes, project_path / 'notes', False)
+    refreshed_notes = find_notes_files_func(project_path, svg_files)
+    return refreshed_notes or parsed_notes
 
 
 def print_context_summary(context: PptxExportContext) -> None:
@@ -392,6 +429,7 @@ __all__ = [
     'build_transition_choices',
     'create_pptx_with_native_svg',
     'ensure_pptx_dependency',
+    'hydrate_notes_for_export',
     'main',
     'print_context_summary',
     'request_from_args',

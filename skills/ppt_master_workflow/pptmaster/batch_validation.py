@@ -43,6 +43,11 @@ class BatchValidator:
         print(f'\n[SCAN] Scanning directory: {directory}')
         print('=' * 80)
 
+        if self._looks_like_project_root(dir_path):
+            print('[INFO] Detected single project directory\n')
+            self.validate_project(str(dir_path))
+            return self.results
+
         projects = find_all_projects(directory)
         if not projects:
             print('[WARN] No projects found')
@@ -52,6 +57,21 @@ class BatchValidator:
         for project_path in projects:
             self.validate_project(str(project_path))
         return self.results
+
+    def _looks_like_project_root(self, dir_path: Path) -> bool:
+        """Return whether the provided directory already looks like a project root."""
+
+        if not dir_path.is_dir():
+            return False
+
+        required_paths = [
+            dir_path / 'README.md',
+            dir_path / 'svg_output',
+            dir_path / 'images',
+            dir_path / 'notes',
+            dir_path / 'templates',
+        ]
+        return all(path.exists() for path in required_paths)
 
     def validate_project(self, project_path: str) -> Dict[str, object]:
         """Validate a single PPT Master project."""

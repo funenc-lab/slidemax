@@ -354,6 +354,28 @@ def request_from_args(args: argparse.Namespace) -> VideoGenerationRequest:
     )
 
 
+def print_status(status: VideoTaskStatus, *, output_fn=print) -> None:
+    """Print a task status payload using the provided output function."""
+
+    output_fn(f"Task ID: {status.task_id}")
+    output_fn(f"Task status: {status.status}")
+    if status.model:
+        output_fn(f"Model: {status.model}")
+    if status.video_url:
+        output_fn(f"Video URL: {status.video_url}")
+
+
+def print_result(result: VideoGenerationResult, *, output_fn=print) -> None:
+    """Print a task result payload using the provided output function."""
+
+    output_fn(f"Task created: {result.task_id}")
+    output_fn(f"Task status: {result.status}")
+    if result.video_url:
+        output_fn(f"Video URL: {result.video_url}")
+    if result.output_path:
+        output_fn(f"Video saved to: {result.output_path}")
+
+
 def execute_parsed_command(
     args: argparse.Namespace,
     *,
@@ -378,12 +400,7 @@ def execute_parsed_command(
     if args.command == "status":
         config = config_resolver(api_key=args.api_key, base_url=args.base_url, timeout_seconds=args.timeout)
         status = status_getter(args.task_id, config)
-        output_fn(f"Task ID: {status.task_id}")
-        output_fn(f"Task status: {status.status}")
-        if status.model:
-            output_fn(f"Model: {status.model}")
-        if status.video_url:
-            output_fn(f"Video URL: {status.video_url}")
+        print_status(status, output_fn=output_fn)
         return 0
 
     if args.command == "run":
@@ -396,12 +413,7 @@ def execute_parsed_command(
             poll_interval_seconds=args.poll_interval,
             max_poll_attempts=args.max_poll_attempts,
         )
-        output_fn(f"Task created: {result.task_id}")
-        output_fn(f"Task status: {result.status}")
-        if result.video_url:
-            output_fn(f"Video URL: {result.video_url}")
-        if result.output_path:
-            output_fn(f"Video saved to: {result.output_path}")
+        print_result(result, output_fn=output_fn)
         return 0
 
     request = request_builder(args)
@@ -427,13 +439,13 @@ def execute_parsed_command(
     return 0
 
 
-def run_cli(argv: Optional[Sequence[str]] = None) -> int:
+def run_cli(argv: Optional[Sequence[str]] = None, *, executor=execute_parsed_command) -> int:
     """Execute the Doubao image-to-video CLI."""
 
     parser = build_parser()
     args = parser.parse_args(list(argv) if argv is not None else None)
 
-    return execute_parsed_command(args)
+    return executor(args)
 
 
 def main() -> int:
@@ -470,5 +482,7 @@ __all__ = [
     "request_from_args",
     "run_cli",
     "main",
+    "print_result",
+    "print_status",
     "wait_for_task",
 ]

@@ -1,186 +1,194 @@
-# PPT Master - AI 驱动的多格式 SVG 内容生成系统
+# PPT Master - AI-Powered Multi-Format SVG Content Generation System
 
-[![Version](https://img.shields.io/badge/version-v1.1.0-blue.svg)](https://github.com/hugohe3/ppt-master/releases)
+[![Version](https://img.shields.io/badge/version-v1.2.0-blue.svg)](https://github.com/funenc-lab/ppt-master/releases)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![GitHub stars](https://img.shields.io/github/stars/hugohe3/ppt-master.svg)](https://github.com/hugohe3/ppt-master/stargazers)
+[![GitHub stars](https://img.shields.io/github/stars/funenc-lab/ppt-master.svg)](https://github.com/funenc-lab/ppt-master/stargazers)
 
-[English](./README_EN.md) | 中文
+English | [中文](./README_CN.md)
 
-一个基于 AI 的智能视觉内容生成系统，通过多角色协作，将源文档转化为高质量的 SVG 内容，**支持演示文稿、社交媒体、营销海报等多种格式**。
+An AI-powered intelligent visual content generation system that transforms source documents into high-quality SVG content through multi-role collaboration, **supporting presentations, social media, marketing posters, and various other formats**.
 
-> 🎴 **在线示例**：[GitHub Pages 在线预览](https://hugohe3.github.io/ppt-master/) - 查看实际生成效果
+> 🎴 **Online Examples**: [GitHub Pages Online Preview](https://hugohe3.github.io/ppt-master/) - View actual generated results
 
-> 🎬 **快速示例**：[YouTube](https://www.youtube.com/watch?v=jM2fHmvMwx0) | [Bilibili](https://www.bilibili.com/video/BV1iUmQBtEGH/) - 观看视频演示
+> 🎬 **Quick Demo**: [YouTube](https://www.youtube.com/watch?v=jM2fHmvMwx0) | [Bilibili](https://www.bilibili.com/video/BV1iUmQBtEGH/) - Watch video demonstrations
+
+## 🧭 Repository Lineage
+
+- **Current maintained repository**: [`funenc-lab/ppt-master`](https://github.com/funenc-lab/ppt-master)
+- **Fork source / public upstream repository**: [`hugohe3/ppt-master`](https://github.com/hugohe3/ppt-master)
+- **Local Git `origin` for this workspace**: `git@github.com:funenc-lab/ppt-master.git`
+- **Note**: The online preview, public demo videos, and some historical references in this README still point to public upstream resources. If you want to clone the repository, file issues, or open PRs for this workspace, use the current fork first.
 
 ---
 
-## 🚀 快速开始
+## 🚀 Quick Start
 
-### 1. 配置环境
+### 1. Configure Environment
 
-#### Python 环境（必需）
+#### Python Environment (Required)
 
-本项目需要 **Python 3.8+**，用于运行 PDF 转换、SVG 后处理、PPTX 导出等工具。
+This project requires **Python 3.8+** for running PDF conversion, SVG post-processing, PPTX export, and other tools.
 
-**安装 Python：**
+**Install Python:**
 
-| 平台 | 推荐安装方式 |
-|------|------------|
-| **macOS** | 使用 [Homebrew](https://brew.sh/)：`brew install python` |
-| **Windows** | 从 [Python 官网](https://www.python.org/downloads/) 下载安装包 |
-| **Linux** | 使用系统包管理器：`sudo apt install python3 python3-pip`（Ubuntu/Debian） |
+| Platform | Recommended Installation |
+|----------|-------------------------|
+| **macOS** | Use [Homebrew](https://brew.sh/): `brew install python` |
+| **Windows** | Download installer from [Python Official Website](https://www.python.org/downloads/) |
+| **Linux** | Use package manager: `sudo apt install python3 python3-pip` (Ubuntu/Debian) |
 
-> 💡 **验证安装**：运行 `python3 --version` 确认版本 ≥ 3.8
+> 💡 **Verify Installation**: Run `python3 --version` to confirm version ≥ 3.8
 
-#### Node.js 环境（可选）
+#### Node.js Environment (Optional)
 
-如需使用 `web_to_md.cjs` 工具（用于微信公众号等高防站点的网页转换），需安装 Node.js。
+If you need to use the `web_to_md.cjs` tool (for converting web pages from WeChat and other high-security sites), install Node.js.
 
-**安装 Node.js：**
+**Install Node.js:**
 
-| 平台 | 推荐安装方式 |
-|------|------------|
-| **macOS** | 使用 [Homebrew](https://brew.sh/)：`brew install node` |
-| **Windows** | 从 [Node.js 官网](https://nodejs.org/) 下载 LTS 版本安装包 |
-| **Linux** | 使用 [NodeSource](https://github.com/nodesource/distributions)：`curl -fsSL https://deb.nodesource.com/setup_lts.x \| sudo -E bash - && sudo apt-get install -y nodejs` |
+| Platform | Recommended Installation |
+|----------|-------------------------|
+| **macOS** | Use [Homebrew](https://brew.sh/): `brew install node` |
+| **Windows** | Download LTS version from [Node.js Official Website](https://nodejs.org/) |
+| **Linux** | Use [NodeSource](https://github.com/nodesource/distributions): `curl -fsSL https://deb.nodesource.com/setup_lts.x \| sudo -E bash - && sudo apt-get install -y nodejs` |
 
-> 💡 **验证安装**：运行 `node --version` 确认版本 ≥ 18
+> 💡 **Verify Installation**: Run `node --version` to confirm version ≥ 18
 
-### 2. 克隆仓库并安装依赖
+### 2. Clone Repository and Install Dependencies
 
 ```bash
-git clone https://github.com/hugohe3/ppt-master.git
+git clone https://github.com/funenc-lab/ppt-master.git
 cd ppt-master
 pip install -r requirements.txt
 ```
 
-> 如遇权限问题，可使用 `pip install --user -r requirements.txt` 或在虚拟环境中安装。
+> If you encounter permission issues, use `pip install --user -r requirements.txt` or install in a virtual environment.
 
-### 3. 打开 AI 编辑器
+### 3. Open AI Editor
 
-推荐使用以下 AI 编辑器：
+Recommended AI editors:
 
-| 工具                                                | 推荐度 | 说明                                                                          |
-| --------------------------------------------------- | :----: | ----------------------------------------------------------------------------- |
-| **[Antigravity](https://antigravity.dev/)**         | ⭐⭐⭐ | **强烈推荐**！免费使用 Opus 4.6，集成 Banana 生图功能，可直接在仓库里生成配图 |
-| [Cursor](https://cursor.sh/)                        |  ⭐⭐  | 主流 AI 编辑器，支持多种模型                                                  |
-| [VS Code + Copilot](https://code.visualstudio.com/) |  ⭐⭐  | 微软官方方案                                                                  |
-| [Claude Code](https://claude.ai/)                   |  ⭐⭐  | Anthropic 官方 CLI 工具                                                       |
+| Tool                                                | Rating | Description                                                                                                          |
+| --------------------------------------------------- | :----: | -------------------------------------------------------------------------------------------------------------------- |
+| **[Antigravity](https://antigravity.dev/)**         | ⭐⭐⭐ | **Highly Recommended**! Free Opus 4.6 access, integrated Banana image generation, can generate images directly in the repository |
+| [Cursor](https://cursor.sh/)                        |  ⭐⭐  | Mainstream AI editor, supports multiple models                                                                        |
+| [VS Code + Copilot](https://code.visualstudio.com/) |  ⭐⭐  | Microsoft official solution                                                                                           |
+| [Claude Code](https://claude.ai/)                   |  ⭐⭐  | Anthropic official CLI tool                                                                                           |
 
-### 4. 开始创作
+### 4. Start Creating
 
-在 AI 编辑器中打开聊天面板，直接描述你想创作的内容：
+Open the AI chat panel in your editor and describe what content you want to create:
 
 ```
-用户：我有一份关于 Q3 季度业绩的报告，需要制作成 PPT
+User: I have a Q3 quarterly report that needs to be made into a PPT
 
-AI（Strategist 角色）：好的，在开始之前我需要完成八项确认...
-   1. 画布格式：[建议] PPT 16:9
-   2. 页数范围：[建议] 8-10 页
+AI (Strategist role): Sure, before we begin I need to complete eight confirmations...
+   1. Canvas format: [Recommended] PPT 16:9
+   2. Page count: [Recommended] 8-10 pages
    ...
 ```
 
-> 💡 **模型推荐**：Opus 4.6 效果最佳，Antigravity 目前可免费使用
+> 💡 **Model Recommendation**: Opus 4.6 works best, Antigravity currently offers free access
 
-> 💡 **AI 迷失上下文？** 可提示 AI 参考 `AGENTS.md` 文件，它会自动按照仓库中的角色定义工作
+> 💡 **AI Lost Context?** You can prompt the AI to refer to the `AGENTS.md` file, and it will automatically follow the role definitions in the repository
 
-> 💡 **AI 生成图片建议**：如需 AI 生成配图，建议在 [Gemini](https://gemini.google.com/) 中生成后选择 **Download full size** 下载，分辨率比 Antigravity 直接生成的更高。Gemini 生成的图片右下角会有星星水印，可使用 [gemini-watermark-remover](https://github.com/journey-ad/gemini-watermark-remover) 或本项目的 `skills/ppt_master_workflow/commands/gemini_watermark_remover.py` 去除。
-
----
-
-## 📚 文档导航
-
-| 文档 | 说明 |
-|------|------|
-| 📖 [工作流教程](./skills/ppt_master_workflow/docs/workflow_tutorial.md) | 详细的工作流程和案例演示 |
-| 🎨 [设计指南](./skills/ppt_master_workflow/docs/design_guidelines.md) | 配色、排版、布局规范详解 |
-| 📐 [画布格式](./skills/ppt_master_workflow/docs/canvas_formats.md) | PPT、小红书、朋友圈等 10+ 种格式 |
-| 🖼️ [图片嵌入指南](./skills/ppt_master_workflow/docs/svg_image_embedding.md) | SVG 图片嵌入最佳实践 |
-| 📊 [图表模板库](./skills/ppt_master_workflow/templates/charts/) | 13 种标准化图表模板 · [在线预览](./skills/ppt_master_workflow/templates/charts/preview.html) |
-| ⚡ [快速参考](./skills/ppt_master_workflow/docs/quick_reference.md) | 常用命令和参数速查 |
-| 🔧 [角色定义](./skills/ppt_master_workflow/roles/README.md) | 6 个 AI 角色的完整定义 |
-| 🛠️ [工具集](./skills/ppt_master_workflow/commands/README.md) | 所有工具的使用说明 |
-| 💼 [示例索引](./skills/ppt_master_workflow/examples/README.md) | 15 个项目、229 页 SVG 示例 |
+> 💡 **AI Image Generation Tip**: For AI-generated images, we recommend generating them in [Gemini](https://gemini.google.com/) and selecting **Download full size** for higher resolution than Antigravity's direct generation. Gemini images have a star watermark in the bottom right corner, which can be removed using [gemini-watermark-remover](https://github.com/journey-ad/gemini-watermark-remover) or this project's `skills/ppt_master_workflow/commands/gemini_watermark_remover.py`.
 
 ---
 
-## 🎴 精选示例
+## 📚 Documentation Navigation
 
-> 📁 **示例库**: [`skills/ppt_master_workflow/examples/`](./skills/ppt_master_workflow/examples/) · **15 个项目** · **229 页 SVG**
-
-| 类别            | 项目                                                                           | 页数 | 特色                              |
-| --------------- | ------------------------------------------------------------------------------ | :--: | --------------------------------- |
-| 🏢 **咨询风格** | [心理治疗中的依恋](./skills/ppt_master_workflow/examples/ppt169_顶级咨询风_心理治疗中的依恋/)             |  32  | 顶级咨询风格，最大规模示例        |
-|                 | [构建有效AI代理](./skills/ppt_master_workflow/examples/ppt169_顶级咨询风_构建有效AI代理_Anthropic/)       |  15  | Anthropic 工程博客，AI Agent 架构 |
-|                 | [重庆市区域报告](./skills/ppt_master_workflow/examples/ppt169_顶级咨询风_重庆市区域报告_ppt169_20251213/) |  20  | 区域财政分析，企业预警通数据 🆕   |
-|                 | [甘孜州经济财政分析](./skills/ppt_master_workflow/examples/ppt169_顶级咨询风_甘孜州经济财政分析/)         |  17  | 政务财政分析，藏区文化元素        |
-| 🎨 **通用灵活** | [Debug 六步法](./skills/ppt_master_workflow/examples/ppt169_通用灵活+代码_debug六步法/)                   |  10  | 深色科技风格                      |
-|                 | [重庆大学论文格式](./skills/ppt_master_workflow/examples/ppt169_通用灵活+学术_重庆大学论文格式标准/)      |  11  | 学术规范指南                      |
-| ✨ **创意风格** | [地山谦卦深度研究](./skills/ppt_master_workflow/examples/ppt169_易理风_地山谦卦深度研究/)                 |  20  | 易经本体美学，阴阳爻变设计        |
-|                 | [金刚经第一品研究](./skills/ppt_master_workflow/examples/ppt169_禅意风_金刚经第一品研究/)                 |  15  | 禅意学术，水墨留白                |
-|                 | [Git 入门指南](./skills/ppt_master_workflow/examples/ppt169_像素风_git_introduction/)                     |  10  | 像素复古游戏风                    |
-
-📖 [查看完整示例文档](./skills/ppt_master_workflow/examples/README.md)
+| Document | Description |
+|----------|-------------|
+| 🗂️ [Documentation Index](./skills/ppt_master_workflow/docs/README.md) | Canonical entry, navigation, and maintenance notes |
+| 📖 [Workflow Tutorial](./skills/ppt_master_workflow/docs/workflow_tutorial.md) | Detailed workflow and case demonstrations |
+| 🎨 [Design Guidelines](./skills/ppt_master_workflow/docs/design_guidelines.md) | Colors, typography, layout specifications |
+| 📐 [Canvas Formats](./skills/ppt_master_workflow/docs/canvas_formats.md) | PPT, Xiaohongshu, WeChat Moments, and 10+ formats |
+| 🖼️ [Image Embedding Guide](./skills/ppt_master_workflow/docs/svg_image_embedding.md) | SVG image embedding best practices |
+| 📊 [Chart Template Library](./skills/ppt_master_workflow/templates/charts/) | 33 standardized chart templates · [Online Preview](./skills/ppt_master_workflow/templates/charts/preview.html) |
+| ⚡ [Quick Reference](./skills/ppt_master_workflow/docs/quick_reference.md) | Common commands and parameters cheat sheet |
+| 🔧 [Role Definitions](./skills/ppt_master_workflow/roles/README.md) | Index of 7 AI roles and handoff guidance |
+| 🛠️ [Toolset](./skills/ppt_master_workflow/commands/README.md) | Usage instructions for all tools |
+| 💼 [Examples Index](./skills/ppt_master_workflow/examples/README.md) | 15 projects, 229 SVG pages of examples |
 
 ---
 
-## 🏗️ 系统架构
+## 🎴 Featured Examples
+
+> 📁 **Example Library**: [`skills/ppt_master_workflow/examples/`](./skills/ppt_master_workflow/examples/) · **15 projects** · **229 SVG pages**
+
+| Category                | Project                                                                                              | Pages | Features                                              |
+| ----------------------- | ---------------------------------------------------------------------------------------------------- | :---: | ----------------------------------------------------- |
+| 🏢 **Consulting Style** | [Attachment in Psychotherapy](./skills/ppt_master_workflow/examples/ppt169_顶级咨询风_心理治疗中的依恋/)                        |  32   | Top consulting style, largest scale example           |
+|                         | [Building Effective AI Agents](./skills/ppt_master_workflow/examples/ppt169_顶级咨询风_构建有效AI代理_Anthropic/)               |  15   | Anthropic engineering blog, AI Agent architecture     |
+|                         | [Chongqing Regional Report](./skills/ppt_master_workflow/examples/ppt169_顶级咨询风_重庆市区域报告_ppt169_20251213/)            |  20   | Regional fiscal analysis, Enterprise Alert data 🆕    |
+|                         | [Ganzi Prefecture Economic Analysis](./skills/ppt_master_workflow/examples/ppt169_顶级咨询风_甘孜州经济财政分析/)               |  17   | Government fiscal analysis, Tibetan cultural elements |
+| 🎨 **General Flexible** | [Debug Six-Step Method](./skills/ppt_master_workflow/examples/ppt169_通用灵活+代码_debug六步法/)                                |  10   | Dark tech style                                       |
+|                         | [Chongqing University Thesis Format](./skills/ppt_master_workflow/examples/ppt169_通用灵活+学术_重庆大学论文格式标准/)          |  11   | Academic standards guide                              |
+| ✨ **Creative Style**   | [I Ching Qian Hexagram Study](./skills/ppt_master_workflow/examples/ppt169_易理风_地山谦卦深度研究/)                            |  20   | I Ching aesthetics, Yin-Yang design                   |
+|                         | [Diamond Sutra Chapter 1 Study](./skills/ppt_master_workflow/examples/ppt169_禅意风_金刚经第一品研究/)                          |  15   | Zen academic, ink wash whitespace                     |
+|                         | [Git Introduction Guide](./skills/ppt_master_workflow/examples/ppt169_像素风_git_introduction/)                                 |  10   | Pixel retro game style                                |
+
+📖 [View Complete Examples Documentation](./skills/ppt_master_workflow/examples/README.md)
+
+---
+
+## 🏗️ System Architecture
 
 ```
-用户输入 (PDF/URL/Markdown)
+User Input (PDF/URL/Markdown)
     ↓
-[源内容转换] → pdf_to_md.py / web_to_md.py
+[Source Content Conversion] → pdf_to_md.py / web_to_md.py
     ↓
-[创建项目] → project_manager.py init <项目名> --format <格式>
+[Create Project] → project_manager.py init <project_name> --format <format>
     ↓
-[模板选项] A) 使用已有模板 B) 不使用模板
+[Template Option] A) Use existing template B) No template
     ↓
-[需要新模板？] → 使用 /create-template 工作流单独创建
+[Need New Template?] → Use /create-template workflow separately
     ↓
-[Strategist] 策略师 - 八项确认与设计规范
+[Strategist] - Eight Confirmations & Design Specifications
     ↓
-[Image_Generator] 图片生成师（当选择 AI 生成时）
+[Image_Generator] (When AI generation is selected)
     ↓
-[Executor] 执行师 - 分阶段生成
-    ├── 视觉构建阶段：连续生成所有 SVG 页面 → svg_output/
-    └── 逻辑构建阶段：生成完整讲稿 → notes/total.md
+[Executor] - Two-Phase Generation
+    ├── Visual Construction Phase: Generate all SVG pages → svg_output/
+    └── Logic Construction Phase: Generate complete script → notes/total.md
     ↓
-[后处理] → total_md_split.py（拆分讲稿）→ finalize_svg.py → svg_to_pptx.py
+[Post-processing] → total_md_split.py (split notes) → finalize_svg.py → svg_to_pptx.py
     ↓
-输出: SVG + PPTX（自动嵌入讲稿）
+Output: SVG + PPTX (auto-embeds notes)
     ↓
-[Optimizer_CRAP] 优化师（可选，初版后不满意再用）
+[Optimizer_CRAP] (Optional, only if the first full draft is unsatisfactory)
     ↓
-如有优化：重新运行后处理与导出
+If optimized: re-run post-processing and export
 ```
 
-> 📖 详细工作流程请参阅 [工作流教程](./skills/ppt_master_workflow/docs/workflow_tutorial.md) 和 [角色定义](./skills/ppt_master_workflow/roles/README.md)
+> 📖 For detailed workflow, see [Workflow Tutorial](./skills/ppt_master_workflow/docs/workflow_tutorial.md) and [Role Definitions](./skills/ppt_master_workflow/roles/README.md)
 
-> 💡 **PPT 编辑提示**：导出的 PPTX 页面为 SVG 格式。若需编辑内容，请在 PowerPoint 中选中页面，右键选择 **"转换为形状"** (Convert to Shape)。此功能需要 **Office 2016** 或更高版本。
+> 💡 **PPT Editing Tip**: The exported PPTX pages are in SVG format. To edit the content, select the page content in PowerPoint, right-click and choose **"Group" -> "Ungroup"** (or **"Convert to Shape"**). This feature requires **Office 2016** or later.
 
 ---
 
-## 🛠️ 常用命令
+## 🛠️ Common Commands
 
 ```bash
-# 初始化项目
-python3 skills/ppt_master_workflow/commands/project_manager.py init <项目名> --format ppt169
+# Initialize project
+python3 skills/ppt_master_workflow/commands/project_manager.py init <project_name> --format ppt169
 
-# PDF 转 Markdown
-python3 skills/ppt_master_workflow/commands/pdf_to_md.py <PDF文件>
+# PDF to Markdown
+python3 skills/ppt_master_workflow/commands/pdf_to_md.py <PDF_file>
 
-# 后处理 SVG
-python3 skills/ppt_master_workflow/commands/finalize_svg.py <项目路径>
+# Post-process SVG
+python3 skills/ppt_master_workflow/commands/finalize_svg.py <project_path>
 
-# 导出 PPTX
-python3 skills/ppt_master_workflow/commands/svg_to_pptx.py <项目路径> -s final
+# Export PPTX
+python3 skills/ppt_master_workflow/commands/svg_to_pptx.py <project_path> -s final
 ```
 
-> 📖 完整工具说明请参阅 [工具使用指南](./skills/ppt_master_workflow/commands/README.md)
+> 📖 For complete tool documentation, see [Tools Usage Guide](./skills/ppt_master_workflow/commands/README.md)
 
 ---
 
-## 📁 项目结构
+## 📁 Project Structure
 
 ```
 ppt-master/
@@ -195,87 +203,90 @@ ppt-master/
 │       └── workflows/   # Workflow entry documents
 ├── workspace/          # User project workspace
 ├── AGENTS.md           # Minimal bootstrap entry for AI agents
-├── README.md           # Repository landing page
-└── README_EN.md        # English landing page
+├── README.md           # Repository landing page (English default)
+├── README_CN.md        # Chinese landing page
+└── README_EN.md        # English compatibility alias
 ```
 
-- 根目录保持最小化，只保留仓库入口文件与 `workspace/`。
-- 所有真实实现、命令、文档、模板、示例都以 `skills/ppt_master_workflow/` 为唯一 source of truth。
-- 日常使用时请直接调用 `skills/ppt_master_workflow/commands/` 下的命令。
+- The repository root stays minimal and keeps only entry files plus `workspace/`.
+- All implementation, commands, docs, templates, and examples live under `skills/ppt_master_workflow/` as the single source of truth.
+- In day-to-day usage, call commands directly from `skills/ppt_master_workflow/commands/`.
 
 ---
 
-## ❓ 常见问题
+## ❓ FAQ
 
 <details>
-<summary><b>Q: 生成的 SVG 文件如何使用？</b></summary>
+<summary><b>Q: How to use generated SVG files?</b></summary>
 
-- 直接在浏览器中打开查看
-- 使用 `svg_to_pptx.py` 导出为 PowerPoint（需在 PPT 中"转换为形状"以编辑，要求 Office 2016+）
-- 嵌入到 HTML 页面或使用设计工具编辑
+- Open directly in browser to view
+- Export to PowerPoint using `svg_to_pptx.py` (Note: Requires "Convert to Shape" in PPT for editing, Office 2016+ required)
+- Embed in HTML pages or edit with design tools
 
 </details>
 
 <details>
-<summary><b>Q: 三种执行师有什么区别？</b></summary>
+<summary><b>Q: What's the difference between the three Executors?</b></summary>
 
-- **Executor_General**: 通用场景，灵活布局
-- **Executor_Consultant**: 一般咨询，数据可视化
-- **Executor_Consultant_Top**: 顶级咨询（MBB 级），5 大核心技巧
+- **Executor_General**: General scenarios, flexible layout
+- **Executor_Consultant**: General consulting, data visualization
+- **Executor_Consultant_Top**: Top consulting (MBB level), 5 core techniques
 
 </details>
 
 <details>
-<summary><b>Q: 必须使用 Optimizer_CRAP 吗？</b></summary>
+<summary><b>Q: Is Optimizer_CRAP required?</b></summary>
 
-不是必须的。仅在需要优化关键页面视觉效果时使用。
+No. Only use it when you need to optimize the visual effects of key pages.
 
 </details>
 
-> 📖 更多问题请查看 [工作流教程](./skills/ppt_master_workflow/docs/workflow_tutorial.md#常见问题)
+> 📖 For more questions, see [Workflow Tutorial](./skills/ppt_master_workflow/docs/workflow_tutorial.md#faq)
 
 ---
 
-## 🤝 贡献指南
+## 🤝 Contributing
 
-欢迎贡献！
+Contributions are welcome!
 
-1. Fork 本仓库
-2. 创建分支 (`git checkout -b feature/AmazingFeature`)
-3. 提交更改 (`git commit -m 'Add AmazingFeature'`)
-4. 推送分支 (`git push origin feature/AmazingFeature`)
-5. 开启 Pull Request
+1. Fork this repository
+2. Create your branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
-**贡献方向**：🎨 设计模板 · 📊 图表组件 · 📝 文档完善 · 🐛 Bug 报告 · 💡 功能建议
+**Contribution Areas**: 🎨 Design templates · 📊 Chart components · 📝 Documentation · 🐛 Bug reports · 💡 Feature suggestions
 
 ---
 
-## 📄 开源协议
+## 📄 License
 
-本项目采用 [MIT License](LICENSE) 开源协议。
+This project is licensed under the [MIT License](LICENSE).
 
-## 🙏 致谢
+## 🙏 Acknowledgments
 
-- [SVG Repo](https://www.svgrepo.com/) - 开源图标库
-- [Robin Williams](https://en.wikipedia.org/wiki/Robin_Williams_(author)) - CRAP 设计原则
-- 麦肯锡、波士顿咨询、贝恩 - 设计灵感来源
+- [SVG Repo](https://www.svgrepo.com/) - Open source icon library
+- [Robin Williams](https://en.wikipedia.org/wiki/Robin_Williams_(author)) - CRAP design principles
+- McKinsey, Boston Consulting, Bain - Design inspiration
 
-## 📮 联系方式
+## 📮 Contact
 
-- **Issue**: [GitHub Issues](https://github.com/hugohe3/ppt-master/issues)
-- **GitHub**: [@hugohe3](https://github.com/hugohe3)
+- **Current Repository**: [funenc-lab/ppt-master](https://github.com/funenc-lab/ppt-master)
+- **Issue**: [GitHub Issues](https://github.com/funenc-lab/ppt-master/issues)
+- **Fork Source**: [hugohe3/ppt-master](https://github.com/hugohe3/ppt-master)
+- **Upstream Author**: [@hugohe3](https://github.com/hugohe3)
 
 ---
 
 ## 🌟 Star History
 
-如果这个项目对你有帮助，请给一个 ⭐ Star 支持一下！
+If this project helps you, please give it a ⭐ Star!
 
-<a href="https://star-history.com/#hugohe3/ppt-master&Date">
+<a href="https://star-history.com/#funenc-lab/ppt-master&Date">
  <picture>
-   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=hugohe3/ppt-master&type=Date&theme=dark" />
-   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=hugohe3/ppt-master&type=Date" />
-   <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=hugohe3/ppt-master&type=Date" />
+   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=funenc-lab/ppt-master&type=Date&theme=dark" />
+   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=funenc-lab/ppt-master&type=Date" />
+   <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=funenc-lab/ppt-master&type=Date" />
  </picture>
 </a>
 
@@ -283,4 +294,4 @@ ppt-master/
 
 Made with ❤️ by Hugo He
 
-[⬆ 回到顶部](#ppt-master---ai-驱动的多格式-svg-内容生成系统)
+[⬆ Back to Top](#ppt-master---ai-powered-multi-format-svg-content-generation-system)

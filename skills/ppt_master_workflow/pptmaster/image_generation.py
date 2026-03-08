@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import argparse
 import base64
+import importlib.util
 import os
 import time
 from dataclasses import dataclass
@@ -40,6 +41,35 @@ VALID_IMAGE_SIZES = ["512px", "1K", "2K", "4K"]
 DEFAULT_PROVIDER = "gemini"
 DEFAULT_TIMEOUT_SECONDS = 180
 
+IMAGE_REQUIREMENTS_PATH = "requirements.txt"
+IMAGE_SETUP_DOC_PATH = "skills/ppt_master_workflow/docs/image_generation_setup.md"
+IMAGE_PROVIDER_DOC_PATH = "skills/ppt_master_workflow/docs/image_generation_providers.md"
+IMAGE_ENV_TEMPLATE_PATH = "skills/ppt_master_workflow/examples/config/pptmaster_image.env.example"
+
+PROVIDER_RUNTIME_METADATA = {
+    "gemini": {
+        "sdk_module": "google.genai",
+        "install_command": "pip install google-genai",
+        "api_key_envs": ("GEMINI_API_KEY", "PPTMASTER_IMAGE_API_KEY"),
+        "base_url_envs": ("GEMINI_BASE_URL", "PPTMASTER_IMAGE_BASE_URL"),
+        "model_envs": ("GEMINI_IMAGE_MODEL", "PPTMASTER_IMAGE_MODEL"),
+    },
+    "openai-compatible": {
+        "sdk_module": "openai",
+        "install_command": "pip install openai",
+        "api_key_envs": ("OPENAI_IMAGE_API_KEY", "OPENAI_API_KEY", "PPTMASTER_IMAGE_API_KEY"),
+        "base_url_envs": ("OPENAI_IMAGE_BASE_URL", "OPENAI_BASE_URL", "PPTMASTER_IMAGE_BASE_URL"),
+        "model_envs": ("OPENAI_IMAGE_MODEL", "OPENAI_MODEL", "PPTMASTER_IMAGE_MODEL"),
+    },
+    "doubao": {
+        "sdk_module": "volcenginesdkarkruntime",
+        "install_command": "pip install \"volcengine-python-sdk[ark]\"",
+        "api_key_envs": ("ARK_API_KEY", "DOUBAO_API_KEY", "PPTMASTER_IMAGE_API_KEY"),
+        "base_url_envs": ("ARK_BASE_URL", "DOUBAO_BASE_URL", "PPTMASTER_IMAGE_BASE_URL"),
+        "model_envs": ("DOUBAO_IMAGE_MODEL", "PPTMASTER_IMAGE_MODEL"),
+    },
+}
+
 PROVIDER_ALIASES = {
     "gemini": "gemini",
     "google": "gemini",
@@ -54,6 +84,12 @@ DEFAULT_MODELS = {
     "gemini": "gemini-3.1-flash-image-preview",
     "openai-compatible": "gpt-image-1",
     "doubao": "doubao-seedream-4.5",
+}
+
+MODEL_ALIASES = {
+    "doubao": {
+        "doubao-seedream-5": "doubao-seedream-5-0-260128",
+    },
 }
 
 SIZE_TO_LONG_EDGE = {
@@ -108,6 +144,77 @@ class ImageGenerationResult:
     model: str
 
 
+def _join_names(names: tuple[str, ...]) -> str:
+    return ", ".join(names)
+
+
+def _provider_runtime_metadata(provider: str) -> dict[str, Any]:
+    return PROVIDER_RUNTIME_METADATA[provider]
+
+
+def provider_sdk_install_command(provider: str) -> str:
+    metadata = _provider_runtime_metadata(normalize_provider(provider))
+    return str(metadata["install_command"])
+
+
+def provider_sdk_module(provider: str) -> str:
+    metadata = _provider_runtime_metadata(normalize_provider(provider))
+    return str(metadata["sdk_module"])
+
+
+def provider_sdk_dependency_status(provider: str) -> tuple[bool, str]:
+    normalized_provider = normalize_provider(provider)
+    module_name = provider_sdk_module(normalized_provider)
+    install_command = provider_sdk_install_command(normalized_provider)
+    if importlib.util.find_spec(module_name) is not None:
+        return True, f"Provider SDK is available for {normalized_provider}: {module_name}"
+    return False, (
+        f"Provider SDK is missing for {normalized_provider}: {module_name}. "
+        f"Install it with: {install_command}. See {IMAGE_SETUP_DOC_PATH}"
+    )
+
+
+def _provider_setup_hint(provider: str, *, include_sdk_install: bool = False) -> str:
+    normalized_provider = normalize_provider(provider)
+    metadata = _provider_runtime_metadata(normalized_provider)
+    lines = ["Suggested next steps:"]
+    if include_sdk_install:
+        lines.append(f"- Install provider SDK: {metadata['install_command']}")
+        lines.append(f"- Or install the shared dependency bundle: pip install -r {IMAGE_REQUIREMENTS_PATH}")
+    lines.append(f"- Copy the env template: cp {IMAGE_ENV_TEMPLATE_PATH} .env.pptmaster-image")
+    lines.append("- Load it in the current shell: source .env.pptmaster-image")
+    lines.append(f"- Review setup details: {IMAGE_SETUP_DOC_PATH}")
+    lines.append(f"- Review provider details: {IMAGE_PROVIDER_DOC_PATH}")
+    return "\n".join(lines)
+
+
+def _missing_config_message(provider: str, *, field_name: str, env_names: tuple[str, ...]) -> str:
+    normalized_provider = normalize_provider(provider)
+    return (
+        f"Missing {field_name} for provider '{normalized_provider}'. "
+        f"Set one of: {_join_names(env_names)}.\n"
+        f"{_provider_setup_hint(normalized_provider, include_sdk_install=True)}"
+    )
+
+
+def _missing_sdk_message(provider: str) -> str:
+    normalized_provider = normalize_provider(provider)
+    module_name = provider_sdk_module(normalized_provider)
+    install_command = provider_sdk_install_command(normalized_provider)
+    return (
+        f"{normalized_provider} image generation requires the official SDK module '{module_name}'. "
+        f"Install it with: {install_command}. Optional: pip install Pillow for local resolution inspection.\n"
+        f"{_provider_setup_hint(normalized_provider)}"
+    )
+
+
+def _missing_shared_dependency_message(package_name: str, *, install_command: str) -> str:
+    return (
+        f"Missing shared Python dependency '{package_name}'. Install it with: {install_command}. "
+        f"Or install the shared bundle with: pip install -r {IMAGE_REQUIREMENTS_PATH}."
+    )
+
+
 def _first_env(*names: str) -> Optional[str]:
     for name in names:
         value = os.environ.get(name)
@@ -123,6 +230,20 @@ def normalize_provider(provider: Optional[str]) -> str:
         supported = ", ".join(sorted(set(PROVIDER_ALIASES.values())))
         raise ValueError(f"Unsupported provider '{provider}'. Supported: {supported}")
     return normalized
+
+
+def normalize_model(provider: str, model: Optional[str]) -> Optional[str]:
+    """Normalize provider-specific model aliases to concrete model identifiers."""
+
+    if model is None:
+        return None
+
+    normalized_model = model.strip()
+    if not normalized_model:
+        return None
+
+    provider_aliases = MODEL_ALIASES.get(provider, {})
+    return provider_aliases.get(normalized_model.lower(), normalized_model)
 
 
 def normalize_image_size(image_size: str) -> str:
@@ -245,7 +366,7 @@ def resolve_provider_config(
         provider_base_url = base_url or _first_env("PPTMASTER_IMAGE_BASE_URL", "GEMINI_BASE_URL")
         provider_endpoint = endpoint or _first_env("PPTMASTER_IMAGE_ENDPOINT")
         if not provider_api_key:
-            raise ValueError("Missing API key. Set GEMINI_API_KEY or PPTMASTER_IMAGE_API_KEY.")
+            raise ValueError(_missing_config_message(normalized_provider, field_name="API key", env_names=("GEMINI_API_KEY", "PPTMASTER_IMAGE_API_KEY")))
     elif normalized_provider == "openai-compatible":
         provider_model = model or _first_env(
             "PPTMASTER_IMAGE_MODEL",
@@ -267,18 +388,20 @@ def resolve_provider_config(
             "OPENAI_IMAGE_ENDPOINT",
         )
         if not provider_api_key:
-            raise ValueError("Missing API key. Set OPENAI_IMAGE_API_KEY, OPENAI_API_KEY, or PPTMASTER_IMAGE_API_KEY.")
+            raise ValueError(_missing_config_message(normalized_provider, field_name="API key", env_names=("OPENAI_IMAGE_API_KEY", "OPENAI_API_KEY", "PPTMASTER_IMAGE_API_KEY")))
         if not provider_endpoint and not provider_base_url:
-            raise ValueError("Missing base URL. Set OPENAI_IMAGE_BASE_URL, OPENAI_BASE_URL, or PPTMASTER_IMAGE_BASE_URL.")
+            raise ValueError(_missing_config_message(normalized_provider, field_name="base URL", env_names=("OPENAI_IMAGE_BASE_URL", "OPENAI_BASE_URL", "PPTMASTER_IMAGE_BASE_URL")))
     else:
         provider_model = model or _first_env("PPTMASTER_IMAGE_MODEL", "DOUBAO_IMAGE_MODEL") or DEFAULT_MODELS[normalized_provider]
         provider_api_key = api_key or _first_env("PPTMASTER_IMAGE_API_KEY", "DOUBAO_API_KEY", "ARK_API_KEY")
         provider_base_url = base_url or _first_env("PPTMASTER_IMAGE_BASE_URL", "DOUBAO_BASE_URL", "ARK_BASE_URL")
         provider_endpoint = endpoint or _first_env("PPTMASTER_IMAGE_ENDPOINT", "DOUBAO_IMAGE_ENDPOINT")
         if not provider_api_key:
-            raise ValueError("Missing API key. Set DOUBAO_API_KEY, ARK_API_KEY, or PPTMASTER_IMAGE_API_KEY.")
+            raise ValueError(_missing_config_message(normalized_provider, field_name="API key", env_names=("ARK_API_KEY", "DOUBAO_API_KEY", "PPTMASTER_IMAGE_API_KEY")))
         if not provider_endpoint and not provider_base_url:
-            raise ValueError("Missing base URL. Set DOUBAO_BASE_URL, ARK_BASE_URL, or PPTMASTER_IMAGE_BASE_URL.")
+            raise ValueError(_missing_config_message(normalized_provider, field_name="base URL", env_names=("ARK_BASE_URL", "DOUBAO_BASE_URL", "PPTMASTER_IMAGE_BASE_URL")))
+
+    provider_model = normalize_model(normalized_provider, provider_model) or DEFAULT_MODELS[normalized_provider]
 
     return ImageProviderConfig(
         provider=normalized_provider,
@@ -373,7 +496,12 @@ def _extract_item_value(item: Any, key: str) -> Any:
 
 
 def _download_image_from_url(url: str, timeout_seconds: int) -> tuple[bytes, str]:
-    import requests
+    try:
+        import requests
+    except ImportError as error:
+        raise ImageGenerationError(
+            _missing_shared_dependency_message("requests", install_command="pip install requests")
+        ) from error
 
     response = requests.get(url, timeout=timeout_seconds)
     response.raise_for_status()
@@ -428,7 +556,7 @@ def _generate_with_gemini(config: ImageProviderConfig, request: ImageGenerationR
         from google.genai import types
     except ImportError as error:
         raise ImageGenerationError(
-            "Gemini generation requires google-genai. Run: pip install google-genai Pillow"
+            _missing_sdk_message(config.provider)
         ) from error
 
     client_kwargs = {"api_key": config.api_key}
@@ -511,7 +639,7 @@ def _generate_with_openai_sdk(config: ImageProviderConfig, request: ImageGenerat
         from openai import OpenAI
     except ImportError as error:
         raise ImageGenerationError(
-            "OpenAI-compatible SDK generation requires openai. Run: pip install openai Pillow"
+            _missing_sdk_message(config.provider)
         ) from error
 
     base_url = _build_sdk_base_url(config)
@@ -540,7 +668,7 @@ def _generate_with_doubao_sdk(config: ImageProviderConfig, request: ImageGenerat
         from volcenginesdkarkruntime import Ark
     except ImportError as error:
         raise ImageGenerationError(
-            "Doubao SDK generation requires volcengine-python-sdk[ark]. Run: pip install 'volcengine-python-sdk[ark]' Pillow"
+            _missing_sdk_message(config.provider)
         ) from error
 
     base_url = _build_sdk_base_url(config)
@@ -792,6 +920,7 @@ def run_smoke_test_cli(args: argparse.Namespace) -> int:
 
 
 __all__ = [
+    "MODEL_ALIASES",
     "DEFAULT_MODELS",
     "DEFAULT_PROVIDER",
     "ImageGenerationError",
@@ -806,8 +935,12 @@ __all__ = [
     "calculate_dimensions",
     "generate_image",
     "generate_legacy_gemini",
+    "normalize_model",
     "normalize_provider",
     "resolve_provider_config",
     "run_cli",
     "run_smoke_test_cli",
+    "provider_sdk_dependency_status",
+    "provider_sdk_install_command",
+    "provider_sdk_module",
 ]

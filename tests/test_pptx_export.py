@@ -1,4 +1,5 @@
 import sys
+import tempfile
 import unittest
 from pathlib import Path
 
@@ -13,6 +14,7 @@ from pptmaster.pptx_export import (
     DEFAULT_TRANSITION_CHOICES,
     build_cli_parser,
     build_native_svg_dependencies,
+    resolve_context,
 )
 
 
@@ -38,6 +40,46 @@ class PptxExportTestCase(unittest.TestCase):
         self.assertIn("fade", DEFAULT_TRANSITION_CHOICES)
         self.assertTrue(callable(dependencies.detect_format_from_svg))
         self.assertTrue(callable(dependencies.markdown_to_plain_text))
+
+    def test_resolve_context_auto_splits_total_notes_before_export(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            project = Path(tmp) / "demo_ppt169_20260308"
+            (project / "svg_output").mkdir(parents=True)
+            (project / "notes").mkdir()
+            (project / "svg_output" / "01_封面.svg").write_text(
+                '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720"></svg>',
+                encoding="utf-8",
+            )
+            (project / "notes" / "total.md").write_text(
+                '## 01 封面\nhello export notes\n',
+                encoding="utf-8",
+            )
+
+            request = type(
+                "Request",
+                (),
+                {
+                    "project_path": project,
+                    "output": None,
+                    "source": "output",
+                    "canvas_format": None,
+                    "quiet": True,
+                    "use_compat_mode": True,
+                    "transition": None,
+                    "transition_duration": 0.5,
+                    "auto_advance": None,
+                    "enable_notes": True,
+                },
+            )()
+
+            context = resolve_context(
+                request,
+                get_project_info_func=lambda _path: {"name": "demo", "format": "ppt169"},
+            )
+
+            self.assertIn("01_封面", context.notes)
+            self.assertEqual(context.notes["01_封面"], "hello export notes")
+            self.assertTrue((project / "notes" / "01_封面.md").exists())
 
 
 if __name__ == "__main__":

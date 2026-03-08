@@ -12,6 +12,7 @@ if str(SKILL_ROOT) not in sys.path:
 
 from pptmaster.svg_asset_cli import build_embed_images_parser, embed_images_main, run_embed_images_cli  # noqa: E402,F401
 
+from pptmaster.command_bridge import run_entrypoint  # noqa: E402
 __all__ = [
     'build_embed_images_parser',
     'embed_images_main',
@@ -20,4 +21,4 @@ __all__ = [
 
 
 if __name__ == '__main__':
-    embed_images_main()
+    run_entrypoint(embed_images_main)

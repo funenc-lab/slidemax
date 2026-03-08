@@ -606,34 +606,60 @@ def download_and_register_stock_image(request: DownloadStockRequest) -> Tuple[Pa
     return downloaded_file, record, manifest
 
 
-def run_register_cli(argv: Optional[Sequence[str]] = None) -> int:
+def execute_register_command(
+    args: argparse.Namespace,
+    *,
+    output_fn=print,
+    provider_printer=print_supported_providers,
+    request_builder=register_request_from_args,
+    register_handler=register_stock_image,
+) -> int:
+    """Execute parsed stock registration arguments with injectable handlers."""
+
+    if args.list_providers:
+        provider_printer()
+        return 0
+
+    record, manifest = register_handler(request_builder(args))
+    output_fn(f"Registered stock image: {record.local_path}")
+    output_fn(f"Manifest updated: {manifest}")
+    return 0
+
+
+def execute_download_command(
+    args: argparse.Namespace,
+    *,
+    output_fn=print,
+    provider_printer=print_supported_providers,
+    request_builder=download_request_from_args,
+    download_handler=download_and_register_stock_image,
+) -> int:
+    """Execute parsed stock download arguments with injectable handlers."""
+
+    if args.list_providers:
+        provider_printer()
+        return 0
+
+    downloaded_file, _record, manifest = download_handler(request_builder(args))
+    output_fn(f"Downloaded stock image: {downloaded_file}")
+    output_fn(f"Manifest updated: {manifest}")
+    return 0
+
+
+def run_register_cli(argv: Optional[Sequence[str]] = None, *, executor=execute_register_command) -> int:
     """CLI entrypoint for stock image registration."""
 
     parser = build_register_parser()
     args = parser.parse_args(list(argv) if argv is not None else None)
-    if args.list_providers:
-        print_supported_providers()
-        return 0
-
-    record, manifest = register_stock_image(register_request_from_args(args))
-    print(f"Registered stock image: {record.local_path}")
-    print(f"Manifest updated: {manifest}")
-    return 0
+    return executor(args)
 
 
-def run_download_cli(argv: Optional[Sequence[str]] = None) -> int:
+def run_download_cli(argv: Optional[Sequence[str]] = None, *, executor=execute_download_command) -> int:
     """CLI entrypoint for stock image download and registration."""
 
     parser = build_download_parser()
     args = parser.parse_args(list(argv) if argv is not None else None)
-    if args.list_providers:
-        print_supported_providers()
-        return 0
-
-    downloaded_file, _record, manifest = download_and_register_stock_image(download_request_from_args(args))
-    print(f"Downloaded stock image: {downloaded_file}")
-    print(f"Manifest updated: {manifest}")
-    return 0
+    return executor(args)
 
 
 def register_main() -> int:
@@ -662,6 +688,8 @@ __all__ = [
     "download_and_register_stock_image",
     "download_main",
     "download_request_from_args",
+    "execute_download_command",
+    "execute_register_command",
     "download_to_stock",
     "ensure_stock_dir",
     "get_provider",

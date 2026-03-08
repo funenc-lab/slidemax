@@ -1,12 +1,14 @@
-# AI 角色定义
+# AI Role Definitions
 
-本文件夹包含 PPT Master 系统的核心 AI 角色定义文档。
+[中文](./README_CN.md) | English
 
-> 📖 **完整工作流程和使用指南**：请参阅 [AGENTS.md](../AGENTS.md)
+This directory contains the core AI role definition documents used by PPT Master.
+
+> 📖 **Full workflow and usage handbook**: see [AGENTS.md](../AGENTS.md)
 
 ## Operational Role Quickstart
 
-Use this section to decide which role to read next before entering the detailed role descriptions below.
+Use this page to decide which role document to read next before entering the detailed role instructions.
 
 ### Role Decision Flow
 
@@ -41,47 +43,47 @@ Need to continue a PPT workflow task?
 
 ### Reliable Role Routing Rules
 
-- Start with `Strategist.md` unless the task is strictly a template-only or maintenance-only activity.
+- Start with `Strategist.md` unless the task is strictly template-only or maintenance-only.
 - Do not enter any Executor before strategy output exists.
 - Do not let Executor guess missing images; route through `Image_Generator.md` when image acquisition is still open.
 - Use `Template_Designer.md` only for template-building work, not normal slide production.
 - Use `Optimizer_CRAP.md` after a first complete draft, not before.
 
-## 角色速查表
+## Role Index
 
-| 角色 | 文件 | 职责 | 触发条件 |
-|------|------|------|----------|
-| **策略师** | [Strategist.md](./Strategist.md) | 八项确认 + 设计规范 | 项目启动时（必须） |
-| **模板设计师** | [Template_Designer.md](./Template_Designer.md) | 生成页面模板 | 使用 `/create-template` 工作流 |
-| **图片生成师** | [Image_Generator.md](./Image_Generator.md) | AI 图片生成 | 图片方式含「C) AI 生成」 |
-| **通用执行师** | [Executor_General.md](./Executor_General.md) | 通用灵活风格 SVG | 选择「A) 通用灵活」 |
-| **咨询执行师** | [Executor_Consultant.md](./Executor_Consultant.md) | 一般咨询风格 SVG | 选择「B) 一般咨询」 |
-| **顶级咨询执行师** | [Executor_Consultant_Top.md](./Executor_Consultant_Top.md) | MBB 级咨询风格 SVG | 选择「C) 顶级咨询」 |
-| **CRAP 优化师** | [Optimizer_CRAP.md](./Optimizer_CRAP.md) | 视觉质量优化 | 用户要求优化（可选） |
+| Role | File | Responsibility | Trigger |
+|------|------|----------------|---------|
+| **Strategist** | [Strategist.md](./Strategist.md) | Eight confirmations and design brief | Required at project start |
+| **Template Designer** | [Template_Designer.md](./Template_Designer.md) | Reusable page template creation | Use the `/create-template` workflow |
+| **Image Generator** | [Image_Generator.md](./Image_Generator.md) | AI image generation and stock image planning | When image acquisition includes AI or stock assets |
+| **Executor - General** | [Executor_General.md](./Executor_General.md) | Flexible general-style SVG slides | Choose the general visual route |
+| **Executor - Consultant** | [Executor_Consultant.md](./Executor_Consultant.md) | Standard consulting-style SVG slides | Choose the consultant route |
+| **Executor - Consultant Top** | [Executor_Consultant_Top.md](./Executor_Consultant_Top.md) | MBB-grade consulting SVG slides | Choose the top consulting route |
+| **Optimizer - CRAP** | [Optimizer_CRAP.md](./Optimizer_CRAP.md) | Visual quality optimization and polish | Optional optimization stage |
 
-## 支持的画布格式
+## Supported Canvas Formats
 
-- **演示文稿**: PPT 16:9 (1280×720)、PPT 4:3 (1024×768)
-- **社交媒体**: 小红书 (1242×1660)、朋友圈 (1080×1080)、Story (1080×1920)
-- **营销物料**: 公众号头图 (900×383)、横版/竖版海报
+- **Presentation**: PPT 16:9 (`1280×720`), PPT 4:3 (`1024×768`)
+- **Social media**: Xiaohongshu (`1242×1660`), WeChat Moments (`1080×1080`), Story (`1080×1920`)
+- **Marketing assets**: WeChat header (`900×383`), landscape and portrait posters
 
-详见 [画布格式规范](../docs/canvas_formats.md)
+See [Canvas Formats](../docs/canvas_formats.md) for the full matrix.
 
-## 执行师选择速查
+## Executor Selection Guide
 
-| PPT 类型 | 推荐角色 |
-|----------|----------|
-| 商业咨询/财务分析 | Executor_Consultant_Top |
-| 工作汇报/政府报告 | Executor_Consultant |
-| 招商推介/品牌宣传 | Executor_General（图文风格） |
-| 培训课件/团队分享 | Executor_General |
+| PPT Type | Recommended Role |
+|----------|------------------|
+| Business consulting / financial analysis | `Executor_Consultant_Top` |
+| Work report / government report | `Executor_Consultant` |
+| Promotion / branding / mixed visual storytelling | `Executor_General` |
+| Training deck / team sharing | `Executor_General` |
 
-## 相关文档
+## Related Documents
 
-| 文档 | 说明 |
-|------|------|
-| [AGENTS.md](../AGENTS.md) | 完整工作流程、角色切换协议、技术约束 |
-| [设计指南](../docs/design_guidelines.md) | 配色、字体、布局详细规范 |
-| [工作流教程](../docs/workflow_tutorial.md) | 实战案例 |
-| [操作手册](../docs/ppt_workflow_operator_manual.md) | 面向执行者的流程操作手册 |
-| [快速参考](../docs/quick_reference.md) | 速查手册 |
+| Document | Description |
+|----------|-------------|
+| [AGENTS.md](../AGENTS.md) | Full workflow, role switching protocol, and technical constraints |
+| [Design Guidelines](../docs/design_guidelines.md) | Detailed color, typography, and layout rules |
+| [Workflow Tutorial](../docs/workflow_tutorial.md) | End-to-end examples |
+| [Operator Manual](../docs/ppt_workflow_operator_manual.md) | Execution-oriented operating manual |
+| [Quick Reference](../docs/quick_reference.md) | Fast lookup for commands and parameters |

@@ -15,6 +15,7 @@ from pptmaster.image_generation import (  # noqa: E402,F401
     run_smoke_test_cli,
 )
 
+from pptmaster.command_bridge import run_entrypoint  # noqa: E402
 
 def main() -> int:
     parser = build_smoke_test_parser()
@@ -30,8 +31,4 @@ __all__ = [
 
 
 if __name__ == '__main__':
-    try:
-        sys.exit(main())
-    except Exception as error:
-        print(f'Error: {error}')
-        sys.exit(1)
+    run_entrypoint(main, catch_exceptions=True)

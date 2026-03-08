@@ -1,21 +1,56 @@
-# 文档中心
+# Documentation Index
 
-## 📖 文档列表
+[中文](./README_CN.md) | English
 
-- [canvas_formats.md](./canvas_formats.md) - 画布格式规范
-- [design_guidelines.md](./design_guidelines.md) - 设计规范详解
-- [workflow_tutorial.md](./workflow_tutorial.md) - 工作流教程
-- [ppt_workflow_operator_manual.md](./ppt_workflow_operator_manual.md) - PPT 工作流操作手册
-- [quick_reference.md](./quick_reference.md) - 快速参考指南
-- [svg_image_embedding.md](./svg_image_embedding.md) - SVG 图片嵌入指南
-- [image_stock_sources.md](./image_stock_sources.md) - 商用图库来源与 manifest 规范
-- [image_generation_providers.md](./image_generation_providers.md) - Image provider registry and env variables
-- [image_generation_setup.md](./image_generation_setup.md) - Credential setup and command examples
-- [ark_video_generation.md](./ark_video_generation.md) - ARK image-to-video task setup and examples
+This directory stores supporting documentation for `skills/ppt_master_workflow/`, including workflow guidance, design rules, image handling rules, export behavior, and operator manuals.
 
-## 🔗 其他资源
+## Current Rules
 
-- [角色定义](../roles/README.md)
-- [图表模板](../templates/charts/README.md)
-- [图标库](../templates/icons/README.md)
-- [工具说明](../commands/README.md)
+- **Only workflow source of truth**: `skills/ppt_master_workflow/`
+- **Full rules handbook**: [`../AGENTS.md`](../AGENTS.md)
+- **Workflow entry document**: [`../workflows/generate-ppt.md`](../workflows/generate-ppt.md)
+- **Command entry directory**: [`../commands/`](../commands/)
+- **Shared Python core**: [`../pptmaster/`](../pptmaster/)
+
+## 📖 Document List
+
+### Workflow and Operations
+
+- [workflow_tutorial.md](./workflow_tutorial.md) - Workflow tutorial and walkthroughs
+- [ppt_workflow_operator_manual.md](./ppt_workflow_operator_manual.md) - Operator manual and execution checklists
+- [quick_reference.md](./quick_reference.md) - Common commands and parameter cheat sheet
+
+### Design and Canvas
+
+- [canvas_formats.md](./canvas_formats.md) - Canvas format specifications
+- [design_guidelines.md](./design_guidelines.md) - Design rules and visual guidance
+- [image_layout_spec.md](./image_layout_spec.md) - Image layout strategy and page-level image usage rules
+- [svg_image_embedding.md](./svg_image_embedding.md) - SVG image embedding guide
+
+### Images and Media Capabilities
+
+- [image_stock_sources.md](./image_stock_sources.md) - Commercial stock source and manifest rules
+- [image_generation_providers.md](./image_generation_providers.md) - Image provider registry and environment variables
+- [image_generation_setup.md](./image_generation_setup.md) - Image generation setup and command examples
+- [ark_video_generation.md](./ark_video_generation.md) - ARK image-to-video setup and examples
+
+### Architecture and Maintenance
+
+- [architecture/repository_structure.md](./architecture/repository_structure.md) - Current repository structure and source-of-truth boundaries
+- [plans/2026-03-07-repo-structure-reorg.md](./plans/2026-03-07-repo-structure-reorg.md) - Repository reorganization plan and rationale
+
+## 🔗 Related Resources
+
+- [Role Definitions](../roles/README.md)
+- [Workflow Index](../workflows/README.md)
+- [Chart Templates](../templates/charts/README.md)
+- [Icon Library](../templates/icons/README.md)
+- [Commands Reference](../commands/README.md)
+- [OCR Image to Markdown skill](../../../.agent/skills/ocr_image_to_markdown/SKILL.md) - Skill entry for screenshot or scanned-image source material
+
+## Maintenance Rules
+
+- Update canonical documents first instead of copying instructions into parallel files.
+- When workflow rules change, update `../AGENTS.md` and `../workflows/generate-ppt.md` first.
+- When command behavior and documentation diverge, reconcile against the current state of `../commands/` and `../pptmaster/`, then backfill the docs.
+- Refresh generated example statistics through canonical commands instead of manually editing generated files.

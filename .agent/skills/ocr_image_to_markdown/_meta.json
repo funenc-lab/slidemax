@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "name": "ocr-image-to-markdown",
+  "display_name": "OCR Image to Markdown",
+  "description": "Use when the source material is a screenshot, scanned page, image-only document, table snapshot, slide image, or other visual content that must be transcribed into Markdown before further processing, especially when no command-based OCR path is available or when a workflow needs a multimodal fallback for image-based source ingestion.",
+  "version": "1.0.0",
+  "created_at": "2026-03-08",
+  "updated_at": "2026-03-08",
+  "language": "en",
+  "kind": "fallback-skill",
+  "canonical": false,
+  "entrypoints": {
+    "skill": "SKILL.md"
+  },
+  "integrates_with_skills": [
+    "ppt-master-workflow"
+  ],
+  "tags": [
+    "ocr",
+    "markdown",
+    "images",
+    "screenshots",
+    "source-normalization",
+    "fallback"
+  ]
+}

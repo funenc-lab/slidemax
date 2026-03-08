@@ -18,3 +18,4 @@ description: 从 Markdown 源文档生成 PPT 的完整流程（主入口）
 - [Stage Gate Checklist](../AGENTS.md#stage-gate-checklist)
 - [Reliability Checklist](../AGENTS.md#reliability-checklist)
 - [PPT 工作流操作手册](../docs/ppt_workflow_operator_manual.md)
+- [OCR Image to Markdown skill](../../../.agent/skills/ocr_image_to_markdown/SKILL.md)

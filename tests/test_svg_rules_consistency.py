@@ -76,6 +76,35 @@ class SvgRulesConsistencyTestCase(unittest.TestCase):
             RECOMMENDED_SYSTEM_FONTS,
         )
 
+    def test_svg_quality_checker_allows_safe_defs_ids(self):
+        svg = '''<svg viewBox="0 0 1280 720" width="1280" height="720" xmlns="http://www.w3.org/2000/svg">
+<defs><linearGradient id="grad"><stop offset="0%" stop-color="#000"/><stop offset="100%" stop-color="#fff"/></linearGradient></defs>
+<rect width="1280" height="720" fill="url(#grad)" />
+</svg>'''
+
+        with tempfile.TemporaryDirectory() as tmp:
+            svg_path = Path(tmp) / "safe.svg"
+            svg_path.write_text(svg, encoding="utf-8")
+
+            result = SVGQualityChecker().check_file(str(svg_path), expected_format="ppt169")
+
+        self.assertTrue(result["passed"])
+        self.assertFalse(result["errors"])
+
+    def test_svg_quality_checker_still_rejects_ids_outside_defs(self):
+        svg = '''<svg viewBox="0 0 1280 720" width="1280" height="720" xmlns="http://www.w3.org/2000/svg">
+<rect id="hero" width="1280" height="720" fill="#fff" />
+</svg>'''
+
+        with tempfile.TemporaryDirectory() as tmp:
+            svg_path = Path(tmp) / "bad_id.svg"
+            svg_path.write_text(svg, encoding="utf-8")
+
+            result = SVGQualityChecker().check_file(str(svg_path), expected_format="ppt169")
+
+        self.assertFalse(result["passed"])
+        self.assertIn("Detected forbidden id attribute", result["errors"][0])
+
 
 if __name__ == "__main__":
     unittest.main()

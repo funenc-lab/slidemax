@@ -10,12 +10,9 @@ if str(SKILL_ROOT) not in sys.path:
 
 from pptmaster.stock_sources import download_main as main  # noqa: E402,F401
 
+from pptmaster.command_bridge import run_entrypoint  # noqa: E402
 __all__ = ['main']
 
 
 if __name__ == '__main__':
-    try:
-        sys.exit(main())
-    except Exception as error:
-        print(f'Error: {error}')
-        sys.exit(1)
+    run_entrypoint(main, catch_exceptions=True)

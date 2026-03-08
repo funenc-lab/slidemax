@@ -10,8 +10,9 @@ if str(SKILL_ROOT) not in sys.path:
 
 from pptmaster.error_helper import ErrorHelper, main  # noqa: E402
 
+from pptmaster.command_bridge import run_entrypoint  # noqa: E402
 __all__ = ['ErrorHelper', 'main']
 
 
 if __name__ == '__main__':
-    main()
+    run_entrypoint(main)

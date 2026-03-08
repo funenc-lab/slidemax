@@ -8,7 +8,7 @@ SKILL_ROOT = Path(__file__).resolve().parent.parent
 if str(SKILL_ROOT) not in sys.path:
     sys.path.insert(0, str(SKILL_ROOT))
 
-from pptmaster.video_generation_cli import (  # noqa: E402,F401
+from pptmaster.video_generation import (  # noqa: E402,F401
     add_common_generation_arguments,
     build_parser,
     main,
@@ -19,6 +19,7 @@ from pptmaster.video_generation_cli import (  # noqa: E402,F401
     str_to_bool,
 )
 
+from pptmaster.command_bridge import run_entrypoint  # noqa: E402
 __all__ = [
     'add_common_generation_arguments',
     'build_parser',
@@ -32,4 +33,4 @@ __all__ = [
 
 
 if __name__ == '__main__':
-    main()
+    run_entrypoint(main)

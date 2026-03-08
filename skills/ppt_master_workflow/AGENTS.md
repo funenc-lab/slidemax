@@ -29,6 +29,7 @@ User source
   -> Normalize source format
      -> PDF: `pdf_to_md.py`
      -> URL: `web_to_md.py` or `web_to_md.cjs`
+     -> Screenshot/image document: use OCR skill `.agent/skills/ocr_image_to_markdown/SKILL.md`
      -> Markdown/Text: use directly
   -> Initialize project with `project_manager.py init`
   -> Decide template strategy
@@ -50,6 +51,8 @@ Need to start or continue a PPT task?
 +-- Source is PDF? ---------------------- yes -> `pdf_to_md.py`
 |
 +-- Source is URL? ---------------------- yes -> `web_to_md.py` / `.cjs`
+|
++-- Source is screenshot/image doc? ----- yes -> OCR skill at `.agent/skills/ocr_image_to_markdown/SKILL.md`
 |
 +-- Project folder missing? ------------- yes -> `project_manager.py init`
 |
@@ -134,6 +137,7 @@ Need to start or continue a PPT task?
 | **PDF 文件** | `pdf_to_md.py` | `python3 skills/ppt_master_workflow/commands/pdf_to_md.py <文件路径>` |
 | **网页链接** | `web_to_md.py` | `python3 skills/ppt_master_workflow/commands/web_to_md.py <URL>` |
 | **微信/高防站** | `web_to_md.cjs` | `node skills/ppt_master_workflow/commands/web_to_md.cjs <URL>` |
+| **图片截图 / 扫描图片 / 图片型文档** | OCR skill | 阅读 `.agent/skills/ocr_image_to_markdown/SKILL.md` 并先转录为 Markdown |
 | **Markdown** | - | 直接读取源 Markdown 文件内容 |
 
 ---
@@ -693,11 +697,11 @@ project/
 | **原生 PDF**（Word/LaTeX 导出） | `pdf_to_md.py` | `python3 skills/ppt_master_workflow/commands/pdf_to_md.py <文件>` |
 | **简单表格**                    | `pdf_to_md.py` | 同上                                |
 | **隐私敏感文档**                | `pdf_to_md.py` | 同上（数据不出本机）                |
-| **扫描版/图片 PDF**             | MinerU         | 需要 OCR                            |
+| **扫描版/图片 PDF**             | MinerU / OCR skill | 需要 OCR；截图型内容可先走 `.agent/skills/ocr_image_to_markdown/SKILL.md` |
 | **复杂多栏排版**                | MinerU         | 版面分析更准                        |
 | **数学公式**                    | MinerU         | AI 识别能力强                       |
 
-> **策略**: PyMuPDF 优先，MinerU 兜底。先运行 `pdf_to_md.py`，如结果乱码/空白再换 MinerU。
+> **策略**: PyMuPDF 优先，MinerU 兜底。先运行 `pdf_to_md.py`，如结果乱码/空白再换 MinerU。若用户给的是单页截图、扫描图片或图片型页面内容，可直接走 OCR skill `.agent/skills/ocr_image_to_markdown/SKILL.md` 先转成 Markdown。
 
 ### 网页转 Markdown
 

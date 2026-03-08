@@ -21,6 +21,7 @@ from pptmaster.image_generation import (  # noqa: E402,F401
     run_legacy_gemini_cli,
 )
 
+from pptmaster.command_bridge import run_entrypoint  # noqa: E402
 __all__ = [
     'DEFAULT_MODELS',
     'ImageGenerationRequest',
@@ -34,4 +35,4 @@ __all__ = [
 
 
 if __name__ == '__main__':
-    legacy_gemini_main()
+    run_entrypoint(legacy_gemini_main, catch_exceptions=True)

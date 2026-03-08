@@ -34,6 +34,7 @@ from pptmaster.config import (  # noqa: E402
     main,
 )
 
+from pptmaster.command_bridge import run_entrypoint  # noqa: E402
 SKILL_ROOT = PACKAGE_SKILL_ROOT
 
 __all__ = [
@@ -64,4 +65,4 @@ __all__ = [
 
 
 if __name__ == '__main__':
-    main()
+    run_entrypoint(main)

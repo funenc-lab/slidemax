@@ -13,6 +13,14 @@ if str(SKILL_ROOT) not in sys.path:
 
 from pptmaster.image_generation import build_parser, run_cli
 
+from pptmaster.command_bridge import run_entrypoint  # noqa: E402
+
+__all__ = [
+    "build_parser",
+    "main",
+    "run_cli",
+]
+
 
 def main() -> int:
     parser = build_parser(
@@ -26,4 +34,4 @@ def main() -> int:
 
 
 if __name__ == "__main__":
-    sys.exit(main())
+    run_entrypoint(main, catch_exceptions=True)

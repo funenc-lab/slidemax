@@ -16,9 +16,11 @@ from pptmaster.image_generation import (
     DEFAULT_MODELS,
     ImageGenerationError,
     ImageGenerationRequest,
+    MODEL_ALIASES,
     build_parser,
     calculate_dimensions,
     generate_image,
+    provider_sdk_dependency_status,
     resolve_provider_config,
 )
 
@@ -55,6 +57,25 @@ class ImageGenerationTestCase(unittest.TestCase):
         self.assertEqual(config.model, "doubao-seedream-4.5")
         self.assertEqual(DEFAULT_MODELS["doubao"], "doubao-seedream-4.5")
         self.assertFalse(hasattr(config, "transport"))
+
+    def test_resolve_provider_config_normalizes_doubao_model_alias(self):
+        with mock.patch.dict(
+            os.environ,
+            {
+                "DOUBAO_API_KEY": "secret",
+                "DOUBAO_BASE_URL": "https://doubao.example/api/v3",
+            },
+            clear=False,
+        ):
+            config = resolve_provider_config(
+                provider="doubao",
+                model="doubao-seedream-5",
+            )
+
+        self.assertEqual(
+            config.model,
+            MODEL_ALIASES["doubao"]["doubao-seedream-5"],
+        )
 
     def test_parser_rejects_transport_argument(self):
         parser = build_parser(description="test", include_provider_argument=True)
@@ -98,6 +119,38 @@ class ImageGenerationTestCase(unittest.TestCase):
         self.assertLess(width, height)
         self.assertEqual(width, 1152)
         self.assertEqual(height, 2048)
+
+
+    def test_resolve_provider_config_missing_doubao_api_key_includes_setup_hint(self):
+        with self.assertRaises(ValueError) as error_context:
+            resolve_provider_config(
+                provider="doubao",
+                base_url="https://ark.example/api/v3",
+            )
+
+        message = str(error_context.exception)
+        self.assertIn("ARK_API_KEY", message)
+        self.assertIn("pptmaster_image.env.example", message)
+        self.assertIn("image_generation_setup.md", message)
+
+    def test_provider_sdk_dependency_status_reports_missing_sdk(self):
+        original_find_spec = sys.modules[provider_sdk_dependency_status.__module__].importlib.util.find_spec
+
+        def fake_find_spec(name):
+            if name == "volcenginesdkarkruntime":
+                return None
+            return original_find_spec(name)
+
+        with mock.patch(
+            f"{provider_sdk_dependency_status.__module__}.importlib.util.find_spec",
+            side_effect=fake_find_spec,
+        ):
+            ready, message = provider_sdk_dependency_status("doubao")
+
+        self.assertFalse(ready)
+        self.assertIn("volcenginesdkarkruntime", message)
+        self.assertIn("volcengine-python-sdk[ark]", message)
+        self.assertIn("image_generation_setup.md", message)
 
     def test_generate_image_rejects_doubao_seedream5_small_canvas(self):
         config = resolve_provider_config(

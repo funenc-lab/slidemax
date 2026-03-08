@@ -72,11 +72,34 @@ The workflow keeps Executor on project-local paths and avoids third-party hotlin
 - The workflow validates known model constraints locally before the request is sent.
   - Current built-in rule: `doubao-seedream-5*` requires at least `3686400` pixels.
 - Environment variables:
-  - `DOUBAO_API_KEY` or `PPTMASTER_IMAGE_API_KEY`
-  - `DOUBAO_BASE_URL` or `PPTMASTER_IMAGE_BASE_URL`
-  - `DOUBAO_IMAGE_ENDPOINT` or `PPTMASTER_IMAGE_ENDPOINT`
-  - `DOUBAO_IMAGE_MODEL` or `PPTMASTER_IMAGE_MODEL`
+  - `ARK_API_KEY` / `DOUBAO_API_KEY` / `PPTMASTER_IMAGE_API_KEY`
+  - `ARK_BASE_URL` / `DOUBAO_BASE_URL` / `PPTMASTER_IMAGE_BASE_URL`
+  - `DOUBAO_IMAGE_ENDPOINT` / `PPTMASTER_IMAGE_ENDPOINT`
+  - `DOUBAO_IMAGE_MODEL` / `PPTMASTER_IMAGE_MODEL`
   - Official SDK: `volcengine-python-sdk[ark]`
+
+## Dependency Commands
+
+Install the packages according to the provider you intend to use:
+
+```bash
+# Shared bundle
+pip install -r requirements.txt
+
+# Gemini
+pip install google-genai
+
+# OpenAI-compatible
+pip install openai
+
+# Doubao / ARK
+pip install "volcengine-python-sdk[ark]"
+
+# Optional local diagnostics
+pip install Pillow
+```
+
+If the active provider is misconfigured, `image_generate.py`, `nano_banana_gen.py`, and `project_manager.py doctor` now print setup hints that point back to the env template and setup guide.
 
 ## Shared Environment Variables
 
@@ -86,7 +109,7 @@ The workflow keeps Executor on project-local paths and avoids third-party hotlin
 - `PPTMASTER_IMAGE_BASE_URL`: shared provider base URL override.
 - `PPTMASTER_IMAGE_ENDPOINT`: shared provider endpoint override.
 - `PPTMASTER_IMAGE_API_KEY`: shared provider API key override.
-- `PPTMASTER_IMAGE_TIMEOUT`: HTTP timeout in seconds.
+- `PPTMASTER_IMAGE_TIMEOUT`: request timeout in seconds.
 
 ## Recommended Configuration Examples
 
@@ -102,11 +125,13 @@ export PPTMASTER_IMAGE_OUTPUT_DIR="workspace/demo/images"
 
 ```bash
 export PPTMASTER_IMAGE_PROVIDER=doubao
-export DOUBAO_API_KEY="your-key"
-export DOUBAO_BASE_URL="https://ark.cn-beijing.volces.com/api/v3"
+export ARK_API_KEY="your-key"
+export ARK_BASE_URL="https://ark.cn-beijing.volces.com/api/v3"
 export DOUBAO_IMAGE_MODEL="doubao-seedream-4.5"
 export PPTMASTER_IMAGE_OUTPUT_DIR="workspace/demo/images"
 ```
+
+The workflow also accepts `DOUBAO_API_KEY` and `DOUBAO_BASE_URL` as aliases for the same provider configuration.
 
 ## Doubao ARK Note
 

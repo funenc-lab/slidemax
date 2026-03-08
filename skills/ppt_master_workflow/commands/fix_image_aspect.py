@@ -12,6 +12,7 @@ if str(SKILL_ROOT) not in sys.path:
 
 from pptmaster.svg_asset_cli import build_fix_aspect_parser, fix_aspect_main, run_fix_aspect_cli  # noqa: E402,F401
 
+from pptmaster.command_bridge import run_entrypoint  # noqa: E402
 __all__ = [
     'build_fix_aspect_parser',
     'fix_aspect_main',
@@ -20,4 +21,4 @@ __all__ = [
 
 
 if __name__ == '__main__':
-    fix_aspect_main()
+    run_entrypoint(fix_aspect_main)

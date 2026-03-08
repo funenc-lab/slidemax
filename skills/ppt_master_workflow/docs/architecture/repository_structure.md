@@ -20,8 +20,9 @@ skills/
     ├── examples/         # Canonical built-in sample projects
     └── references/       # Local reference hub
 AGENTS.md                 # Minimal bootstrap that points to skills/ppt_master_workflow/AGENTS.md
-README.md                 # Repository landing page
-README_EN.md              # Repository landing page (English)
+README.md                 # Repository landing page (English default)
+README_CN.md              # Repository landing page (Chinese)
+README_EN.md              # English compatibility alias
 workspace/                # User project workspace (gitignored)
 ```
 
@@ -194,3 +195,10 @@ workspace/                # User project workspace (gitignored)
 1. 为 `skills/ppt_master_workflow/workflows/` 增加更细粒度的专题 workflow
 2. 为 `pptmaster.*` 补充自动化测试，并持续保持 `commands/` 作为 thin CLI wrappers
 3. 保持根目录最小化，只在 skill 内持续演进 workflow 能力
+
+
+### 4. GitHub-facing README convention
+
+- GitHub 默认展示的 `README.md` 统一使用英文入口页。
+- 中文文档放在同目录的 `README_CN.md`，并在页首提供双向切换。
+- `README_EN.md` 仅保留为英文兼容别名页，避免旧链接失效。

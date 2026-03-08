@@ -10,8 +10,9 @@ if str(SKILL_ROOT) not in sys.path:
 
 from pptmaster.web_markdown import main  # noqa: E402,F401
 
+from pptmaster.command_bridge import run_entrypoint  # noqa: E402
 __all__ = ['main']
 
 
 if __name__ == '__main__':
-    main()
+    run_entrypoint(main)

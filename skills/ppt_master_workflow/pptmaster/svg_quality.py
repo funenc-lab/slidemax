@@ -25,6 +25,9 @@ COMPOUND_FORBIDDEN_SPECS = get_compound_detection_specs()
 FORBIDDEN_RULES = [(spec.marker, spec.error_message) for spec in SUBSTRING_FORBIDDEN_SPECS]
 REGEX_FORBIDDEN_RULES = [(spec.pattern, spec.error_message) for spec in REGEX_FORBIDDEN_SPECS]
 
+DEFS_BLOCK_RE = re.compile(r'<defs\b[^>]*>.*?</defs>', re.IGNORECASE | re.DOTALL)
+ID_ATTRIBUTE_RE = re.compile(r'\bid\s*=\s*("[^"]*"|\'[^\']*\')')
+
 
 class SVGQualityChecker:
     """Validate SVG files against PPT Master compatibility rules."""
@@ -128,8 +131,19 @@ class SVGQualityChecker:
 
         for spec in REGEX_FORBIDDEN_SPECS:
             haystack = content_lower if spec.search_in_lowercase else content
+            if spec.error_code == 'id_attribute_detected':
+                haystack = self._strip_safe_defs_ids(haystack)
             if re.search(spec.pattern, haystack):
                 result['errors'].append(spec.error_message)
+
+    def _strip_safe_defs_ids(self, content: str) -> str:
+        """Ignore id attributes inside defs blocks while keeping other rule checks intact."""
+
+        def _replace_defs(match: re.Match[str]) -> str:
+            block = match.group(0)
+            return ID_ATTRIBUTE_RE.sub('', block)
+
+        return DEFS_BLOCK_RE.sub(_replace_defs, content)
 
     def _check_fonts(self, content: str, result: Dict[str, object]) -> None:
         font_matches = re.findall(r'font-family[:\s]*["\']([^"\']+)["\']', content, re.IGNORECASE)

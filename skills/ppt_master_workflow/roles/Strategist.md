@@ -38,7 +38,7 @@ The Strategist stage should leave the project with:
 
 ### Reliability Rules
 
-- Do not start strategy work before PDF or URL sources have been normalized.
+- Do not start strategy work before PDF, URL, or image-based sources have been normalized into Markdown.
 - Do not let later stages infer missing design decisions that should be made here.
 - Do not recommend built-in icons before verifying that they exist in the icon index.
 - Do not leave image source decisions ambiguous when slide layouts depend on them.

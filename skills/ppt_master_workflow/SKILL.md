@@ -36,6 +36,8 @@ Need to work on a PPT task in this repository?
 |   |
 |   +-- PDF -> run `commands/pdf_to_md.py` first               |
 |   +-- URL -> run `commands/web_to_md.py` or `.cjs` first     |
+|   +-- Screenshot/image document -> use OCR skill first       |
+|   |      `.agent/skills/ocr_image_to_markdown/SKILL.md`      |
 |   +-- Markdown/text -> continue                              |
 |                                                              |
 +-- Is there already a project folder? ------------------------+
@@ -85,7 +87,7 @@ Read in this order before executing or modifying a workflow task:
 | Stage | Trigger | Mandatory Read | Primary Output | Canonical Commands |
 |------|---------|----------------|----------------|--------------------|
 | Stage 0 | Any PPT workflow task | `AGENTS.md` | Preflight confirmation | None |
-| Stage 1 | Source is PDF or URL | `AGENTS.md` | Markdown source | `pdf_to_md.py`, `web_to_md.py`, `web_to_md.cjs` |
+| Stage 1 | Source is PDF, URL, or image-based document | `AGENTS.md` | Markdown source | `pdf_to_md.py`, `web_to_md.py`, `web_to_md.cjs`, OCR skill |
 | Stage 2 | New project required | `AGENTS.md` | Project folder | `project_manager.py init` |
 | Stage 3 | Template-based workflow | `AGENTS.md` | Template files in project | Copy assets before Strategist |
 | Stage 4 | Every PPT project | `roles/Strategist.md` | Project design-outline markdown file | `analyze_images.py` when user images exist |
@@ -122,6 +124,8 @@ These rules exist to reduce failure rates during PPT generation and workflow mai
   - Use for normal web pages.
 - `commands/web_to_md.cjs`
   - Prefer for WeChat or high-protection sites.
+- OCR skill: `.agent/skills/ocr_image_to_markdown/SKILL.md`
+  - Use for screenshots, image-only pages, and image documents when the source must be transcribed into Markdown and no command-based OCR path is available.
 
 ### Project Lifecycle
 
@@ -216,6 +220,9 @@ Fix:
 Input: Generate a PPT from a PDF source.
 Output: Read `AGENTS.md`, convert the PDF with `commands/pdf_to_md.py`, initialize the project with `commands/project_manager.py init`, then follow Strategist, Image_Generator if required, Executor, finalize, and export.
 
+Input: Generate a PPT from screenshots or image-only source pages.
+Output: Read `AGENTS.md`, use the OCR skill at `.agent/skills/ocr_image_to_markdown/SKILL.md` to transcribe the images into Markdown first, then continue with project initialization and the normal PPT workflow.
+
 Input: Improve image-provider reliability for PPT generation.
 Output: Update `pptmaster/image_generation.py`, keep `commands/image_generate.py` thin, validate the provider with `smoke_test_image_provider.py`, and synchronize the related docs and examples.
 
@@ -235,6 +242,7 @@ Output: Keep `skills/ppt_master_workflow/` as the only workflow source of truth,
 - `skills/ppt_master_workflow/workflows/generate-ppt.md` - Redirect entry.
 - `skills/ppt_master_workflow/commands/README.md` - Command reference.
 - `skills/ppt_master_workflow/docs/ppt_workflow_operator_manual.md` - Chinese operator manual for execution flow and checklists.
+- `.agent/skills/ocr_image_to_markdown/SKILL.md` - OCR fallback for screenshots and image-based source material.
 - `skills/ppt_master_workflow/roles/README.md` - Role map.
 - `skills/ppt_master_workflow/docs/image_generation_setup.md` - Image setup and credentials.
 - `skills/ppt_master_workflow/docs/image_stock_sources.md` - Stock image provenance workflow.

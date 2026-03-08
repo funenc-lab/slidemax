@@ -24,6 +24,7 @@ from pptmaster.svg_position_cli import (  # noqa: E402,F401
     run_cli,
 )
 
+from pptmaster.command_bridge import run_entrypoint  # noqa: E402
 __all__ = [
     'analyze_svg_file',
     'build_chart_area',
@@ -42,4 +43,4 @@ __all__ = [
 
 
 if __name__ == '__main__':
-    main()
+    run_entrypoint(main)
