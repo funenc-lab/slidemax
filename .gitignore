@@ -165,8 +165,8 @@ yarn.lock
 TODO.md
 PERSONAL_NOTES.md
 
-# Projects directory - Work-in-progress projects (not version controlled)
-# Completed projects should be moved to examples/
-# Use cloud sync (iCloud/Dropbox) for backup and multi-device access
-workspace/*
+# Projects directory - Runtime workspace outputs are not version controlled
+# Canonical reusable assets belong under skills/ppt_master_workflow/examples or tests/fixtures
+workspace/**
+!workspace/
 !workspace/README.md
