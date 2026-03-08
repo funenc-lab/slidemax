@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+source .env.pptmaster-ark
+
+python3 skills/ppt_master_workflow/commands/doubao_i2v_task.py run \
+  "A drone flies rapidly through complex obstacles and natural wonders" \
+  --image-url "https://ark-project.tos-cn-beijing.volces.com/doc_image/seepro_i2v.png" \
+  --model "doubao-seedance-1-5-pro-251215" \
+  --duration 5 \
+  --camera-fixed false \
+  --watermark true \
+  --output "workspace/demo/videos/seedance_demo.mp4"

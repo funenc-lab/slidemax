@@ -84,7 +84,7 @@ AI（Strategist 角色）：好的，在开始之前我需要完成八项确认.
 
 > 💡 **AI 迷失上下文？** 可提示 AI 参考 `AGENTS.md` 文件，它会自动按照仓库中的角色定义工作
 
-> 💡 **AI 生成图片建议**：如需 AI 生成配图，建议在 [Gemini](https://gemini.google.com/) 中生成后选择 **Download full size** 下载，分辨率比 Antigravity 直接生成的更高。Gemini 生成的图片右下角会有星星水印，可使用 [gemini-watermark-remover](https://github.com/journey-ad/gemini-watermark-remover) 或本项目的 `tools/gemini_watermark_remover.py` 去除。
+> 💡 **AI 生成图片建议**：如需 AI 生成配图，建议在 [Gemini](https://gemini.google.com/) 中生成后选择 **Download full size** 下载，分辨率比 Antigravity 直接生成的更高。Gemini 生成的图片右下角会有星星水印，可使用 [gemini-watermark-remover](https://github.com/journey-ad/gemini-watermark-remover) 或本项目的 `skills/ppt_master_workflow/commands/gemini_watermark_remover.py` 去除。
 
 ---
 
@@ -92,35 +92,35 @@ AI（Strategist 角色）：好的，在开始之前我需要完成八项确认.
 
 | 文档 | 说明 |
 |------|------|
-| 📖 [工作流教程](./docs/workflow_tutorial.md) | 详细的工作流程和案例演示 |
-| 🎨 [设计指南](./docs/design_guidelines.md) | 配色、排版、布局规范详解 |
-| 📐 [画布格式](./docs/canvas_formats.md) | PPT、小红书、朋友圈等 10+ 种格式 |
-| 🖼️ [图片嵌入指南](./docs/svg_image_embedding.md) | SVG 图片嵌入最佳实践 |
-| 📊 [图表模板库](./templates/charts/) | 13 种标准化图表模板 · [在线预览](./templates/charts/preview.html) |
-| ⚡ [快速参考](./docs/quick_reference.md) | 常用命令和参数速查 |
-| 🔧 [角色定义](./roles/README.md) | 6 个 AI 角色的完整定义 |
-| 🛠️ [工具集](./tools/README.md) | 所有工具的使用说明 |
-| 💼 [示例索引](./examples/README.md) | 15 个项目、229 页 SVG 示例 |
+| 📖 [工作流教程](./skills/ppt_master_workflow/docs/workflow_tutorial.md) | 详细的工作流程和案例演示 |
+| 🎨 [设计指南](./skills/ppt_master_workflow/docs/design_guidelines.md) | 配色、排版、布局规范详解 |
+| 📐 [画布格式](./skills/ppt_master_workflow/docs/canvas_formats.md) | PPT、小红书、朋友圈等 10+ 种格式 |
+| 🖼️ [图片嵌入指南](./skills/ppt_master_workflow/docs/svg_image_embedding.md) | SVG 图片嵌入最佳实践 |
+| 📊 [图表模板库](./skills/ppt_master_workflow/templates/charts/) | 13 种标准化图表模板 · [在线预览](./skills/ppt_master_workflow/templates/charts/preview.html) |
+| ⚡ [快速参考](./skills/ppt_master_workflow/docs/quick_reference.md) | 常用命令和参数速查 |
+| 🔧 [角色定义](./skills/ppt_master_workflow/roles/README.md) | 6 个 AI 角色的完整定义 |
+| 🛠️ [工具集](./skills/ppt_master_workflow/commands/README.md) | 所有工具的使用说明 |
+| 💼 [示例索引](./skills/ppt_master_workflow/examples/README.md) | 15 个项目、229 页 SVG 示例 |
 
 ---
 
 ## 🎴 精选示例
 
-> 📁 **示例库**: [`examples/`](./examples/) · **15 个项目** · **229 页 SVG**
+> 📁 **示例库**: [`skills/ppt_master_workflow/examples/`](./skills/ppt_master_workflow/examples/) · **15 个项目** · **229 页 SVG**
 
 | 类别            | 项目                                                                           | 页数 | 特色                              |
 | --------------- | ------------------------------------------------------------------------------ | :--: | --------------------------------- |
-| 🏢 **咨询风格** | [心理治疗中的依恋](./examples/ppt169_顶级咨询风_心理治疗中的依恋/)             |  32  | 顶级咨询风格，最大规模示例        |
-|                 | [构建有效AI代理](./examples/ppt169_顶级咨询风_构建有效AI代理_Anthropic/)       |  15  | Anthropic 工程博客，AI Agent 架构 |
-|                 | [重庆市区域报告](./examples/ppt169_顶级咨询风_重庆市区域报告_ppt169_20251213/) |  20  | 区域财政分析，企业预警通数据 🆕   |
-|                 | [甘孜州经济财政分析](./examples/ppt169_顶级咨询风_甘孜州经济财政分析/)         |  17  | 政务财政分析，藏区文化元素        |
-| 🎨 **通用灵活** | [Debug 六步法](./examples/ppt169_通用灵活+代码_debug六步法/)                   |  10  | 深色科技风格                      |
-|                 | [重庆大学论文格式](./examples/ppt169_通用灵活+学术_重庆大学论文格式标准/)      |  11  | 学术规范指南                      |
-| ✨ **创意风格** | [地山谦卦深度研究](./examples/ppt169_易理风_地山谦卦深度研究/)                 |  20  | 易经本体美学，阴阳爻变设计        |
-|                 | [金刚经第一品研究](./examples/ppt169_禅意风_金刚经第一品研究/)                 |  15  | 禅意学术，水墨留白                |
-|                 | [Git 入门指南](./examples/ppt169_像素风_git_introduction/)                     |  10  | 像素复古游戏风                    |
+| 🏢 **咨询风格** | [心理治疗中的依恋](./skills/ppt_master_workflow/examples/ppt169_顶级咨询风_心理治疗中的依恋/)             |  32  | 顶级咨询风格，最大规模示例        |
+|                 | [构建有效AI代理](./skills/ppt_master_workflow/examples/ppt169_顶级咨询风_构建有效AI代理_Anthropic/)       |  15  | Anthropic 工程博客，AI Agent 架构 |
+|                 | [重庆市区域报告](./skills/ppt_master_workflow/examples/ppt169_顶级咨询风_重庆市区域报告_ppt169_20251213/) |  20  | 区域财政分析，企业预警通数据 🆕   |
+|                 | [甘孜州经济财政分析](./skills/ppt_master_workflow/examples/ppt169_顶级咨询风_甘孜州经济财政分析/)         |  17  | 政务财政分析，藏区文化元素        |
+| 🎨 **通用灵活** | [Debug 六步法](./skills/ppt_master_workflow/examples/ppt169_通用灵活+代码_debug六步法/)                   |  10  | 深色科技风格                      |
+|                 | [重庆大学论文格式](./skills/ppt_master_workflow/examples/ppt169_通用灵活+学术_重庆大学论文格式标准/)      |  11  | 学术规范指南                      |
+| ✨ **创意风格** | [地山谦卦深度研究](./skills/ppt_master_workflow/examples/ppt169_易理风_地山谦卦深度研究/)                 |  20  | 易经本体美学，阴阳爻变设计        |
+|                 | [金刚经第一品研究](./skills/ppt_master_workflow/examples/ppt169_禅意风_金刚经第一品研究/)                 |  15  | 禅意学术，水墨留白                |
+|                 | [Git 入门指南](./skills/ppt_master_workflow/examples/ppt169_像素风_git_introduction/)                     |  10  | 像素复古游戏风                    |
 
-📖 [查看完整示例文档](./examples/README.md)
+📖 [查看完整示例文档](./skills/ppt_master_workflow/examples/README.md)
 
 ---
 
@@ -154,7 +154,7 @@ AI（Strategist 角色）：好的，在开始之前我需要完成八项确认.
 如有优化：重新运行后处理与导出
 ```
 
-> 📖 详细工作流程请参阅 [工作流教程](./docs/workflow_tutorial.md) 和 [角色定义](./roles/README.md)
+> 📖 详细工作流程请参阅 [工作流教程](./skills/ppt_master_workflow/docs/workflow_tutorial.md) 和 [角色定义](./skills/ppt_master_workflow/roles/README.md)
 
 > 💡 **PPT 编辑提示**：导出的 PPTX 页面为 SVG 格式。若需编辑内容，请在 PowerPoint 中选中页面，右键选择 **"转换为形状"** (Convert to Shape)。此功能需要 **Office 2016** 或更高版本。
 
@@ -164,19 +164,19 @@ AI（Strategist 角色）：好的，在开始之前我需要完成八项确认.
 
 ```bash
 # 初始化项目
-python3 tools/project_manager.py init <项目名> --format ppt169
+python3 skills/ppt_master_workflow/commands/project_manager.py init <项目名> --format ppt169
 
 # PDF 转 Markdown
-python3 tools/pdf_to_md.py <PDF文件>
+python3 skills/ppt_master_workflow/commands/pdf_to_md.py <PDF文件>
 
 # 后处理 SVG
-python3 tools/finalize_svg.py <项目路径>
+python3 skills/ppt_master_workflow/commands/finalize_svg.py <项目路径>
 
 # 导出 PPTX
-python3 tools/svg_to_pptx.py <项目路径> -s final
+python3 skills/ppt_master_workflow/commands/svg_to_pptx.py <项目路径> -s final
 ```
 
-> 📖 完整工具说明请参阅 [工具使用指南](./tools/README.md)
+> 📖 完整工具说明请参阅 [工具使用指南](./skills/ppt_master_workflow/commands/README.md)
 
 ---
 
@@ -184,13 +184,24 @@ python3 tools/svg_to_pptx.py <项目路径> -s final
 
 ```
 ppt-master/
-├── roles/          # AI 角色定义（6 个专业角色）
-├── docs/           # 文档中心（教程、设计指南、格式规范等）
-├── templates/      # 模板库（图表模板 + 640+ 图标）
-├── tools/          # 工具集（项目管理、转换、处理）
-├── examples/       # 示例项目（15 个完整案例）
-└── projects/       # 用户项目工作区
+├── skills/
+│   └── ppt_master_workflow/
+│       ├── commands/    # Canonical CLI entry points
+│       ├── pptmaster/   # Shared Python core
+│       ├── docs/        # Workflow documentation
+│       ├── roles/       # Role protocols
+│       ├── templates/   # Layouts, charts, icons, style assets
+│       ├── examples/    # Built-in example projects
+│       └── workflows/   # Workflow entry documents
+├── workspace/          # User project workspace
+├── AGENTS.md           # Minimal bootstrap entry for AI agents
+├── README.md           # Repository landing page
+└── README_EN.md        # English landing page
 ```
+
+- 根目录保持最小化，只保留仓库入口文件与 `workspace/`。
+- 所有真实实现、命令、文档、模板、示例都以 `skills/ppt_master_workflow/` 为唯一 source of truth。
+- 日常使用时请直接调用 `skills/ppt_master_workflow/commands/` 下的命令。
 
 ---
 
@@ -221,7 +232,7 @@ ppt-master/
 
 </details>
 
-> 📖 更多问题请查看 [工作流教程](./docs/workflow_tutorial.md#常见问题)
+> 📖 更多问题请查看 [工作流教程](./skills/ppt_master_workflow/docs/workflow_tutorial.md#常见问题)
 
 ---
 

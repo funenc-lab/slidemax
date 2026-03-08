@@ -84,7 +84,7 @@ AI (Strategist role): Sure, before we begin I need to complete eight confirmatio
 
 > 💡 **AI Lost Context?** You can prompt the AI to refer to the `AGENTS.md` file, and it will automatically follow the role definitions in the repository
 
-> 💡 **AI Image Generation Tip**: For AI-generated images, we recommend generating them in [Gemini](https://gemini.google.com/) and selecting **Download full size** for higher resolution than Antigravity's direct generation. Gemini images have a star watermark in the bottom right corner, which can be removed using [gemini-watermark-remover](https://github.com/journey-ad/gemini-watermark-remover) or this project's `tools/gemini_watermark_remover.py`.
+> 💡 **AI Image Generation Tip**: For AI-generated images, we recommend generating them in [Gemini](https://gemini.google.com/) and selecting **Download full size** for higher resolution than Antigravity's direct generation. Gemini images have a star watermark in the bottom right corner, which can be removed using [gemini-watermark-remover](https://github.com/journey-ad/gemini-watermark-remover) or this project's `skills/ppt_master_workflow/commands/gemini_watermark_remover.py`.
 
 ---
 
@@ -92,35 +92,35 @@ AI (Strategist role): Sure, before we begin I need to complete eight confirmatio
 
 | Document | Description |
 |----------|-------------|
-| 📖 [Workflow Tutorial](./docs/workflow_tutorial.md) | Detailed workflow and case demonstrations |
-| 🎨 [Design Guidelines](./docs/design_guidelines.md) | Colors, typography, layout specifications |
-| 📐 [Canvas Formats](./docs/canvas_formats.md) | PPT, Xiaohongshu, WeChat Moments, and 10+ formats |
-| 🖼️ [Image Embedding Guide](./docs/svg_image_embedding.md) | SVG image embedding best practices |
-| 📊 [Chart Template Library](./templates/charts/) | 13 standardized chart templates · [Online Preview](./templates/charts/preview.html) |
-| ⚡ [Quick Reference](./docs/quick_reference.md) | Common commands and parameters cheat sheet |
-| 🔧 [Role Definitions](./roles/README.md) | Complete definitions of 6 AI roles |
-| 🛠️ [Toolset](./tools/README.md) | Usage instructions for all tools |
-| 💼 [Examples Index](./examples/README.md) | 15 projects, 229 SVG pages of examples |
+| 📖 [Workflow Tutorial](./skills/ppt_master_workflow/docs/workflow_tutorial.md) | Detailed workflow and case demonstrations |
+| 🎨 [Design Guidelines](./skills/ppt_master_workflow/docs/design_guidelines.md) | Colors, typography, layout specifications |
+| 📐 [Canvas Formats](./skills/ppt_master_workflow/docs/canvas_formats.md) | PPT, Xiaohongshu, WeChat Moments, and 10+ formats |
+| 🖼️ [Image Embedding Guide](./skills/ppt_master_workflow/docs/svg_image_embedding.md) | SVG image embedding best practices |
+| 📊 [Chart Template Library](./skills/ppt_master_workflow/templates/charts/) | 13 standardized chart templates · [Online Preview](./skills/ppt_master_workflow/templates/charts/preview.html) |
+| ⚡ [Quick Reference](./skills/ppt_master_workflow/docs/quick_reference.md) | Common commands and parameters cheat sheet |
+| 🔧 [Role Definitions](./skills/ppt_master_workflow/roles/README.md) | Complete definitions of 6 AI roles |
+| 🛠️ [Toolset](./skills/ppt_master_workflow/commands/README.md) | Usage instructions for all tools |
+| 💼 [Examples Index](./skills/ppt_master_workflow/examples/README.md) | 15 projects, 229 SVG pages of examples |
 
 ---
 
 ## 🎴 Featured Examples
 
-> 📁 **Example Library**: [`examples/`](./examples/) · **15 projects** · **229 SVG pages**
+> 📁 **Example Library**: [`skills/ppt_master_workflow/examples/`](./skills/ppt_master_workflow/examples/) · **15 projects** · **229 SVG pages**
 
 | Category                | Project                                                                                              | Pages | Features                                              |
 | ----------------------- | ---------------------------------------------------------------------------------------------------- | :---: | ----------------------------------------------------- |
-| 🏢 **Consulting Style** | [Attachment in Psychotherapy](./examples/ppt169_顶级咨询风_心理治疗中的依恋/)                        |  32   | Top consulting style, largest scale example           |
-|                         | [Building Effective AI Agents](./examples/ppt169_顶级咨询风_构建有效AI代理_Anthropic/)               |  15   | Anthropic engineering blog, AI Agent architecture     |
-|                         | [Chongqing Regional Report](./examples/ppt169_顶级咨询风_重庆市区域报告_ppt169_20251213/)            |  20   | Regional fiscal analysis, Enterprise Alert data 🆕    |
-|                         | [Ganzi Prefecture Economic Analysis](./examples/ppt169_顶级咨询风_甘孜州经济财政分析/)               |  17   | Government fiscal analysis, Tibetan cultural elements |
-| 🎨 **General Flexible** | [Debug Six-Step Method](./examples/ppt169_通用灵活+代码_debug六步法/)                                |  10   | Dark tech style                                       |
-|                         | [Chongqing University Thesis Format](./examples/ppt169_通用灵活+学术_重庆大学论文格式标准/)          |  11   | Academic standards guide                              |
-| ✨ **Creative Style**   | [I Ching Qian Hexagram Study](./examples/ppt169_易理风_地山谦卦深度研究/)                            |  20   | I Ching aesthetics, Yin-Yang design                   |
-|                         | [Diamond Sutra Chapter 1 Study](./examples/ppt169_禅意风_金刚经第一品研究/)                          |  15   | Zen academic, ink wash whitespace                     |
-|                         | [Git Introduction Guide](./examples/ppt169_像素风_git_introduction/)                                 |  10   | Pixel retro game style                                |
+| 🏢 **Consulting Style** | [Attachment in Psychotherapy](./skills/ppt_master_workflow/examples/ppt169_顶级咨询风_心理治疗中的依恋/)                        |  32   | Top consulting style, largest scale example           |
+|                         | [Building Effective AI Agents](./skills/ppt_master_workflow/examples/ppt169_顶级咨询风_构建有效AI代理_Anthropic/)               |  15   | Anthropic engineering blog, AI Agent architecture     |
+|                         | [Chongqing Regional Report](./skills/ppt_master_workflow/examples/ppt169_顶级咨询风_重庆市区域报告_ppt169_20251213/)            |  20   | Regional fiscal analysis, Enterprise Alert data 🆕    |
+|                         | [Ganzi Prefecture Economic Analysis](./skills/ppt_master_workflow/examples/ppt169_顶级咨询风_甘孜州经济财政分析/)               |  17   | Government fiscal analysis, Tibetan cultural elements |
+| 🎨 **General Flexible** | [Debug Six-Step Method](./skills/ppt_master_workflow/examples/ppt169_通用灵活+代码_debug六步法/)                                |  10   | Dark tech style                                       |
+|                         | [Chongqing University Thesis Format](./skills/ppt_master_workflow/examples/ppt169_通用灵活+学术_重庆大学论文格式标准/)          |  11   | Academic standards guide                              |
+| ✨ **Creative Style**   | [I Ching Qian Hexagram Study](./skills/ppt_master_workflow/examples/ppt169_易理风_地山谦卦深度研究/)                            |  20   | I Ching aesthetics, Yin-Yang design                   |
+|                         | [Diamond Sutra Chapter 1 Study](./skills/ppt_master_workflow/examples/ppt169_禅意风_金刚经第一品研究/)                          |  15   | Zen academic, ink wash whitespace                     |
+|                         | [Git Introduction Guide](./skills/ppt_master_workflow/examples/ppt169_像素风_git_introduction/)                                 |  10   | Pixel retro game style                                |
 
-📖 [View Complete Examples Documentation](./examples/README.md)
+📖 [View Complete Examples Documentation](./skills/ppt_master_workflow/examples/README.md)
 
 ---
 
@@ -154,7 +154,7 @@ Output: SVG + PPTX (auto-embeds notes)
 If optimized: re-run post-processing and export
 ```
 
-> 📖 For detailed workflow, see [Workflow Tutorial](./docs/workflow_tutorial.md) and [Role Definitions](./roles/README.md)
+> 📖 For detailed workflow, see [Workflow Tutorial](./skills/ppt_master_workflow/docs/workflow_tutorial.md) and [Role Definitions](./skills/ppt_master_workflow/roles/README.md)
 
 > 💡 **PPT Editing Tip**: The exported PPTX pages are in SVG format. To edit the content, select the page content in PowerPoint, right-click and choose **"Group" -> "Ungroup"** (or **"Convert to Shape"**). This feature requires **Office 2016** or later.
 
@@ -164,19 +164,19 @@ If optimized: re-run post-processing and export
 
 ```bash
 # Initialize project
-python3 tools/project_manager.py init <project_name> --format ppt169
+python3 skills/ppt_master_workflow/commands/project_manager.py init <project_name> --format ppt169
 
 # PDF to Markdown
-python3 tools/pdf_to_md.py <PDF_file>
+python3 skills/ppt_master_workflow/commands/pdf_to_md.py <PDF_file>
 
 # Post-process SVG
-python3 tools/finalize_svg.py <project_path>
+python3 skills/ppt_master_workflow/commands/finalize_svg.py <project_path>
 
 # Export PPTX
-python3 tools/svg_to_pptx.py <project_path> -s final
+python3 skills/ppt_master_workflow/commands/svg_to_pptx.py <project_path> -s final
 ```
 
-> 📖 For complete tool documentation, see [Tools Usage Guide](./tools/README.md)
+> 📖 For complete tool documentation, see [Tools Usage Guide](./skills/ppt_master_workflow/commands/README.md)
 
 ---
 
@@ -184,13 +184,24 @@ python3 tools/svg_to_pptx.py <project_path> -s final
 
 ```
 ppt-master/
-├── roles/          # AI role definitions (6 professional roles)
-├── docs/           # Documentation center (tutorials, design guides, format specs)
-├── templates/      # Template library (chart templates + 640+ icons)
-├── tools/          # Toolset (project management, conversion, processing)
-├── examples/       # Example projects (15 complete cases)
-└── projects/       # User project workspace
+├── skills/
+│   └── ppt_master_workflow/
+│       ├── commands/    # Canonical CLI entry points
+│       ├── pptmaster/   # Shared Python core
+│       ├── docs/        # Workflow documentation
+│       ├── roles/       # Role protocols
+│       ├── templates/   # Layouts, charts, icons, style assets
+│       ├── examples/    # Built-in example projects
+│       └── workflows/   # Workflow entry documents
+├── workspace/          # User project workspace
+├── AGENTS.md           # Minimal bootstrap entry for AI agents
+├── README.md           # Repository landing page
+└── README_EN.md        # English landing page
 ```
+
+- The repository root stays minimal and keeps only entry files plus `workspace/`.
+- All implementation, commands, docs, templates, and examples live under `skills/ppt_master_workflow/` as the single source of truth.
+- In day-to-day usage, call commands directly from `skills/ppt_master_workflow/commands/`.
 
 ---
 
@@ -221,7 +232,7 @@ No. Only use it when you need to optimize the visual effects of key pages.
 
 </details>
 
-> 📖 For more questions, see [Workflow Tutorial](./docs/workflow_tutorial.md#faq)
+> 📖 For more questions, see [Workflow Tutorial](./skills/ppt_master_workflow/docs/workflow_tutorial.md#faq)
 
 ---
 

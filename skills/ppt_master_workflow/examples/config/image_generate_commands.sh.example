@@ -1,0 +1,55 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+# Example usage for PPT Master image generation.
+# Load credentials first:
+#   source .env.pptmaster-image
+
+# Gemini example
+python3 skills/ppt_master_workflow/commands/image_generate.py \
+  "Abstract tech background with clean center space" \
+  --provider gemini \
+  --aspect-ratio 16:9 \
+  --image-size 4K \
+  --output workspace/demo/images \
+  --filename cover_bg
+
+# Doubao default static image example
+python3 skills/ppt_master_workflow/commands/image_generate.py \
+  "Executive presentation hero background" \
+  --provider doubao \
+  --model doubao-seedream-4.5 \
+  --aspect-ratio 16:9 \
+  --image-size 2K \
+  --output workspace/demo/images \
+  --filename chapter_bg
+
+# Doubao Seedream 5 widescreen example
+# Use 4K here because this model family requires at least 3686400 pixels.
+python3 skills/ppt_master_workflow/commands/image_generate.py \
+  "Cinematic futuristic train emerging from a black hole" \
+  --provider doubao \
+  --model doubao-seedream-5-0-260128 \
+  --aspect-ratio 16:9 \
+  --image-size 4K \
+  --output workspace/demo/images \
+  --filename seedream5_cover
+
+# OpenAI-compatible example
+python3 skills/ppt_master_workflow/commands/image_generate.py \
+  "Product showcase concept image" \
+  --provider openai-compatible \
+  --model gpt-image-1 \
+  --aspect-ratio 4:3 \
+  --image-size 2K \
+  --output workspace/demo/images \
+  --filename product_hero
+
+# Commercial stock image workflow examples:
+#   bash skills/ppt_master_workflow/examples/config/register_stock_image.sh.example
+#   python3 skills/ppt_master_workflow/commands/download_stock_image.py workspace/demo \
+#     --provider pexels \
+#     --source-url "https://www.pexels.com/photo/example-id/" \
+#     --download-url "https://images.pexels.com/photos/example.jpeg" \
+#     --filename stock_cover.jpg

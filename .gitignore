@@ -148,6 +148,7 @@ yarn.lock
 # Environment variables
 .env
 .env.local
+.env.pptmaster*
 .env.*.local
 
 # Database files
@@ -167,5 +168,5 @@ PERSONAL_NOTES.md
 # Projects directory - Work-in-progress projects (not version controlled)
 # Completed projects should be moved to examples/
 # Use cloud sync (iCloud/Dropbox) for backup and multi-device access
-projects/*
-!projects/README.md
+workspace/*
+!workspace/README.md
