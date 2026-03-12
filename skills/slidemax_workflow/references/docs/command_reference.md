@@ -24,6 +24,7 @@ Start a PPT workflow task
      -> Screenshot/image document: OCR skill `.agent/skills/ocr_image_to_markdown/SKILL.md`
      -> Markdown/Text: use directly
   -> Create project: `project_manager init`
+  -> Inspect workflow stage progression when needed: `project_manager audit`
   -> Produce strategy and role outputs
   -> Acquire images when needed
      -> User-supplied image analysis: `analyze_images`
@@ -44,7 +45,7 @@ What is the immediate task?
 |
 +-- Convert source material ----------------> `pdf_to_md` / `web_to_md` / `web_to_md_cjs`
 +-- Transcribe screenshots / image docs ---> OCR skill `.agent/skills/ocr_image_to_markdown/SKILL.md`
-+-- Create or inspect a project -----------> `project_manager init|validate|info|doctor`
++-- Create or inspect a project -----------> `project_manager init|validate|info|audit|doctor`
 +-- Analyze user image assets -------------> `analyze_images`
 +-- Generate or verify images -------------> `image_generate` / `smoke_test_image_provider`
 +-- Fix image orientation -----------------> `rotate_images`
@@ -133,10 +134,12 @@ python3 skills/slidemax_workflow/scripts/slidemax.py project_manager validate wo
 
 - Prefer the unified command tool over ad-hoc scripts.
 - Prefer the explicit delivery path `total_md_split -> finalize_svg -> svg_to_pptx -s final -> project_manager validate` for release work.
+- Use `project_manager audit` between draft and delivery stages to detect blocking stage gaps early.
 - Prefer `finalize_svg` over manually chaining finalizer internals unless debugging a specific stage.
 - Prefer `svg_to_pptx -s final` for delivery builds.
 - `svg_to_pptx` auto-splits `notes/total.md` when per-slide notes are missing, but treat that as a fallback rather than the primary delivery path.
 - Treat `project_manager doctor` as the permissive preflight path and `project_manager validate` as the strict delivery gate.
+- Treat `project_manager audit` as the stage-consistency check for in-progress projects.
 - `project_manager validate` should only be treated as passing when finalized SVG, note coverage, and an exported `.pptx` are present.
 - Prefer provider smoke tests before relying on a live image setup.
 - Prefer project-local asset paths over remote links in slide content.

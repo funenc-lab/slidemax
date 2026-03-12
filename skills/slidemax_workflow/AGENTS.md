@@ -29,7 +29,7 @@ User source
      -> Screenshot or image document: use OCR skill `.agent/skills/ocr_image_to_markdown/SKILL.md`
      -> Markdown or text: use directly
   -> Initialize project with `project_manager init`
-  -> Inspect or preflight the project when needed with `project_manager info|doctor`
+  -> Inspect or preflight the project when needed with `project_manager info|audit|doctor`
   -> Decide template strategy
      -> Template present: copy into `templates/` and `images/` first
      -> No template: continue with free design
@@ -56,7 +56,7 @@ Need to start or continue a PPT task?
 |
 +-- Project folder missing? -------------------- yes -> `project_manager init`
 |
-+-- Need project inspection or preflight? ------ yes -> `project_manager info|doctor`
++-- Need project inspection or preflight? ------ yes -> `project_manager info|audit|doctor`
 |
 +-- Template-driven delivery? ------------------ yes -> copy template assets before Strategist
 |

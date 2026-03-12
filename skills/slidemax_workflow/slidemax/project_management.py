@@ -28,6 +28,7 @@ from .project_utils import (
     validate_project_structure,
     validate_svg_viewbox,
 )
+from .project_state import build_project_state, write_project_state
 from .svg_quality import SVGQualityChecker
 
 
@@ -130,6 +131,11 @@ class ProjectManager:
         )
 
         canvas_info = self.CANVAS_FORMATS[normalized_format]
+        state_payload = build_project_state(
+            project_path,
+            last_command_name='project_manager init',
+        )
+        write_project_state(project_path, state_payload)
         print(f'Project directory created: {project_path}')
         print(f"Canvas format: {canvas_info['name']} ({canvas_info['dimensions']})")
         return str(project_path)
@@ -586,11 +592,13 @@ def build_parser() -> argparse.ArgumentParser:
 When to use:
   - init: create a new workspace project before any SVG, notes, or image assets are written
   - info: inspect an existing project quickly
+  - audit: inspect workflow stage progression and detect blocking gaps between stages
   - doctor: run preflight checks before generation or provider setup
   - validate: enforce the final delivery gate before claiming completion
 
 Examples:
   %(prog)s init my_project --format ppt169
+  %(prog)s audit workspace/my_project_ppt169_20260308
   %(prog)s validate workspace/my_project_ppt169_20260308
   %(prog)s info workspace/my_project_ppt169_20260308
   %(prog)s doctor workspace/my_project_ppt169_20260308 --provider doubao --model doubao-seedream-5
@@ -608,6 +616,9 @@ Examples:
 
     info_parser = subparsers.add_parser('info', help='Show project info')
     info_parser.add_argument('project_path', help='Project path')
+
+    audit_parser = subparsers.add_parser('audit', help='Audit workflow stage progression')
+    audit_parser.add_argument('project_path', help='Project path')
 
     doctor_parser = subparsers.add_parser('doctor', help='Run environment and project preflight checks')
     doctor_parser.add_argument('project_path', nargs='?', default=None, help='Optional project path')
@@ -652,6 +663,16 @@ def run_cli(argv: Optional[Sequence[str]] = None) -> int:
 
     if args.command == 'validate':
         is_valid, errors, warnings = manager.validate_project(args.project_path)
+        state_payload = build_project_state(
+            Path(args.project_path),
+            last_command_name='project_manager validate',
+            validation_result={
+                'status': 'passed' if is_valid else 'failed',
+                'errors': len(errors),
+                'warnings': len(warnings),
+            },
+        )
+        write_project_state(Path(args.project_path), state_payload)
         print(f'\nProject validation: {args.project_path}')
         print('=' * 60)
 
@@ -677,6 +698,7 @@ def run_cli(argv: Optional[Sequence[str]] = None) -> int:
 
     if args.command == 'info':
         info = manager.get_project_info(args.project_path)
+        state_payload = build_project_state(Path(args.project_path))
         print(f"\nProject info: {info['name']}")
         print('=' * 60)
         print(f"Path: {info['path']}")
@@ -685,6 +707,43 @@ def run_cli(argv: Optional[Sequence[str]] = None) -> int:
         print(f"Design spec: {'present' if info['has_spec'] else 'missing'}")
         print(f"Canvas format: {info['canvas_format']}")
         print(f"Created: {info['create_date']}")
+        print(f"Current stage: {state_payload['current_stage']}")
+        print(f"Next step: {state_payload['next_step']}")
+        return 0
+
+    if args.command == 'audit':
+        project_path = Path(args.project_path)
+        state_payload = build_project_state(
+            project_path,
+            last_command_name='project_manager audit',
+        )
+        write_project_state(project_path, state_payload)
+
+        print(f'\nProject audit: {project_path}')
+        print('=' * 60)
+        print(f"Current stage: {state_payload['current_stage']}")
+        print(f"Next step: {state_payload['next_step']}")
+
+        print('\nStages:')
+        for stage in state_payload['stages']:
+            status_token = 'OK' if stage['status'] == 'completed' else 'PENDING'
+            print(f"  - [{status_token}] {stage['name']}: {stage['detail']}")
+
+        if state_payload['blocking_issues']:
+            print('\nBlocking issues:')
+            for issue in state_payload['blocking_issues']:
+                print(f'  - {issue}')
+
+        if state_payload['warnings']:
+            print('\nWarnings:')
+            for warning in state_payload['warnings']:
+                print(f'  - {warning}')
+
+        if state_payload['blocking_issues']:
+            print('\n[ERROR] Audit found blocking workflow issues')
+            return 1
+
+        print('\n[OK] Audit completed')
         return 0
 
     if args.command == 'doctor':

@@ -46,6 +46,14 @@ class ProjectManagementTestCase(unittest.TestCase):
         self.assertEqual(args.command, "doctor")
         self.assertIsNone(args.project_path)
 
+    def test_build_parser_accepts_audit_command(self):
+        parser = build_parser()
+
+        args = parser.parse_args(["audit", "demo_project"])
+
+        self.assertEqual(args.command, "audit")
+        self.assertEqual(args.project_path, "demo_project")
+
     def test_build_parser_accepts_doctor_smoke_test_arguments(self):
         parser = build_parser()
 
@@ -200,6 +208,78 @@ class ProjectManagementTestCase(unittest.TestCase):
         self.assertEqual(payload["project_path"], str(project))
         self.assertTrue(any(check["name"] == "project_structure" for check in payload["checks"]))
 
+    def test_run_cli_init_creates_project_state_file(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            stdout = io.StringIO()
+            with redirect_stdout(stdout):
+                exit_code = run_cli(
+                    [
+                        "init",
+                        "demo",
+                        "--format",
+                        "ppt169",
+                        "--dir",
+                        tmp,
+                    ]
+                )
+
+            project_dirs = list(Path(tmp).glob("demo_ppt169_*"))
+            self.assertEqual(exit_code, 0)
+            self.assertEqual(len(project_dirs), 1)
+            state_path = project_dirs[0] / "project_state.json"
+            self.assertTrue(state_path.exists())
+            payload = json.loads(state_path.read_text(encoding="utf-8"))
+
+        self.assertEqual(payload["current_stage"], "project_initialized")
+        self.assertEqual(payload["last_command"]["name"], "project_manager init")
+
+    def test_run_cli_audit_reports_current_stage_and_updates_state_file(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            project = Path(tmp) / "demo_ppt169_20260308"
+            (project / "svg_output").mkdir(parents=True)
+            (project / "svg_final").mkdir()
+            (project / "images").mkdir()
+            (project / "templates").mkdir()
+            (project / "notes").mkdir()
+            (project / "README.md").write_text("# demo\n", encoding="utf-8")
+            (project / "design_specification.md").write_text("# spec\n", encoding="utf-8")
+
+            stdout = io.StringIO()
+            with redirect_stdout(stdout):
+                exit_code = run_cli(["audit", str(project)])
+
+            payload = json.loads((project / "project_state.json").read_text(encoding="utf-8"))
+
+        self.assertEqual(exit_code, 0)
+        self.assertIn("Current stage: strategy_ready", stdout.getvalue())
+        self.assertEqual(payload["current_stage"], "strategy_ready")
+        self.assertEqual(payload["last_command"]["name"], "project_manager audit")
+
+    def test_run_cli_audit_fails_when_export_exists_without_finalized_assets(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            project = Path(tmp) / "demo_ppt169_20260308"
+            (project / "svg_output").mkdir(parents=True)
+            (project / "svg_final").mkdir()
+            (project / "images").mkdir()
+            (project / "templates").mkdir()
+            (project / "notes").mkdir()
+            (project / "README.md").write_text("# demo\n", encoding="utf-8")
+            (project / "design_specification.md").write_text("# spec\n", encoding="utf-8")
+            (project / "svg_output" / "01_封面.svg").write_text(
+                '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720"></svg>',
+                encoding="utf-8",
+            )
+            (project / "notes" / "total.md").write_text("## 01 封面\nhello\n", encoding="utf-8")
+            (project / "demo_ppt169_20260308.pptx").write_bytes(b"pptx")
+
+            stdout = io.StringIO()
+            with redirect_stdout(stdout):
+                exit_code = run_cli(["audit", str(project)])
+
+        self.assertEqual(exit_code, 1)
+        self.assertIn("Blocking issues", stdout.getvalue())
+        self.assertIn("exported", stdout.getvalue())
+
     def test_run_cli_doctor_treats_optional_templates_and_notes_as_not_applicable_before_slides_exist(self):
         with tempfile.TemporaryDirectory() as tmp:
             project = Path(tmp) / "demo_ppt169_20260308"
@@ -289,6 +369,21 @@ class ProjectManagementTestCase(unittest.TestCase):
 
         self.assertEqual(exit_code, 1)
         self.assertIn("viewBox", stdout.getvalue())
+
+    def test_run_cli_validate_updates_project_state_on_success(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            project = self._create_delivery_ready_project(Path(tmp))
+
+            stdout = io.StringIO()
+            with redirect_stdout(stdout):
+                exit_code = run_cli(["validate", str(project)])
+
+            payload = json.loads((project / "project_state.json").read_text(encoding="utf-8"))
+
+        self.assertEqual(exit_code, 0)
+        self.assertEqual(payload["current_stage"], "validated")
+        self.assertEqual(payload["last_command"]["name"], "project_manager validate")
+        self.assertEqual(payload["last_validation"]["status"], "passed")
 
     def test_run_cli_validate_fails_when_slide_notes_are_incomplete(self):
         with tempfile.TemporaryDirectory() as tmp:

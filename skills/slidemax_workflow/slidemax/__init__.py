@@ -29,6 +29,7 @@ __all__ = [
     "pptx_export",
     "exporters",
     "project_management",
+    "project_state",
     "project_utils",
     "subcommands",
     "svg_processing",

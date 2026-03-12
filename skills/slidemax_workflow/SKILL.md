@@ -147,6 +147,8 @@ These rules exist to reduce failure rates during PPT generation and workflow mai
   - Use before claiming project completeness.
 - `scripts/slidemax.py project_manager info`
   - Use to inspect an existing project quickly.
+- `scripts/slidemax.py project_manager audit`
+  - Use to inspect workflow stage progression and detect blocking stage gaps.
 - `scripts/slidemax.py project_manager doctor`
   - Use for preflight checks or machine-readable readiness reports.
 
