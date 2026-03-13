@@ -7,7 +7,7 @@ from pathlib import Path
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 SKILL_ROOT = PROJECT_ROOT / "skills" / "slidemax_workflow"
-AUDIT_COMMAND = SKILL_ROOT / "commands" / "audit_image_asset.py"
+UNIFIED_CLI = SKILL_ROOT / "scripts" / "slidemax.py"
 if str(SKILL_ROOT) not in sys.path:
     sys.path.insert(0, str(SKILL_ROOT))
 
@@ -66,7 +66,8 @@ class AssetPolicyTestCase(unittest.TestCase):
             result = subprocess.run(
                 [
                     sys.executable,
-                    str(AUDIT_COMMAND),
+                    str(UNIFIED_CLI),
+                    "audit_image_asset",
                     str(image_path),
                     "--json",
                     "--fail-on",

@@ -7,7 +7,7 @@ from pathlib import Path
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 SKILL_ROOT = PROJECT_ROOT / "skills" / "slidemax_workflow"
-REGISTER_COMMAND = SKILL_ROOT / "commands" / "register_image_source.py"
+UNIFIED_CLI = SKILL_ROOT / "scripts" / "slidemax.py"
 if str(SKILL_ROOT) not in sys.path:
     sys.path.insert(0, str(SKILL_ROOT))
 
@@ -51,7 +51,8 @@ class ImageSourceMetadataTestCase(unittest.TestCase):
             result = subprocess.run(
                 [
                     sys.executable,
-                    str(REGISTER_COMMAND),
+                    str(UNIFIED_CLI),
+                    "register_image_source",
                     str(image_path),
                     "--source-type",
                     "stock",

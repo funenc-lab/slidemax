@@ -6,13 +6,13 @@ import unittest
 from pathlib import Path
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
-COMMAND = PROJECT_ROOT / "skills" / "slidemax_workflow" / "commands" / "register_stock_image.py"
+COMMAND = PROJECT_ROOT / "skills" / "slidemax_workflow" / "scripts" / "slidemax.py"
 
 
 class RegisterStockImageCliTestCase(unittest.TestCase):
     def test_list_providers(self):
         result = subprocess.run(
-            [sys.executable, str(COMMAND), "--list-providers"],
+            [sys.executable, str(COMMAND), "register_stock_image", "--list-providers"],
             check=True,
             capture_output=True,
             text=True,
@@ -33,6 +33,7 @@ class RegisterStockImageCliTestCase(unittest.TestCase):
                 [
                     sys.executable,
                     str(COMMAND),
+                    "register_stock_image",
                     str(project_dir),
                     "--provider",
                     "unsplash",
