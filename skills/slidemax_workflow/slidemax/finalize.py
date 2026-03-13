@@ -68,6 +68,7 @@ Examples:
   %(prog)s workspace/my_project -q        # Quiet mode
 
 Step names for --only:
+  sanitize
   embed-icons
   crop-images
   fix-aspect

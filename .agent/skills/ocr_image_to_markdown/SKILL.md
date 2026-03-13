@@ -176,7 +176,7 @@ Related workflow entry points:
 
 - `skills/slidemax_workflow/SKILL.md`
 - `skills/slidemax_workflow/AGENTS.md`
-- `skills/slidemax_workflow/docs/ppt_workflow_operator_manual.md`
+- `skills/slidemax_workflow/references/docs/ppt_workflow_operator_manual.md`
 
 ## Example Scenarios
 

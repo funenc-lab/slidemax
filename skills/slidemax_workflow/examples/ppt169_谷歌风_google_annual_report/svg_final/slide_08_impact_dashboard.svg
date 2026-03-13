@@ -142,8 +142,9 @@
 
     
     <path fill="#F1F3F4" d="M68,600 H1212 A8,8 0 0 1 1220,608 V662 A8,8 0 0 1 1212,670 H68 A8,8 0 0 1 60,662 V608 A8,8 0 0 1 68,600 Z" />
-    <text x="640" y="643" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif" font-size="20" font-weight="600" fill="#1A237E" text-anchor="middle">
-        Exceeding expectations across technical delivery, team impact, and community engagement
+    <text x="640" y="636" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif" font-size="20" font-weight="600" fill="#1A237E" text-anchor="middle">
+        <tspan x="640" dy="0">Exceeding expectations across technical delivery,</tspan>
+        <tspan x="640" dy="24">team impact, and community engagement</tspan>
     </text>
 
     

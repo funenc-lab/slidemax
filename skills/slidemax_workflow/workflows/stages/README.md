@@ -1,10 +1,10 @@
 # Stage Playbooks
 
-This directory stores the detailed stage playbooks referenced by `../AGENTS.md`.
+This directory stores the detailed stage playbooks referenced by `../../AGENTS.md`.
 
 ## Purpose
 
-- Keep `../AGENTS.md` short enough to act as the canonical handbook entry.
+- Keep `../../AGENTS.md` short enough to act as the canonical handbook entry.
 - Keep stage-specific operating detail in focused documents.
 - Provide stable extension points when a stage gains more rules or tooling.
 
@@ -18,7 +18,7 @@ This directory stores the detailed stage playbooks referenced by `../AGENTS.md`.
 
 ## Maintenance Rules
 
-- Update `../AGENTS.md` first when stage order or gate rules change.
+- Update `../../AGENTS.md` first when stage order or gate rules change.
 - Keep each playbook scoped to one stage group.
 - Put role-specific detail in `../../roles/` or `../../roles/guides/`, not here.
 - Put command detail in `../../references/docs/command_reference.md`, not here.

@@ -77,7 +77,7 @@ Need to work on a PPT task in this repository?
 - `slidemax/` contains reusable Python services and the shared command registry.
 - `web_to_md_cjs` remains the standalone Node fallback for protected sites and WeChat pages under `scripts/web_to_md.cjs`.
 - `workspace/` stores runtime projects and generated artifacts, not canonical workflow assets.
-- `references/docs/` stores topic-specific references and redirect entries only.
+- `references/docs/` stores topic-specific references, command documentation, and redirect entries only.
 - `references/` should stay documentation-focused and should not become a second workflow handbook.
 
 ## Mandatory Read Order
@@ -100,7 +100,7 @@ Read in this order before executing or modifying a workflow task:
 | Stage 1 | Source is PDF, URL, or image-based document | `AGENTS.md` | Markdown source | `pdf_to_md`, `web_to_md`, `web_to_md_cjs`, OCR skill |
 | Stage 2 | New project required | `AGENTS.md` | Project folder | `project_manager init` |
 | Stage 3 | Template-based workflow | `AGENTS.md` | Template files in project | Copy assets before Strategist |
-| Stage 4 | Every PPT project | `roles/Strategist.md` | Project design-outline markdown file | `analyze_images` when user images exist |
+| Stage 4 | Every PPT project | `roles/Strategist.md` | Project design brief (`design_specification.md`) | `analyze_images` when user images exist |
 | Stage 5 | AI or stock images needed | `roles/Image_Generator.md` | `images/`, `images/stock/`, `images/image_prompts.md` | `image_generate`, `download_stock_image`, `register_stock_image`, `smoke_test_image_provider` |
 | Stage 6 | Slide production | Matching Executor role | `svg_output/`, `notes/total.md` | Role-driven generation |
 | Stage 7 | SVG output exists | `AGENTS.md`, `references/docs/command_reference.md` | Split notes, `svg_final/`, `.pptx`, validation result | `total_md_split`, `finalize_svg`, `svg_to_pptx`, `project_manager validate` |

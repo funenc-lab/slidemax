@@ -16,6 +16,7 @@ from .rounded_rects import (
     process_svg_file as convert_rounded_rects_file,
     rect_to_rounded_path,
 )
+from .sanitize import sanitize_svg_text, sanitize_tree
 
 __all__ = [
     "format_file_size",
@@ -42,4 +43,6 @@ __all__ = [
     "flatten_text_with_tspans",
     "process_svg",
     "rect_to_rounded_path",
+    "sanitize_svg_text",
+    "sanitize_tree",
 ]

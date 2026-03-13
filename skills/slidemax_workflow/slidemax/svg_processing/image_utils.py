@@ -57,7 +57,17 @@ def resolve_svg_asset_path(svg_dir: str | Path, href: str) -> Path:
     href_path = Path(href)
     if href_path.is_absolute():
         return href_path
-    return (svg_dir / href).resolve()
+
+    primary_candidate = (svg_dir / href).resolve()
+    if primary_candidate.exists():
+        return primary_candidate
+
+    if svg_dir.name in {"svg_output", "svg_final"}:
+        project_candidate = (svg_dir.parent / href).resolve()
+        if project_candidate.exists():
+            return project_candidate
+
+    return primary_candidate
 
 
 def get_image_dimensions_pil(image_path: str | Path) -> Tuple[Optional[int], Optional[int]]:

@@ -5,6 +5,7 @@ from __future__ import annotations
 import argparse
 import re
 from collections import defaultdict
+from dataclasses import dataclass
 from pathlib import Path
 from typing import DefaultDict, Dict, List, Optional, Sequence
 
@@ -27,6 +28,80 @@ REGEX_FORBIDDEN_RULES = [(spec.pattern, spec.error_message) for spec in REGEX_FO
 
 DEFS_BLOCK_RE = re.compile(r'<defs\b[^>]*>.*?</defs>', re.IGNORECASE | re.DOTALL)
 ID_ATTRIBUTE_RE = re.compile(r'\bid\s*=\s*("[^"]*"|\'[^\']*\')')
+
+
+@dataclass(frozen=True)
+class SVGTargetSummary:
+    """Aggregated quality summary for a checked SVG target."""
+
+    target_path: str
+    checked_path: str
+    stage_name: str
+    total: int
+    clean: int
+    warnings: int
+    errors: int
+
+    @property
+    def is_compatible(self) -> bool:
+        return self.total > 0 and self.errors == 0
+
+    @property
+    def is_clean(self) -> bool:
+        return self.is_compatible and self.warnings == 0
+
+
+def _resolve_svg_target(target: str | Path, *, prefer_finalized: bool = False) -> tuple[Path, str, List[Path]]:
+    """Resolve a target path to the concrete SVG files that should be checked."""
+
+    target_path = Path(target)
+    if target_path.is_file():
+        return target_path, 'file', [target_path]
+
+    if not target_path.exists() or not target_path.is_dir():
+        return target_path, 'missing', []
+
+    direct_svg_files = sorted(target_path.glob('*.svg'))
+    if direct_svg_files:
+        stage_name = target_path.name if target_path.name in {'svg_output', 'svg_final'} else 'directory'
+        return target_path, stage_name, direct_svg_files
+
+    if prefer_finalized:
+        finalized_dir = target_path / 'svg_final'
+        if finalized_dir.exists():
+            return finalized_dir, 'svg_final', sorted(finalized_dir.glob('*.svg'))
+        return finalized_dir, 'svg_final', []
+
+    svg_output_dir = target_path / 'svg_output'
+    if svg_output_dir.exists():
+        return svg_output_dir, 'svg_output', sorted(svg_output_dir.glob('*.svg'))
+
+    return target_path, 'directory', []
+
+
+def summarize_svg_target(
+    target: str | Path,
+    expected_format: Optional[str] = None,
+    *,
+    prefer_finalized: bool = False,
+) -> SVGTargetSummary:
+    """Return a non-printing compatibility summary for an SVG file or directory."""
+
+    resolved_path, stage_name, svg_files = _resolve_svg_target(target, prefer_finalized=prefer_finalized)
+    checker = SVGQualityChecker()
+
+    for svg_file in svg_files:
+        checker.check_file(str(svg_file), expected_format)
+
+    return SVGTargetSummary(
+        target_path=str(Path(target)),
+        checked_path=str(resolved_path),
+        stage_name=stage_name,
+        total=checker.summary['total'],
+        clean=checker.summary['passed'],
+        warnings=checker.summary['warnings'],
+        errors=checker.summary['errors'],
+    )
 
 
 class SVGQualityChecker:
@@ -395,7 +470,9 @@ __all__ = [
     'REGEX_FORBIDDEN_RULES',
     'RECOMMENDED_SYSTEM_FONTS',
     'SVGQualityChecker',
+    'SVGTargetSummary',
     'build_parser',
     'main',
     'run_cli',
+    'summarize_svg_target',
 ]

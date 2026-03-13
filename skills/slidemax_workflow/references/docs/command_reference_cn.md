@@ -14,32 +14,10 @@
 
 ## 命令快速入口
 
-先用这一节选定 canonical 命令路径，再进入后面的详细命令参考。
+完整的 workflow 阶段顺序、角色切换与交付闸门统一以 [AGENTS.md](../../AGENTS.md) 为准。
+本文档只负责把当前最直接的操作任务映射到 canonical 命令。
 
-### 端到端命令路径
-
-```text
-开始一项 PPT workflow 任务
-  -> 规范化源内容
-     -> PDF: `pdf_to_md`
-     -> URL: `web_to_md` 或 `web_to_md_cjs`
-     -> 截图/图片文档: OCR skill `.agent/skills/ocr_image_to_markdown/SKILL.md`
-     -> Markdown/纯文本: 直接使用
-  -> 创建项目: `project_manager init`
-  -> 产出策略与角色结果
-  -> 按需处理图片素材
-     -> 用户已提供图片: `analyze_images`
-     -> AI 生成: `image_generate`
-     -> Provider 连通性检查: `smoke_test_image_provider`
-     -> 商用图库: `download_stock_image` / `register_stock_image`
-     -> 来源登记与风险审计: `register_image_source` / `audit_image_asset`
-  -> 显式拆分讲稿: `total_md_split`
-  -> 最终化 SVG: `finalize_svg`
-  -> 导出 PPTX: `svg_to_pptx -s final`
-  -> 验证交付结果: `project_manager validate` 或 `batch_validate`
-```
-
-### 首个命令选择流
+### 命令任务映射
 
 ```text
 当前最直接的任务是什么？
@@ -1575,7 +1553,10 @@ python3 skills/slidemax_workflow/scripts/slidemax.py embed_icons --dry-run svg_o
 
 ## 工作流集成
 
-### 典型工作流程
+完整的 workflow 阶段顺序、角色切换与闸门规则统一以 [AGENTS.md](../../AGENTS.md) 为准。
+本节只保留命令层面的常用交付链路，不再重复定义角色链路。
+
+### 典型交付命令链路
 
 1. **创建新项目**
 
@@ -1583,33 +1564,29 @@ python3 skills/slidemax_workflow/scripts/slidemax.py embed_icons --dry-run svg_o
    python3 skills/slidemax_workflow/scripts/slidemax.py project_manager init my_project --format ppt169
    ```
 
-2. **编写设计规范**
-   将设计规范保存到 `design_specification.md`
+2. **准备交付输入**
+   确认项目中已经存在 `design_specification.md`、`svg_output/` 与 `notes/total.md`
 
-3. **生成 SVG 文件与备注**
-   按 canonical 角色链路执行：`Strategist -> Image_Generator (if needed) -> Executor`
-   产出 `svg_output/` 与 `notes/total.md`
-
-4. **拆分讲稿**
+3. **拆分讲稿**
 
    ```bash
    python3 skills/slidemax_workflow/scripts/slidemax.py total_md_split workspace/my_project_ppt169_20251116
    ```
 
-5. **后处理（默认执行全部）**
+4. **后处理（默认执行全部）**
 
    ```bash
    # 直接运行，无需参数
    python3 skills/slidemax_workflow/scripts/slidemax.py finalize_svg workspace/my_project_ppt169_20251116
    ```
 
-6. **导出为 PPTX**
+5. **导出为 PPTX**
 
    ```bash
    python3 skills/slidemax_workflow/scripts/slidemax.py svg_to_pptx workspace/my_project_ppt169_20251116 -s final
    ```
 
-7. **验证交付结果**
+6. **验证交付结果**
 
    ```bash
    python3 skills/slidemax_workflow/scripts/slidemax.py project_manager validate workspace/my_project_ppt169_20251116

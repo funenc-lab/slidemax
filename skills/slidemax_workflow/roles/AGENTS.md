@@ -36,7 +36,7 @@ Need to continue a PPT workflow task?
 |---------------|------------------------|-----------|---------------------|
 | Template creation request | Template brief and target format | `Template_Designer.md` | The task is confirmed to be template-building work |
 | Project start | Source content and project path | `Strategist.md` | Source has been normalized when needed |
-| Strategy complete | Design outline and content plan | `Image_Generator.md` or Executor | Asset decisions are explicit |
+| Strategy complete | Design brief and content plan | `Image_Generator.md` or Executor | Asset decisions are explicit |
 | Image planning complete | Prompt file and asset list | Matching Executor | Required images are local or scheduled |
 | Slide draft complete | `svg_output/` and `notes/total.md` | `Optimizer_CRAP.md` or finalize/export | First draft exists and is reviewable |
 | Optimization complete | Updated SVG output | Finalize/export flow | Post-processing has been re-run after edits |

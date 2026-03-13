@@ -97,9 +97,9 @@ def parse_project_name(dir_name: str) -> Dict[str, str]:
     result = {
         'name': dir_name,
         'format': 'unknown',
-        'format_name': '未知格式',
+        'format_name': 'Unknown format',
         'date': 'unknown',
-        'date_formatted': '未知日期'
+        'date_formatted': 'Unknown date'
     }
 
     dir_name_lower = dir_name.lower()

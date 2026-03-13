@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import argparse
 import os
+import re
 import shlex
 import sys
 from collections import defaultdict
@@ -11,7 +12,9 @@ from pathlib import Path
 from typing import Any, Dict, Iterable, List, Optional, Sequence
 
 from .config import EXTRA_EXAMPLE_PATHS_ENV, PROJECT_ROOT, SKILL_ROOT, get_example_dirs
+from .project_management import ProjectManager
 from .project_utils import CANVAS_FORMATS, find_all_projects, get_project_info
+from .svg_quality import SVGTargetSummary, summarize_svg_target
 
 CANONICAL_CLI = (PROJECT_ROOT / 'skills' / 'slidemax_workflow' / 'scripts' / 'slidemax.py').resolve()
 SKILL_RESOURCES = [
@@ -42,6 +45,21 @@ class ExamplesIndexResult:
     content: str
     project_count: int
     total_svg_count: int
+
+
+@dataclass(frozen=True)
+class ExampleTrustAssessment:
+    """Trust status for a bundled example project."""
+
+    tier: str
+    reason_summary: str
+    delivery_errors: List[str]
+    delivery_warnings: List[str]
+    svg_summary: SVGTargetSummary
+
+    @property
+    def is_curated(self) -> bool:
+        return self.tier == 'curated'
 
 
 def is_relative_to(path: Path, parent: Path) -> bool:
@@ -156,7 +174,7 @@ def build_render_context(examples_path: Path) -> ExamplesRenderContext:
 def collect_projects(examples_path: Path) -> List[Dict[str, Any]]:
     projects = find_all_projects(str(examples_path))
     projects_info = [get_project_info(str(project_path)) for project_path in projects]
-    projects_info.sort(key=lambda item: item['date'], reverse=True)
+    projects_info.sort(key=project_sort_key)
     return projects_info
 
 
@@ -165,6 +183,109 @@ def group_projects_by_format(projects_info: Iterable[Dict[str, Any]]) -> Dict[st
     for info in projects_info:
         grouped[info['format']].append(info)
     return grouped
+
+
+def project_sort_key(info: Dict[str, Any]) -> tuple[int, int, str]:
+    """Sort dated projects first and push unknown dates to the end."""
+
+    raw_date = str(info.get('date') or '')
+    project_name = str(info.get('dir_name') or info.get('name') or '')
+    if re.fullmatch(r'\d{8}', raw_date):
+        return (0, -int(raw_date), project_name.casefold())
+    return (1, 0, project_name.casefold())
+
+
+def _count_csv_items(raw_text: str) -> int:
+    return len([item.strip() for item in raw_text.split(',') if item.strip()])
+
+
+def summarize_delivery_errors(delivery_errors: Sequence[str]) -> List[str]:
+    """Convert detailed validation errors into concise English summaries."""
+
+    summaries: List[str] = []
+    seen: set[str] = set()
+
+    for message in delivery_errors:
+        summary = ''
+        if 'README.md' in message:
+            summary = 'missing README.md.'
+        elif message.startswith('Missing speaker notes for slide(s): '):
+            slide_block = message.split(':', 1)[1].split('. Generate', 1)[0].strip()
+            summary = f'missing speaker notes for {_count_csv_items(slide_block)} slide(s).'
+        elif message.startswith('Speaker notes are only present in notes/total.md'):
+            summary = 'notes are not split into per-slide files.'
+        elif message.startswith('Missing finalized SVG file(s) under svg_final/: '):
+            file_block = message.split(':', 1)[1].strip()
+            summary = f'missing finalized SVG files for {_count_csv_items(file_block)} slide(s).'
+        elif message.startswith('Missing exported PPTX file'):
+            summary = 'missing exported PPTX.'
+        elif message.startswith('No SVG slides were found under svg_output/'):
+            summary = 'no slide SVG output found.'
+        elif message.startswith('Stage ') and 'notes_split' in message:
+            summary = 'notes_split is behind the exported assets.'
+        elif message.startswith('Stage ') and 'finalized' in message:
+            summary = 'finalized SVG assets are behind the exported PPTX.'
+        else:
+            summary = re.sub(r'\s+', ' ', message).strip()
+            if summary and not summary.endswith('.'):
+                summary += '.'
+
+        if summary and summary not in seen:
+            seen.add(summary)
+            summaries.append(summary)
+
+    return summaries
+
+
+def assess_example_project(
+    project_path: Path,
+    *,
+    project_manager: Optional[ProjectManager] = None,
+    project_info: Optional[Dict[str, Any]] = None,
+) -> ExampleTrustAssessment:
+    """Assess whether a bundled example is safe to use as a canonical reference."""
+
+    manager = project_manager or ProjectManager(base_dir=project_path.parent)
+    info = project_info or get_project_info(str(project_path))
+    expected_format = str(info.get('format') or '')
+    if expected_format == 'unknown':
+        expected_format = None
+
+    delivery_ok, delivery_errors, delivery_warnings = manager.validate_project(project_path)
+    svg_summary = summarize_svg_target(
+        project_path,
+        expected_format=expected_format,
+        prefer_finalized=True,
+    )
+
+    reason_parts = summarize_delivery_errors(delivery_errors)
+    if svg_summary.total == 0:
+        reason_parts.append('svg_final is missing or empty.')
+    elif svg_summary.errors > 0:
+        reason_parts.append(f'svg_final compatibility errors: {svg_summary.errors}.')
+
+    if delivery_ok and svg_summary.is_compatible:
+        svg_quality_label = 'svg_final clean.' if svg_summary.is_clean else (
+            f'svg_final passes compatibility with {svg_summary.warnings} warning(s).'
+        )
+        return ExampleTrustAssessment(
+            tier='curated',
+            reason_summary=f'passes delivery validation; {svg_quality_label}',
+            delivery_errors=delivery_errors,
+            delivery_warnings=delivery_warnings,
+            svg_summary=svg_summary,
+        )
+
+    if not reason_parts:
+        reason_parts.append('delivery validation is incomplete.')
+
+    return ExampleTrustAssessment(
+        tier='preview-only',
+        reason_summary=' '.join(reason_parts).strip(),
+        delivery_errors=delivery_errors,
+        delivery_warnings=delivery_warnings,
+        svg_summary=svg_summary,
+    )
 
 
 def build_examples_index(examples_path: Path, now: Optional[datetime] = None) -> ExamplesIndexResult:
@@ -178,8 +299,24 @@ def build_examples_index(examples_path: Path, now: Optional[datetime] = None) ->
     if not projects_info:
         raise ValueError(f'No valid projects found under: {examples_path}')
 
-    by_format = group_projects_by_format(projects_info)
+    project_manager = ProjectManager(base_dir=examples_path)
+    project_entries: List[Dict[str, Any]] = []
+    for info in projects_info:
+        project_path = examples_path / str(info['dir_name'])
+        enriched_info = dict(info)
+        enriched_info['assessment'] = assess_example_project(
+            project_path,
+            project_manager=project_manager,
+            project_info=info,
+        )
+        project_entries.append(enriched_info)
+
+    by_format = group_projects_by_format(project_entries)
     total_svg_count = sum(info['svg_count'] for info in projects_info)
+    curated_projects = [info for info in project_entries if info['assessment'].is_curated]
+    preview_only_projects = [info for info in project_entries if not info['assessment'].is_curated]
+    curated_by_format = group_projects_by_format(curated_projects)
+    preview_by_format = group_projects_by_format(preview_only_projects)
 
     content: List[str] = []
     content.append('# SlideMax Example Index\n')
@@ -187,9 +324,15 @@ def build_examples_index(examples_path: Path, now: Optional[datetime] = None) ->
     content.append(f"> Last updated: {now.strftime('%Y-%m-%d %H:%M:%S')}\n")
 
     content.append('## Overview\n')
-    content.append(f'- **Projects**: {len(projects_info)}')
+    content.append(f'- **Projects**: {len(project_entries)}')
+    content.append(f'- **Curated reference projects**: {len(curated_projects)}')
+    content.append(f'- **Preview-only projects**: {len(preview_only_projects)}')
     content.append(f'- **Canvas formats**: {len(by_format)}')
     content.append(f'- **SVG files**: {total_svg_count}')
+
+    content.append('\n## Trust Policy\n')
+    content.append('- Curated reference projects pass delivery validation and svg_final compatibility checks.')
+    content.append('- Preview-only projects are kept for browsing, inspiration, or historical comparison and must not be used as a canonical workflow reference.')
 
     content.append('\n### Format distribution\n')
     for fmt_key in sorted(by_format.keys(), key=lambda key: len(by_format[key]), reverse=True):
@@ -201,9 +344,11 @@ def build_examples_index(examples_path: Path, now: Optional[datetime] = None) ->
     for info in projects_info[:5]:
         content.append(f"- **{info['name']}** ({info['format_name']}) - {info['date_formatted']}")
 
-    content.append('\n## Project List\n')
+    content.append('\n## Curated Reference Projects\n')
+    if not curated_projects:
+        content.append('- No curated reference projects are available yet.')
     for fmt_key in FORMAT_ORDER:
-        if fmt_key not in by_format:
+        if fmt_key not in curated_by_format:
             continue
 
         fmt_info = CANVAS_FORMATS.get(fmt_key, {})
@@ -211,23 +356,62 @@ def build_examples_index(examples_path: Path, now: Optional[datetime] = None) ->
         dimensions = fmt_info.get('dimensions', '')
         content.append(f'\n### {fmt_name} ({dimensions})\n')
 
-        projects_list = sorted(by_format[fmt_key], key=lambda item: item['date'], reverse=True)
+        projects_list = sorted(curated_by_format[fmt_key], key=project_sort_key)
         for info in projects_list:
+            assessment = info['assessment']
             project_link = f"./{info['dir_name']}"
             line = f"- **[{info['name']}]({project_link})**"
             line += f" - {info['date_formatted']}"
             line += f" - {info['svg_count']} slides"
+            line += f" - {assessment.reason_summary}"
             content.append(line)
 
-    other_formats = set(by_format.keys()) - set(FORMAT_ORDER)
+    other_formats = set(curated_by_format.keys()) - set(FORMAT_ORDER)
     if other_formats:
         content.append('\n### Other formats\n')
         for fmt_key in sorted(other_formats):
-            for info in sorted(by_format[fmt_key], key=lambda item: item['date'], reverse=True):
+            for info in sorted(curated_by_format[fmt_key], key=project_sort_key):
+                assessment = info['assessment']
                 project_link = f"./{info['dir_name']}"
                 line = f"- **[{info['name']}]({project_link})**"
                 line += f" ({info['format_name']}) - {info['date_formatted']}"
                 line += f" - {info['svg_count']} slides"
+                line += f" - {assessment.reason_summary}"
+                content.append(line)
+
+    content.append('\n## Preview-only Projects\n')
+    if not preview_only_projects:
+        content.append('- No preview-only projects are currently listed.')
+    for fmt_key in FORMAT_ORDER:
+        if fmt_key not in preview_by_format:
+            continue
+
+        fmt_info = CANVAS_FORMATS.get(fmt_key, {})
+        fmt_name = fmt_info.get('name', fmt_key)
+        dimensions = fmt_info.get('dimensions', '')
+        content.append(f'\n### {fmt_name} ({dimensions})\n')
+
+        projects_list = sorted(preview_by_format[fmt_key], key=project_sort_key)
+        for info in projects_list:
+            assessment = info['assessment']
+            project_link = f"./{info['dir_name']}"
+            line = f"- **[{info['name']}]({project_link})**"
+            line += f" - {info['date_formatted']}"
+            line += f" - {info['svg_count']} slides"
+            line += f" - {assessment.reason_summary}"
+            content.append(line)
+
+    preview_other_formats = set(preview_by_format.keys()) - set(FORMAT_ORDER)
+    if preview_other_formats:
+        content.append('\n### Other formats\n')
+        for fmt_key in sorted(preview_other_formats):
+            for info in sorted(preview_by_format[fmt_key], key=project_sort_key):
+                assessment = info['assessment']
+                project_link = f"./{info['dir_name']}"
+                line = f"- **[{info['name']}]({project_link})**"
+                line += f" ({info['format_name']}) - {info['date_formatted']}"
+                line += f" - {info['svg_count']} slides"
+                line += f" - {assessment.reason_summary}"
                 content.append(line)
 
     content.append('\n## Usage\n')
@@ -236,7 +420,7 @@ def build_examples_index(examples_path: Path, now: Optional[datetime] = None) ->
     content.append('- `Design specification` markdown')
     content.append('- `svg_output/` - raw SVG output')
     content.append('- `svg_final/` - finalized SVG output')
-    content.append('- `README.md` - optional project overview for curated examples\n')
+    content.append('- `README.md` - required for curated reference projects\n')
 
     content.append('**Method 1: HTTP server (recommended)**\n')
     content.append('```bash')
@@ -259,8 +443,8 @@ def build_examples_index(examples_path: Path, now: Optional[datetime] = None) ->
     content.append('Contributions are welcome in this examples root.\n')
     content.append('### Project requirements\n')
     content.append('1. Follow the standard project structure')
-    content.append('2. Include a complete `README.md` for new curated examples')
-    content.append('3. Include a design specification and keep SVG files aligned with the technical constraints')
+    content.append('2. Include a complete `README.md` for new curated reference examples')
+    content.append('3. Pass `project_manager validate` and keep `svg_final/` compatible with the SVG quality rules')
     content.append('4. Use the directory format `{project_name}_{format}_{YYYYMMDD}` for new examples')
     content.append('5. Legacy examples may use older naming conventions, but new additions should not\n')
 

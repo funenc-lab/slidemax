@@ -6,6 +6,7 @@ from .embed_images import run as embed_images
 from .fix_aspect import run as fix_aspect
 from .fix_rounded import run as fix_rounded
 from .flatten_text import run as flatten_text
+from .sanitize import run as sanitize
 
 __all__ = [
     "crop_images",
@@ -14,4 +15,5 @@ __all__ = [
     "fix_aspect",
     "fix_rounded",
     "flatten_text",
+    "sanitize",
 ]

@@ -6,7 +6,7 @@ This directory stores supporting references for `skills/slidemax_workflow/`.
 
 - `../AGENTS.md` is the only canonical workflow handbook.
 - `docs/` contains topic-specific reference notes and compatibility redirects only.
-- This directory must not become a second workflow manual, command manual, or role handbook.
+- This directory must not become a second workflow handbook, alternate role handbook, or a source of canonical stage/command rules.
 
 ## What Belongs Here
 
@@ -19,7 +19,7 @@ This directory stores supporting references for `skills/slidemax_workflow/`.
 - A duplicated end-to-end workflow handbook
 - Alternate stage order definitions
 - Canonical role-routing rules
-- Canonical command execution rules
+- Canonical workflow-stage or command-order rules that disagree with `../AGENTS.md`
 
 ## Update Rules
 

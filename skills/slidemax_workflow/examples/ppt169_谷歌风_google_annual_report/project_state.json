@@ -1,0 +1,118 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-03-13T14:03:59Z",
+  "project_path": "skills/slidemax_workflow/examples/ppt169_谷歌风_google_annual_report",
+  "current_stage": "validated",
+  "next_step": "Project is ready for delivery.",
+  "blocking_issues": [],
+  "warnings": [],
+  "stages": [
+    {
+      "name": "project_initialized",
+      "status": "completed",
+      "detail": "Project skeleton exists."
+    },
+    {
+      "name": "strategy_ready",
+      "status": "completed",
+      "detail": "Using 设计规范与内容大纲.md."
+    },
+    {
+      "name": "images_ready",
+      "status": "completed",
+      "detail": "Image prompts or project-local images are present."
+    },
+    {
+      "name": "svg_ready",
+      "status": "completed",
+      "detail": "Found 10 raw slide SVG file(s)."
+    },
+    {
+      "name": "notes_ready",
+      "status": "completed",
+      "detail": "notes/total.md exists."
+    },
+    {
+      "name": "notes_split",
+      "status": "completed",
+      "detail": "Per-slide notes cover every slide."
+    },
+    {
+      "name": "finalized",
+      "status": "completed",
+      "detail": "svg_final/ covers every raw slide."
+    },
+    {
+      "name": "exported",
+      "status": "completed",
+      "detail": "Found 1 PPTX file(s)."
+    },
+    {
+      "name": "validated",
+      "status": "completed",
+      "detail": "Delivery validation is current."
+    }
+  ],
+  "artifacts": {
+    "design_spec": "设计规范与内容大纲.md",
+    "svg_output_count": 10,
+    "svg_final_count": 10,
+    "notes_split_count": 10,
+    "notes_total_exists": true,
+    "pptx_count": 1,
+    "project_image_count": 0
+  },
+  "last_command": {
+    "name": "project_manager validate",
+    "executed_at": "2026-03-13T14:03:59Z"
+  },
+  "last_validation": {
+    "status": "passed",
+    "validated_at": "2026-03-13T14:03:59Z",
+    "errors": 0,
+    "warnings": 1,
+    "artifact_signature": {
+      "svg_output": [
+        "slide_01_cover",
+        "slide_02_year_overview",
+        "slide_03_projects_summary",
+        "slide_04_project_smart_scheduler",
+        "slide_05_projects_other",
+        "slide_06_technical_growth",
+        "slide_07_team_collaboration",
+        "slide_08_impact_dashboard",
+        "slide_09_future_plans",
+        "slide_10_thanks"
+      ],
+      "svg_final": [
+        "slide_01_cover",
+        "slide_02_year_overview",
+        "slide_03_projects_summary",
+        "slide_04_project_smart_scheduler",
+        "slide_05_projects_other",
+        "slide_06_technical_growth",
+        "slide_07_team_collaboration",
+        "slide_08_impact_dashboard",
+        "slide_09_future_plans",
+        "slide_10_thanks"
+      ],
+      "notes_split": [
+        "slide_01_cover",
+        "slide_02_year_overview",
+        "slide_03_projects_summary",
+        "slide_04_project_smart_scheduler",
+        "slide_05_projects_other",
+        "slide_06_technical_growth",
+        "slide_07_team_collaboration",
+        "slide_08_impact_dashboard",
+        "slide_09_future_plans",
+        "slide_10_thanks"
+      ],
+      "notes_total_exists": true,
+      "pptx_files": [
+        "ppt169_谷歌风_google_annual_report.pptx"
+      ],
+      "design_spec": "设计规范与内容大纲.md"
+    }
+  }
+}

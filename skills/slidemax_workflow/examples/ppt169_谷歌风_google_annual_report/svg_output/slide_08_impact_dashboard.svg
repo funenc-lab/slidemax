@@ -191,10 +191,11 @@
 
     <!-- Bottom highlight bar -->
     <rect x="60" y="600" width="1160" height="70" rx="8" fill="#F1F3F4" />
-    <text x="640" y="643"
+    <text x="640" y="636"
         font-family="system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif" font-size="20"
         font-weight="600" fill="#1A237E" text-anchor="middle">
-        Exceeding expectations across technical delivery, team impact, and community engagement
+        <tspan x="640" dy="0">Exceeding expectations across technical delivery,</tspan>
+        <tspan x="640" dy="24">team impact, and community engagement</tspan>
     </text>
 
     <!-- Page Number -->

@@ -14,9 +14,11 @@ from .finalizers import (
     fix_aspect,
     fix_rounded,
     flatten_text,
+    sanitize,
 )
 
 STEP_CHOICES: Tuple[str, ...] = (
+    "sanitize",
     "embed-icons",
     "crop-images",
     "fix-aspect",
@@ -59,6 +61,13 @@ def build_step_registry() -> Dict[str, FinalizeStepDefinition]:
     """Build the ordered finalize step registry."""
 
     return {
+        "sanitize": FinalizeStepDefinition(
+            name="sanitize",
+            title="Sanitizing SVG compatibility",
+            success_suffix="files sanitized",
+            empty_message="No sanitization changes needed",
+            runner=lambda context, files: sum(sanitize(svg_file) for svg_file in files),
+        ),
         "embed-icons": FinalizeStepDefinition(
             name="embed-icons",
             title="Embedding icons",

@@ -1,0 +1,118 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-03-13T14:46:14Z",
+  "project_path": "skills/slidemax_workflow/examples/demo_project_intro_ppt169_20251211",
+  "current_stage": "validated",
+  "next_step": "Project is ready for delivery.",
+  "blocking_issues": [],
+  "warnings": [],
+  "stages": [
+    {
+      "name": "project_initialized",
+      "status": "completed",
+      "detail": "Project skeleton exists."
+    },
+    {
+      "name": "strategy_ready",
+      "status": "completed",
+      "detail": "Using 设计规范与内容大纲.md."
+    },
+    {
+      "name": "images_ready",
+      "status": "completed",
+      "detail": "Image prompts or project-local images are present."
+    },
+    {
+      "name": "svg_ready",
+      "status": "completed",
+      "detail": "Found 10 raw slide SVG file(s)."
+    },
+    {
+      "name": "notes_ready",
+      "status": "completed",
+      "detail": "notes/total.md exists."
+    },
+    {
+      "name": "notes_split",
+      "status": "completed",
+      "detail": "Per-slide notes cover every slide."
+    },
+    {
+      "name": "finalized",
+      "status": "completed",
+      "detail": "svg_final/ covers every raw slide."
+    },
+    {
+      "name": "exported",
+      "status": "completed",
+      "detail": "Found 1 PPTX file(s)."
+    },
+    {
+      "name": "validated",
+      "status": "completed",
+      "detail": "Delivery validation is current."
+    }
+  ],
+  "artifacts": {
+    "design_spec": "设计规范与内容大纲.md",
+    "svg_output_count": 10,
+    "svg_final_count": 10,
+    "notes_split_count": 10,
+    "notes_total_exists": true,
+    "pptx_count": 1,
+    "project_image_count": 1
+  },
+  "last_command": {
+    "name": "project_manager validate",
+    "executed_at": "2026-03-13T14:46:14Z"
+  },
+  "last_validation": {
+    "status": "passed",
+    "validated_at": "2026-03-13T14:46:14Z",
+    "errors": 0,
+    "warnings": 0,
+    "artifact_signature": {
+      "svg_output": [
+        "slide_01_cover",
+        "slide_02_pain_points",
+        "slide_03_solution",
+        "slide_04_architecture",
+        "slide_05_roles",
+        "slide_06_features",
+        "slide_07_formats",
+        "slide_08_tools",
+        "slide_09_quickstart",
+        "slide_10_cta"
+      ],
+      "svg_final": [
+        "slide_01_cover",
+        "slide_02_pain_points",
+        "slide_03_solution",
+        "slide_04_architecture",
+        "slide_05_roles",
+        "slide_06_features",
+        "slide_07_formats",
+        "slide_08_tools",
+        "slide_09_quickstart",
+        "slide_10_cta"
+      ],
+      "notes_split": [
+        "slide_01_cover",
+        "slide_02_pain_points",
+        "slide_03_solution",
+        "slide_04_architecture",
+        "slide_05_roles",
+        "slide_06_features",
+        "slide_07_formats",
+        "slide_08_tools",
+        "slide_09_quickstart",
+        "slide_10_cta"
+      ],
+      "notes_total_exists": true,
+      "pptx_files": [
+        "demo_project_intro.pptx"
+      ],
+      "design_spec": "设计规范与内容大纲.md"
+    }
+  }
+}
